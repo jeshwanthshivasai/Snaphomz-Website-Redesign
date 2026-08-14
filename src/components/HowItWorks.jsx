@@ -71,19 +71,17 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
       const fromRight = rawIdx % 2 === 0;
       const t = ease(local);
 
-      // Phone 3D position
+      // Straight horizontal 3D position (no vertical lifting arc)
       const x = (fromRight ? rightX : leftX) + ((fromRight ? leftX : rightX) - (fromRight ? rightX : leftX)) * t;
-      const arc = Math.sin(local * Math.PI) * (fromRight ? -62 : 62);
-      const rot = (fromRight ? 1 : -1) * (6 - t * 12);
 
-      // 360-degree spin angle during travel (2 * Math.PI)
-      const spinAngle = (fromRight ? 1 : -1) * (t * Math.PI * 2);
+      // Continuous cumulative spin across total section scroll
+      const passProgress = rawIdx + t;
+      const spinAngle = passProgress * Math.PI * 2;
 
       // Convert pixel scroll coordinates to 3D world units
       const normX = (x / (w * 0.26)) * 2.2;
-      const normArc = (arc / 62) * 0.45;
 
-      setPhone3D({ x: normX, arc: normArc, rot, spin: spinAngle });
+      setPhone3D({ x: normX, arc: 0, rot: 0, spin: spinAngle });
 
       // Continuous horizontal sliding progress from 0 -> 1 across the viewport
       const sideProgress = fromRight ? t : 1 - t;

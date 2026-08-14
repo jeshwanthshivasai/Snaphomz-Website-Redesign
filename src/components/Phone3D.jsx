@@ -63,18 +63,18 @@ function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0 }) {
 
   useFrame(() => {
     if (groupRef.current) {
-      // Lerp position tracking smoothly
+      // Pure horizontal position tracking (Y fixed at 0 - no vertical lifting up/down)
       groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, scrollX, 0.1);
-      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, scrollArc, 0.1);
+      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, 0, 0.1);
 
       const curX = groupRef.current.position.x;
       const progressFactor = THREE.MathUtils.clamp(curX / 2.2, -1, 1);
 
-      // Baseline inward facing angle + 360 degree spin during scroll travel
+      // Baseline inward facing angle + 360 degree spin during travel
       const baseFacingY = progressFactor * THREE.MathUtils.degToRad(-26);
       const targetRotY = baseFacingY + scrollSpin;
 
-      // Dynamic Z tilt matching side travel
+      // Dynamic Z tilt matching side position (-12deg when on right, +12deg when on left)
       const targetRotZ = progressFactor * THREE.MathUtils.degToRad(-12);
 
       // Upright forward pitch
