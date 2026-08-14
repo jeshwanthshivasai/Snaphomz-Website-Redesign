@@ -130,13 +130,13 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
               bottom: 0,
               left: 0,
               right: 0,
-              height: '80px',
+              height: '35px',
               background: 'linear-gradient(to bottom, rgba(244,241,236,0) 0%, rgba(244,241,236,1) 100%)'
             }}
           />
         </div>
 
-        {/* CONTENT LAYER (zIndex: 10 — behind clouds so big text top half is submerged) */}
+        {/* HEADLINE LAYER (zIndex: 15 — pushed higher at 26vh, submerged behind clouds zIndex 20) */}
         <div
           style={{
             position: 'absolute',
@@ -144,7 +144,42 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
             left: 0,
             right: 0,
             bottom: 0,
-            zIndex: 10,
+            zIndex: 15,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            paddingTop: '26vh',
+            opacity: contentOpacity,
+            transform: `translateY(${contentTranslateY.toFixed(1)}px)`,
+            pointerEvents: 'none',
+            willChange: 'transform, opacity'
+          }}
+        >
+          <h2
+            style={{
+              margin: 0,
+              fontSize: 'clamp(76px, 9.6vw, 138px)',
+              lineHeight: 0.9,
+              letterSpacing: '-0.058em',
+              fontVariationSettings: "'wdth' 106, 'wght' 800",
+              color: '#0C0E10',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            Behind the magic
+          </h2>
+        </div>
+
+        {/* SUBTITLE & CARDS LAYER (zIndex: 30 — IN FRONT OF clouds zIndex 20, positioned cleanly below big text) */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 30,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -155,50 +190,22 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
             willChange: 'transform, opacity'
           }}
         >
-          {/* Text container shifted slightly higher into clouds */}
-          <div
+          {/* Subtitle (Moved slightly higher up, sitting just below big text) */}
+          <span
             style={{
-              width: '100%',
+              display: 'block',
+              fontSize: 'clamp(20px, 2.1vw, 30px)',
+              lineHeight: 1,
+              letterSpacing: '-0.018em',
+              fontVariationSettings: "'wdth' 96, 'wght' 600",
+              color: '#0C0E10',
+              whiteSpace: 'nowrap',
               textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              marginBottom: '6vh',
-              transform: 'translateY(-24px)'
+              marginBottom: '8vh'
             }}
           >
-            {/* BIG HEADLINE */}
-            <h2
-              style={{
-                margin: 0,
-                fontSize: 'clamp(76px, 9.6vw, 138px)',
-                lineHeight: 0.9,
-                letterSpacing: '-0.058em',
-                fontVariationSettings: "'wdth' 106, 'wght' 800",
-                color: '#0C0E10',
-                whiteSpace: 'nowrap',
-                marginBottom: '2vh'
-              }}
-            >
-              Behind the magic
-            </h2>
-
-            {/* SUBTITLE */}
-            <span
-              style={{
-                display: 'block',
-                fontSize: 'clamp(20px, 2.1vw, 30px)',
-                lineHeight: 1,
-                letterSpacing: '-0.018em',
-                fontVariationSettings: "'wdth' 92, 'wght' 450",
-                color: '#5C626A',
-                whiteSpace: 'nowrap',
-                textAlign: 'center'
-              }}
-            >
-              are a suite of powerful tools
-            </span>
-          </div>
+            are a suite of powerful tools
+          </span>
 
           {/* CARDS */}
           <div
