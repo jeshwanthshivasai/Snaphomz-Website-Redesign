@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#F4F1EC;font-family:Archivo,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#0C0E10;text-decoration:none}a:hover{color:#2C5CF6}
+</style>
+</helmet>
+<div style="position:relative;width:1440px;background:#F4F1EC;overflow:hidden;padding:0 0 120px">
+
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;padding:96px 54px 12px">
+    <h2 style="margin:0;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:186px;line-height:.82;letter-spacing:-0.02em;color:#0C0E10">FAQ</h2>
+    <p style="margin:0 0 24px;font-size:16px;line-height:1.55;letter-spacing:-0.012em;color:#6A7078;max-width:340px;text-align:right">These are the most commonly asked questions about Snaphomz.</p>
+  </div>
+
+  <div style="height:1px;background:rgba(12,14,16,.12);margin:0 54px 54px"></div>
+
+  <div ref="{{ stageRef }}" style="display:flex;flex-direction:column;gap:34px;padding:0 54px;perspective:1400px">
+    <sc-for list="{{ items }}" as="q" hint-placeholder-count="6">
+      <div style="display:flex;justify-content:{{ q.align }}">
+        <div data-tilt="1" style="width:{{ q.width }};display:flex;gap:26px;align-items:stretch;padding:30px;border-radius:24px;background:#FFFFFF;border:1px solid rgba(12,14,16,.08);box-shadow:0 30px 60px -34px rgba(12,14,16,.3);transform-style:preserve-3d;transition:box-shadow .4s ease">
+          <sc-if value="{{ q.hasFigure }}" hint-placeholder-val="{{ false }}">
+            <div style="width:236px;flex:none;border-radius:16px;overflow:hidden;background:#EDE9E1">
+              <image-slot id="faq-figure" placeholder="3D figure render" shape="rect" style="width:100%;height:100%"></image-slot>
+            </div>
+          </sc-if>
+          <div style="flex:1;display:flex;flex-direction:column;gap:14px;min-width:0">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#00D4C8">{{ q.num }}</span>
+              <span style="flex:1;height:1px;background:rgba(12,14,16,.1);display:block"></span>
+            </div>
+            <h3 style="margin:0;font-size:27px;line-height:1.12;letter-spacing:-0.032em;font-variation-settings:'wdth' 96,'wght' 600;color:#0C0E10">{{ q.q }}</h3>
+            <p style="margin:0;font-size:15.5px;line-height:1.62;letter-spacing:-0.01em;color:#6A7078;max-width:640px;text-wrap:pretty">{{ q.a }}</p>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1700}}">
+const A = "Snaphomz is a modern real estate platform that brings buying, selling, and working with an agent into one clear, guided experience. Just search homes, connect with an agent, manage your offers, and track the deal all the way to close - every step in one place. It's designed to feel simpler and more transparent, so you always know what's happening next.";
+const QS = [
+  "What is Snaphomz and how does it work?",
+  "Is Snaphomz free to use?",
+  "Do I still need a real estate agent?",
+  "Is Snaphomz legit, and is my data safe?",
+  "Which areas does Snaphomz cover?",
+  "How is Snaphomz different from Zillow or Redfin?"
+];
+
+class Component extends DCLogic {
+  stageRef = React.createRef();
+  componentDidMount() {
+    const stage = this.stageRef.current;
+    if (!stage) return;
+    this.cards = Array.from(stage.querySelectorAll('[data-tilt]'));
+    let raf = null, mx = 0, my = 0;
+    this.onMove = e => {
+      mx = e.clientX; my = e.clientY;
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = null;
+        for (const c of this.cards) {
+          const r = c.getBoundingClientRect();
+          if (r.bottom < -200 || r.top > window.innerHeight + 200) continue;
+          const dx = (mx - (r.left + r.width / 2)) / (r.width / 2);
+          const dy = (my - (r.top + r.height / 2)) / (r.height / 2);
+          const k = Math.max(-1.4, Math.min(1.4, dx));
+          const j = Math.max(-1.4, Math.min(1.4, dy));
+          c.style.transform = `rotateY(${(k * 9).toFixed(2)}deg) rotateX(${(-j * 6.5).toFixed(2)}deg) translateZ(0)`;
+        }
+      });
+    };
+    window.addEventListener('mousemove', this.onMove, { passive: true });
+  }
+  componentWillUnmount() { window.removeEventListener('mousemove', this.onMove); }
+  renderVals() {
+    return {
+      stageRef: this.stageRef,
+      items: QS.map((q, i) => ({
+        q, a: A,
+        num: "0" + (i + 1),
+        align: i % 2 ? "flex-end" : "flex-start",
+        width: i === 0 ? "1030px" : (i % 2 ? "880px" : "820px"),
+        hasFigure: i === 0
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

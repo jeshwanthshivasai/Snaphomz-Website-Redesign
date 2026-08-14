@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Schibsted+Grotesk:wght@400..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F1EC;font-family:"Schibsted Grotesk",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#0C0E10;text-decoration:none}a:hover{color:#2C5CF6}
+@keyframes cityFade{0%,22%{opacity:1;transform:translateY(0)}28%,94%{opacity:0;transform:translateY(-14px)}100%{opacity:0}}
+</style>
+</helmet>
+<div style="position:relative;width:1440px;height:900px;background:#F4F1EC;overflow:hidden">
+  <video src="./hero.mp4" autoplay="" muted="" loop="" playsinline="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,14,16,.34) 0%,rgba(12,14,16,0) 30%,rgba(12,14,16,.24) 58%,rgba(12,14,16,.80) 100%)"></div>
+
+  <header style="position:absolute;top:24px;left:24px;right:24px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:8px 8px 8px 24px;border-radius:999px;background:rgba(244,241,236,.9);backdrop-filter:blur(18px);border:1px solid rgba(12,14,16,.06)">
+    <img src="./logo-black.png" alt="Snaphomz" style="height:18px;width:auto;display:block">
+    <nav style="display:flex;align-items:center;gap:28px;font-size:13px;font-weight:500;letter-spacing:-0.005em;color:#0C0E10">
+      <a href="#">About us</a><a href="#">Services</a><a href="#">Snap tools</a><a href="#">Blog</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:12px">
+      <a href="#" style="font-size:13px;font-weight:500;color:#5A5F66">Sign in</a>
+      <a href="#" style="padding:11px 21px;border-radius:999px;background:#0C0E10;color:#F4F1EC;font-size:13px;font-weight:600">Sign up</a>
+    </div>
+  </header>
+
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:0 46px 44px;display:flex;flex-direction:column;gap:0">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:40px;padding-bottom:20px">
+      <h1 style="margin:0;color:#F4F1EC;display:flex;flex-direction:column;gap:2px">
+        <span style="font-family:Archivo,sans-serif;font-variation-settings:'wdth' 78,'wght' 300;font-size:88px;line-height:.92;letter-spacing:-0.02em">Home in the</span>
+        <span style="display:flex;align-items:flex-end;gap:22px">
+          <span style="font-family:Archivo,sans-serif;font-variation-settings:'wdth' 78,'wght' 300;font-size:88px;line-height:.92;letter-spacing:-0.02em">Age of</span>
+          <span style="font-family:Archivo,sans-serif;font-variation-settings:'wdth' 125,'wght' 900;font-size:108px;line-height:.86;letter-spacing:-0.05em;color:#2C5CF6">AI</span>
+        </span>
+      </h1>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:9px;padding-bottom:12px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,241,236,.55)">Live in</span>
+        <div style="position:relative;height:30px;width:250px">
+          <span style="position:absolute;right:0;top:0;font-family:Archivo,sans-serif;font-variation-settings:'wdth' 100,'wght' 600;font-size:26px;letter-spacing:-0.03em;color:#F4F1EC;animation:cityFade 8s steps(1,end) infinite;animation-delay:0s">San Jose</span>
+          <span style="position:absolute;right:0;top:0;font-family:Archivo,sans-serif;font-variation-settings:'wdth' 100,'wght' 600;font-size:26px;letter-spacing:-0.03em;color:#F4F1EC;animation:cityFade 8s steps(1,end) infinite;animation-delay:2s">Austin</span>
+          <span style="position:absolute;right:0;top:0;font-family:Archivo,sans-serif;font-variation-settings:'wdth' 100,'wght' 600;font-size:26px;letter-spacing:-0.03em;color:#F4F1EC;animation:cityFade 8s steps(1,end) infinite;animation-delay:4s">Los Angeles</span>
+          <span style="position:absolute;right:0;top:0;font-family:Archivo,sans-serif;font-variation-settings:'wdth' 100,'wght' 600;font-size:26px;letter-spacing:-0.03em;color:#F4F1EC;animation:cityFade 8s steps(1,end) infinite;animation-delay:6s">San Diego</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:1px;background:rgba(244,241,236,.28)"></div>
+
+    <div style="display:flex;align-items:center;gap:28px;padding:22px 0 20px">
+      <span style="font-size:19px;font-weight:500;letter-spacing:-0.02em;color:rgba(244,241,236,.9);white-space:nowrap">Find your perfect home 3x faster.</span>
+      <div style="flex:1;display:flex;align-items:center;gap:16px;border-bottom:1px solid rgba(244,241,236,.4);padding-bottom:11px">
+        <span style="flex:1;font-size:16px;color:rgba(244,241,236,.52);letter-spacing:-0.01em">Find homes using conversational search or by address, city, or ZIP</span>
+        <a href="#" style="display:flex;align-items:center;gap:10px;color:#F4F1EC;font-size:14px;font-weight:600;letter-spacing:-0.01em;white-space:nowrap">Find My Home <span style="width:26px;height:1px;background:#2C5CF6;display:block"></span></a>
+      </div>
+    </div>
+
+    <div style="height:1px;background:rgba(244,241,236,.28)"></div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;padding-top:16px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:rgba(244,241,236,.6)">The top-rated, fully guided AI platform</span>
+      <div style="display:flex;gap:24px;font-size:12.5px;font-weight:500">
+        <span style="color:#F4F1EC;border-bottom:1px solid #2C5CF6;padding-bottom:3px">Suggestions</span>
+        <span style="color:rgba(244,241,236,.5);padding-bottom:3px">Traditional Search</span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}"></script>
+</body>
+</html>

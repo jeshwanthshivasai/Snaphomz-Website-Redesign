@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="ext-resource-dependency" content="./tools/snapgrad.png" data-resource-id="tool-snapgrad" />
+<meta name="ext-resource-dependency" content="./tools/snapinterest.png" data-resource-id="tool-snapinterest" />
+<meta name="ext-resource-dependency" content="./tools/disclosure.jpeg" data-resource-id="tool-disclosure" />
+<meta name="ext-resource-dependency" content="./tools/rentvsbuy.png" data-resource-id="tool-rentvsbuy" />
+<meta name="ext-resource-dependency" content="./listings/1.jpg" data-resource-id="listing-1" />
+<meta name="ext-resource-dependency" content="./listings/2.jpg" data-resource-id="listing-2" />
+<meta name="ext-resource-dependency" content="./listings/3.jpg" data-resource-id="listing-3" />
+<meta name="ext-resource-dependency" content="./listings/4.jpg" data-resource-id="listing-4" />
+<meta name="ext-resource-dependency" content="./phone-screen.png" data-resource-id="phone-screen" />
+<meta name="ext-resource-dependency" content="./faq-figure.png" data-resource-id="faq-figure" />
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#F4F1EC">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+  <rect width="240" height="240" fill="#F4F1EC"/>
+  <rect x="72" y="96" width="96" height="48" rx="24" fill="#0C0E10"/>
+  <circle cx="99" cy="120" r="13" fill="none" stroke="#F4F1EC" stroke-width="5"/>
+  <path d="M141 133a13 13 0 1 1 0-26h9" fill="none" stroke="#F4F1EC" stroke-width="5" stroke-linecap="round"/>
+  <path d="M150 100v9h-9" fill="none" stroke="#F4F1EC" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+</template>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Instrument+Serif:ital@0;1&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+html{scroll-behavior:auto}
+body{margin:0;background:#F4F1EC;font-family:Archivo,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:#0C0E10;text-decoration:none}a:hover{color:#2C5CF6}
+::selection{background:#00D4C8;color:#0C0E10}
+@keyframes wIn{from{opacity:0;transform:translateY(16px);filter:blur(7px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes swA{from{opacity:0;transform:translateY(.3em);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes swB{from{opacity:0;transform:translateY(.3em);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes navIn{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="position:relative;width:100%;background:#F4F1EC">
+
+<header ref="{{ navRef }}" style="position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:28px 54px;animation:navIn .9s cubic-bezier(.16,1,.3,1) both;transition:padding .5s cubic-bezier(.16,1,.3,1),background .5s ease,backdrop-filter .5s ease">
+  <img ref="{{ logoRef }}" src="./logo-black.png" alt="Snaphomz" style="height:41px;width:auto;display:block;filter:brightness(0) invert(1);transition:filter .45s ease">
+  <nav ref="{{ navLinksRef }}" style="display:flex;align-items:center;gap:34px;font-size:14px;font-weight:500;letter-spacing:-0.008em;transition:opacity .4s ease,transform .5s cubic-bezier(.16,1,.3,1)">
+    <a href="#about" style="color:rgba(244,241,236,.88)">About us</a>
+
+    <div onMouseEnter="{{ openServices }}" onMouseLeave="{{ closeMenu }}" style="position:relative;display:flex;align-items:center;gap:7px;cursor:pointer;padding:10px 0">
+      <span style="color:rgba(244,241,236,.88)">Services</span>
+      <span style="width:5px;height:5px;border-right:1.4px solid rgba(244,241,236,.6);border-bottom:1.4px solid rgba(244,241,236,.6);transform:rotate(45deg);display:block;margin-top:-3px"></span>
+      <div style="{{ svcPanel }}">
+        <div style="background:#FFFFFF;border-radius:18px;padding:10px;width:max-content;box-shadow:0 30px 70px -30px rgba(12,14,16,.4);border:1px solid rgba(12,14,16,.08);display:flex;flex-direction:column;gap:2px">
+          <sc-for list="{{ services }}" as="s" hint-placeholder-count="4">
+            <a href="#services" style="display:flex;flex-direction:column;gap:3px;padding:11px 13px;border-radius:11px;transition:background .25s ease" style-hover="background:#F4F2EE">
+              <span style="font-size:14px;font-weight:600;letter-spacing:-0.018em;color:#0C0E10">{{ s.name }}</span>
+              <span style="font-size:12.5px;letter-spacing:-0.006em;color:#8A9098">{{ s.desc }}</span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div onMouseEnter="{{ openTools }}" onMouseLeave="{{ closeMenu }}" style="position:relative;display:flex;align-items:center;gap:7px;cursor:pointer;padding:10px 0">
+      <span style="color:rgba(244,241,236,.88)">Snap tools</span>
+      <span style="width:5px;height:5px;border-right:1.4px solid rgba(244,241,236,.6);border-bottom:1.4px solid rgba(244,241,236,.6);transform:rotate(45deg);display:block;margin-top:-3px"></span>
+      <div style="{{ toolPanelMenu }}">
+        <div style="background:#F2F0EC;border-radius:26px;padding:14px;box-shadow:0 40px 90px -34px rgba(12,14,16,.45);border:1px solid rgba(12,14,16,.07)">
+          <div style="background:#FFFFFF;border-radius:20px;padding:24px 26px 26px">
+            <span style="display:block;font-size:23px;font-weight:700;letter-spacing:-0.032em;color:#2E3238;margin-bottom:20px">Snap tools</span>
+            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:22px 16px">
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:#F4F2EE">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M6 3h8l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" fill="#5B6EF0"></path><path d="M8 11h8M8 14.5h8M8 18h5" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Disclosures</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:#F4F2EE">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9.2" fill="#5B6EF0"></circle><path d="M8 10.4h7l-2-2M16 13.6H9l2 2" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Rent vs. Buy</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:#F4F2EE">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 5 2.8 9.4 12 13.8l9.2-4.4L12 5z" fill="#5B6EF0"></path><path d="M6.4 11.6v3.9c0 1.4 2.5 2.6 5.6 2.6s5.6-1.2 5.6-2.6v-3.9" fill="#5B6EF0"></path><path d="M20.6 10v4.4" stroke="#5B6EF0" stroke-width="1.5" stroke-linecap="round"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Grad</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:#F4F2EE">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="13" height="16" rx="2.2" fill="#5B6EF0"></rect><path d="M7 7.5h7M7 11h4" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path><circle cx="15.4" cy="15.4" r="5" fill="#5B6EF0" stroke="#fff" stroke-width="1.5"></circle><path d="m13.4 15.5 1.4 1.4 2.6-2.7" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Audit</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:#F4F2EE">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 3 4.6 5.9v5.6c0 4.3 3 8.2 7.4 9.5 4.4-1.3 7.4-5.2 7.4-9.5V5.9L12 3z" fill="#5B6EF0"></path><path d="m8.8 12.2 2.3 2.3 4.2-4.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Pre Approvals</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:#F4F2EE">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M3.5 16.5 8 11.8l3.2 3.1 5.4-6.2" stroke="#5B6EF0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14.6 8h4.4v4.4" stroke="#5B6EF0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Interest</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:#F4F2EE">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M10 3.6c.9 3.7 2.2 5 5.9 5.9-3.7.9-5 2.2-5.9 5.9-.9-3.7-2.2-5-5.9-5.9 3.7-.9 5-2.2 5.9-5.9z" fill="#5B6EF0"></path><path d="M17.6 13.4c.4 1.8 1 2.5 2.8 2.9-1.8.4-2.4 1-2.8 2.9-.4-1.8-1-2.5-2.8-2.9 1.8-.4 2.4-1 2.8-2.9z" fill="#5B6EF0"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Snap Predict</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:#F4F2EE">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="3.6" y="10.6" width="4.2" height="9.4" rx="1" fill="#5B6EF0"></rect><rect x="9.9" y="4" width="4.2" height="16" rx="1" fill="#5B6EF0"></rect><rect x="16.2" y="8.2" width="4.2" height="11.8" rx="1" fill="#5B6EF0"></rect></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Offer Strength Analyzer</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:#F4F2EE">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 20.4S3.2 15.3 3.2 9.6a4.6 4.6 0 0 1 8.8-1.9 4.6 4.6 0 0 1 8.8 1.9c0 5.7-8.8 10.8-8.8 10.8z" fill="#5B6EF0"></path><path d="M5.4 11.6h3l1.6-2.8 2 5.2 1.6-2.4h5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Listing Health Check</span>
+              </a>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:22px 16px;padding:26px 26px 20px">
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:rgba(255,255,255,.7)">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 3.4 2.8 11.2h2.6v8.4h5V14h3.2v5.6h5v-8.4h2.6L12 3.4z" fill="#5B6EF0"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">HOA Analyzer</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:rgba(255,255,255,.7)">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="3.4" y="4.6" width="17.2" height="14.8" rx="2.6" stroke="#5B6EF0" stroke-width="2.1"></rect><circle cx="15.8" cy="9.4" r="1.8" fill="#5B6EF0"></circle><path d="m4.6 17.4 5-5.4 5.2 5.4" stroke="#5B6EF0" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Reverse Image Search</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:rgba(255,255,255,.7)">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M7 11.4V5.6a1.5 1.5 0 0 1 3 0v5M10 10.6V4.4a1.5 1.5 0 0 1 3 0v6M13 10.6V5.4a1.5 1.5 0 0 1 3 0v5.8M16 11.6V8a1.5 1.5 0 0 1 3 0v6.4c0 3.6-2.6 6.4-6 6.4s-6-2.4-6-5.4v-3" fill="#5B6EF0"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Hold or Sell</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:rgba(255,255,255,.7)">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9.2" fill="#5B6EF0"></circle><path d="M14.6 9.1c-.5-.9-1.5-1.4-2.6-1.4-1.5 0-2.6.8-2.6 2s1 1.7 2.6 2.1c1.6.4 2.8.9 2.8 2.2s-1.2 2.1-2.8 2.1c-1.2 0-2.3-.5-2.8-1.5M12 6.2v11.6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Price Predictor</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:rgba(255,255,255,.7)">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 3.6c-4.9 0-8.8 3.2-8.8 7.2 0 2.3 1.3 4.4 3.4 5.7l-.9 3.9 4-2.3c.7.1 1.5.2 2.3.2 4.9 0 8.8-3.2 8.8-7.5S16.9 3.6 12 3.6z" fill="#5B6EF0"></path><circle cx="8.4" cy="10.9" r="1.1" fill="#fff"></circle><circle cx="12" cy="10.9" r="1.1" fill="#fff"></circle><circle cx="15.6" cy="10.9" r="1.1" fill="#fff"></circle></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Inspection Rebuttal Engine</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:rgba(255,255,255,.7)">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M13.6 3.4c3.6-.9 6.2.4 7 1.2.8.8 2.1 3.4 1.2 7-1.6 4.2-6.4 7.4-6.4 7.4l-2-2.1-3.1-3.2-2.1-2s3.2-4.9 7.4-6.4z" fill="#5B6EF0"></path><circle cx="15.6" cy="8.4" r="1.7" fill="#fff"></circle><path d="M8.6 15.4c-1.6-.4-3 .3-3.7 1.4-.8 1.2-.9 3.6-.9 3.6s2.4-.1 3.6-.9c1.1-.7 1.8-2.1 1.4-3.7" fill="#5B6EF0"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Snap Viral</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:rgba(255,255,255,.7)">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="3.6" y="4.4" width="16.8" height="15.2" rx="2.4" stroke="#5B6EF0" stroke-width="2.1"></rect><path d="M8.6 4.6v14.8M15.4 4.6v14.8M3.8 12h16.4" stroke="#5B6EF0" stroke-width="2.1"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Reel to Listing</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:rgba(255,255,255,.7)">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 4v15M5 7.4h14M4.6 7.4 2.4 13h4.4L4.6 7.4zM19.4 7.4 17.2 13h4.4l-2.2-5.6z" stroke="#5B6EF0" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9.6 19h4.8" stroke="#5B6EF0" stroke-width="1.7" stroke-linecap="round"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">Property Comps</span>
+              </a>
+              <a href="#tools" style="display:flex;flex-direction:column;align-items:center;gap:11px;padding:12px 8px;border-radius:14px;transition:background .25s ease" style-hover="background:rgba(255,255,255,.7)">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="13.6" r="7.4" fill="#5B6EF0"></circle><path d="M12 9.8v3.8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path><path d="M9.6 3.2h4.8" stroke="#5B6EF0" stroke-width="2.2" stroke-linecap="round"></path></svg>
+                <span style="font-size:13.5px;letter-spacing:-0.012em;color:#2E3238;text-align:center;line-height:1.28">STR vs LTR</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <a href="#blog" style="color:rgba(244,241,236,.88)">Blog</a>
+  </nav>
+  <div style="display:flex;align-items:center;gap:22px">
+    <a ref="{{ signinRef }}" href="#signin" style="font-size:14px;font-weight:500;color:rgba(244,241,236,.7);transition:opacity .4s ease,color .45s ease">Sign in</a>
+    <a ref="{{ signupRef }}" href="#signup" style="padding:12px 24px;border-radius:999px;background:#F4F1EC;color:#0C0E10;font-size:14px;font-weight:600;letter-spacing:-0.008em;transition:background .45s ease,color .45s ease" style-hover="background:#00D4C8;color:#0C0E10">Sign up</a>
+  </div>
+</header>
+
+<section data-screen-label="Hero" style="position:relative;width:100%;height:100vh;background:#0C0E10;overflow:hidden">
+  <video src="./hero.mp4" ref="{{ videoRef }}" autoPlay="{{ true }}" playsInline="{{ true }}" preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,14,16,.36) 0%,rgba(12,14,16,0) 26%,rgba(12,14,16,.24) 54%,rgba(12,14,16,.78) 100%)"></div>
+  <div style="position:absolute;left:54px;right:54px;bottom:76px">
+    <p style="margin:0;font-size:clamp(46px,4.8vw,70px);line-height:1.34;letter-spacing:-0.035em;color:#F4F1EC;font-variation-settings:'wdth' 96,'wght' 450;max-width:1180px">
+      <span style="display:inline-block;animation:wIn .9s cubic-bezier(.16,1,.3,1) .05s both">I</span>
+      <span style="display:inline-block;animation:wIn .9s cubic-bezier(.16,1,.3,1) .1s both">want</span>
+      <span style="display:inline-block;animation:wIn .9s cubic-bezier(.16,1,.3,1) .15s both">a</span>
+      <span style="display:inline-block;font-family:'Instrument Serif',serif;font-style:italic;font-size:1.08em;color:{{ accent }};border-bottom:2px solid {{ accentSoft }};line-height:1;animation:{{ animBeds }}">{{ beds }}</span>
+      <span style="display:inline-block;animation:wIn .9s cubic-bezier(.16,1,.3,1) .25s both">home</span>
+      <span style="display:inline-block;animation:wIn .9s cubic-bezier(.16,1,.3,1) .3s both">in</span>
+      <span style="display:inline-block;font-family:'Instrument Serif',serif;font-style:italic;font-size:1.08em;line-height:1;padding:.06em .18em .1em;margin:0 -.1em;border-radius:7px;color:{{ accent }};background:{{ accentWash }};animation:{{ animCity }}">{{ city }}</span>
+      <span style="display:inline-block;animation:wIn .9s cubic-bezier(.16,1,.3,1) .4s both">with</span>
+      <span style="display:inline-block;font-family:'Instrument Serif',serif;font-style:italic;font-size:1.08em;color:{{ accent }};border-bottom:2px solid {{ accentSoft }};line-height:1;animation:{{ animVibe }}">{{ vibe }}</span><span style="display:inline-block;animation:wIn .9s cubic-bezier(.16,1,.3,1) .45s both">,</span>
+      <span style="display:inline-block;animation:wIn .9s cubic-bezier(.16,1,.3,1) .5s both">near</span>
+      <span style="display:inline-block;font-family:'Instrument Serif',serif;font-style:italic;font-size:1.08em;color:{{ accent }};border-bottom:2px solid {{ accentSoft }};line-height:1;animation:{{ animNear }}">{{ near }}</span><span style="display:inline-block;animation:wIn .9s cubic-bezier(.16,1,.3,1) .55s both">,</span>
+      <span style="display:inline-block;animation:wIn .9s cubic-bezier(.16,1,.3,1) .6s both">around</span>
+      <span style="display:inline-block;font-family:'Instrument Serif',serif;font-style:italic;font-size:1.08em;color:{{ accent }};border-bottom:2px solid {{ accentSoft }};line-height:1;animation:{{ animPrice }}">{{ price }}</span><span style="display:inline-block;animation:wIn .9s cubic-bezier(.16,1,.3,1) .65s both">.</span>
+    </p>
+  </div>
+</section>
+
+<section id="services" data-screen-label="How it works" ref="{{ hiwRef }}" style="position:relative;width:100%;height:520vh;background:#F4F1EC">
+  <div style="position:sticky;top:0;height:100vh;overflow:hidden">
+    <h2 style="position:absolute;left:50px;top:88px;margin:0;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:clamp(78px,9.4vw,134px);line-height:.86;letter-spacing:-0.025em;color:#0C0E10;z-index:3">How it works</h2>
+
+    <div ref="{{ stepWordRef }}" style="position:absolute;left:54px;top:268px;z-index:2;will-change:transform,opacity">
+      <h3 style="margin:0;font-size:clamp(58px,6.6vw,96px);line-height:.9;letter-spacing:-0.052em;font-variation-settings:'wdth' 76,'wght' 500;color:#0C0E10">{{ stepWord }}</h3>
+    </div>
+
+    <div ref="{{ stepCopyRef }}" style="position:absolute;left:54px;bottom:96px;width:min(540px,40vw);display:flex;flex-direction:column;gap:20px;z-index:2;will-change:transform,opacity">
+      <h4 style="margin:0;font-size:clamp(30px,2.9vw,42px);line-height:1.08;letter-spacing:-0.038em;font-variation-settings:'wdth' 98,'wght' 600;color:#0C0E10">{{ stepHeadline }}</h4>
+      <p style="margin:0;font-size:17px;line-height:1.62;letter-spacing:-0.012em;color:#5C626A;text-wrap:pretty">{{ stepBody }}</p>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+        <span style="width:7px;height:7px;border-radius:50%;background:{{ accent }};display:block"></span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:#0C0E10">{{ stepTag }}</span>
+      </div>
+    </div>
+
+    <div ref="{{ phoneRef }}" style="position:absolute;top:50%;left:50%;width:min(360px,25vw);aspect-ratio:372/736;border-radius:54px;background:#0C0E10;padding:10px;box-shadow:0 60px 120px -40px rgba(12,14,16,.45),0 8px 26px -10px rgba(12,14,16,.25);z-index:4;will-change:transform">
+      <div style="position:relative;width:100%;height:100%;border-radius:45px;overflow:hidden;background:#F4F1EC">
+        <image-slot id="hiw-phone-screen" shape="rect" fit="cover" placeholder="phone screen" style="width:100%;height:100%"></image-slot>
+      </div>
+    </div>
+
+    <div style="position:absolute;right:54px;bottom:52px;display:flex;gap:9px;align-items:center;z-index:3">
+      <sc-for list="{{ stepDots }}" as="d" hint-placeholder-count="4">
+        <span style="width:26px;height:3px;border-radius:2px;background:{{ d.bg }};display:block;transition:background .4s ease"></span>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Listings" ref="{{ listingsRef }}" style="position:relative;width:100%;background:#F4F1EC">
+  <div>
+    <sc-for list="{{ rails }}" as="r" hint-placeholder-count="4">
+      <div style="position:sticky;top:0;background:#F4F1EC;border-top:1px solid rgba(12,14,16,.12);display:flex;flex-direction:column;gap:22px;padding:104px 0 46px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding:0 54px">
+          <div style="display:flex;align-items:baseline;gap:16px">
+            <h3 style="margin:0;font-size:32px;line-height:1;letter-spacing:-0.036em;font-variation-settings:'wdth' 96,'wght' 600;color:#0C0E10">{{ r.title }}</h3>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.15em;color:#B4B9BF">{{ r.count }}</span>
+          </div>
+          <a href="#" style="display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;letter-spacing:-0.012em;color:#0C0E10">See all <span style="width:22px;height:1px;background:currentColor;display:block"></span></a>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:0 54px">
+          <sc-for list="{{ r.homes }}" as="h" hint-placeholder-count="4">
+            <a href="#" data-listing="1" style="display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:#FFFFFF;border:1px solid rgba(12,14,16,.08);transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .45s ease;will-change:transform" style-hover="box-shadow:0 26px 50px -28px rgba(12,14,16,.34)">
+              <span style="position:relative;display:block;height:200px;background:#E9E5DD">
+                <image-slot id="{{ h.slot }}" shape="rect" fit="cover" placeholder="{{ h.addr }}" style="width:100%;height:100%"></image-slot>
+                <span style="position:absolute;top:12px;left:12px;padding:7px 12px;border-radius:999px;background:{{ accent }};font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#0C0E10;pointer-events:none;box-shadow:0 4px 14px -4px rgba(12,14,16,.4)">For sale</span>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:7px;padding:16px 17px 18px">
+                <span style="font-size:21px;font-weight:650;letter-spacing:-0.03em;color:#0C0E10">{{ h.price }}</span>
+                <span style="font-size:13px;font-weight:500;letter-spacing:-0.006em;color:#6A7078">{{ h.specs }}</span>
+                <span style="font-size:13px;letter-spacing:-0.006em;color:#9AA0A8">{{ h.addr }}</span>
+              </span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section id="tools" data-screen-label="Tools" ref="{{ toolsRef }}" style="position:relative;width:100%;height:380vh;background:#F4F1EC">
+  <div style="position:sticky;top:0;height:100vh;overflow:hidden">
+    <div ref="{{ cloud3Ref }}" style="position:absolute;left:-6%;width:112%;top:0;z-index:5;will-change:transform;pointer-events:none">
+      <img src="./cloud.png" alt="" style="width:100%;display:block;filter:hue-rotate(10deg) saturate(.68) brightness(1.05);opacity:.55">
+    </div>
+    <div ref="{{ cloud2Ref }}" style="position:absolute;left:-14%;width:128%;top:0;z-index:7;will-change:transform;pointer-events:none">
+      <img src="./cloud.png" alt="" style="width:100%;display:block;transform:scaleX(-1);opacity:.8">
+    </div>
+
+    <div ref="{{ toolsHeadRef }}" style="position:absolute;left:0;right:0;top:19%;padding:0 54px;display:flex;flex-direction:column;align-items:center;z-index:6;will-change:opacity">
+      <h2 ref="{{ magicRef }}" style="margin:0;font-size:clamp(76px,9.6vw,138px);line-height:.9;letter-spacing:-0.058em;font-variation-settings:'wdth' 106,'wght' 800;color:#0C0E10;white-space:nowrap">Behind the magic</h2>
+      <span ref="{{ subRef }}" style="display:block;margin-top:16px;font-size:clamp(20px,2vw,30px);line-height:1;letter-spacing:-0.018em;font-variation-settings:'wdth' 92,'wght' 450;color:#5C626A;white-space:nowrap">A suite of powerful tools</span>
+    </div>
+
+    <div ref="{{ toolStageRef }}" style="position:absolute;left:0;right:0;top:47%;bottom:8%;padding:0 54px;z-index:6;will-change:transform,opacity">
+      <div style="width:100%;height:100%;display:flex;gap:48px;min-height:0">
+        <div ref="{{ toolListRef }}" style="width:100%;flex:none;display:flex;gap:24px;min-height:0;align-items:stretch">
+          <sc-for list="{{ tools }}" as="t" hint-placeholder-count="4">
+            <button data-tool="1" onClick="{{ t.select }}" style="all:unset;box-sizing:border-box;cursor:pointer;flex:1 1 0;min-width:0;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:14px">
+              <span data-thumb="1" style="width:100%;aspect-ratio:1/1;border-radius:12px;overflow:hidden;background:#E9E5DD;background-image:{{ t.bgImg }};background-size:cover;background-position:center;display:block;flex:none;transition:outline-color .3s ease;outline:2px solid {{ t.ring }};outline-offset:3px"></span>
+              <span data-title="1" style="font-size:16.5px;font-weight:600;letter-spacing:-0.024em;color:{{ t.titleColor }};flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center;transition:color .3s ease">{{ t.name }}</span>
+            </button>
+          </sc-for>
+        </div>
+
+        <div ref="{{ toolPanelRef }}" style="flex:1;display:flex;align-items:center;justify-content:center;min-width:0;min-height:0;opacity:0">
+          <span role="img" aria-label="{{ activeName }}" style="width:100%;height:100%;display:block;background-image:{{ activeBg }};background-size:contain;background-position:center;background-repeat:no-repeat;filter:drop-shadow(0 40px 60px rgba(12,14,16,.3))"></span>
+        </div>
+      </div>
+    </div>
+
+    <div ref="{{ cloud1Ref }}" style="position:absolute;left:-20%;width:140%;top:0;z-index:9;will-change:transform;pointer-events:none">
+      <img src="./cloud.png" alt="" style="width:100%;display:block;opacity:.95">
+    </div>
+  </div>
+</section>
+
+<section id="about" data-screen-label="FAQ" style="position:relative;width:100%;background:#F4F1EC;padding:0 0 128px">
+  <div style="padding:118px 54px 20px">
+    <h2 style="margin:0;font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;font-size:clamp(120px,13vw,186px);line-height:.82;letter-spacing:-0.02em;color:#0C0E10">FAQ</h2>
+  </div>
+  <div style="height:1px;background:rgba(12,14,16,.12);margin:0 54px 54px"></div>
+  <div ref="{{ faqStageRef }}" style="display:flex;flex-direction:column;gap:34px;padding:0 54px;perspective:1400px">
+    <sc-for list="{{ faqs }}" as="q" hint-placeholder-count="6">
+      <div style="display:flex;justify-content:{{ q.align }}">
+        <div style="width:{{ q.width }};max-width:100%;display:flex;gap:26px;align-items:stretch;padding:30px;border-radius:24px;background:#FFFFFF;border:1px solid rgba(12,14,16,.08);box-shadow:0 30px 60px -34px rgba(12,14,16,.3);perspective:900px">
+          <div data-tilt="1" style="position:relative;width:236px;aspect-ratio:1/1;flex:none;align-self:center;border-radius:16px;overflow:hidden;background:#EDE9E1;transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .4s ease">
+            <image-slot id="faq-figure" placeholder="3D figure render" shape="rect" fit="cover" style="position:absolute;top:-8%;left:-8%;width:116%;height:116%"></image-slot>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:14px;min-width:0;justify-content:center">
+            <h3 style="margin:0;font-size:27px;line-height:1.12;letter-spacing:-0.032em;font-variation-settings:'wdth' 96,'wght' 600;color:#0C0E10">{{ q.q }}</h3>
+            <p style="margin:0;font-size:15.5px;line-height:1.62;letter-spacing:-0.01em;color:#6A7078;max-width:640px;text-wrap:pretty">{{ q.a }}</p>
+          </div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<footer id="blog" data-screen-label="Footer" style="width:100%;background:#F4F1EC;overflow:hidden">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 54px;border-top:1px solid rgba(12,14,16,.1);border-bottom:1px solid rgba(12,14,16,.1)">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:6px;height:6px;border-radius:50%;background:{{ accent }};display:block"></span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:#0C0E10">{{ localTime }}</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:#9AA0A8">{{ localCity }}</span>
+    </div>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:#9AA0A8">Browsing from your area</span>
+  </div>
+
+  <a id="signup" href="#" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:40px;margin:38px 54px 0;padding:52px 54px;border-radius:26px;overflow:hidden;background:#0C0E10">
+    <image-slot id="footer-cta-bg" shape="rect" fit="cover" placeholder="sign-up background" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+    <span style="position:absolute;inset:0;background:linear-gradient(100deg,rgba(12,14,16,.95) 0%,rgba(12,14,16,.84) 44%,rgba(12,14,16,.42) 100%);pointer-events:none"></span>
+    <span style="position:relative;display:flex;flex-direction:column;gap:12px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(244,241,236,.5)">Your agent is waiting</span>
+      <span style="font-size:clamp(58px,6.6vw,92px);line-height:.9;letter-spacing:-0.05em;font-variation-settings:'wdth' 108,'wght' 700;color:#F4F1EC">Sign up</span>
+    </span>
+    <span style="position:relative;font-size:15px;line-height:1.55;letter-spacing:-0.012em;color:rgba(244,241,236,.8);max-width:300px;text-align:right">Free to use. Your AI agent works the whole deal, from first search to close.</span>
+  </a>
+
+  <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding:64px 54px 54px">
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <img src="./logo-black.png" alt="Snaphomz" style="height: 60px; width: auto; display: block; align-self: flex-start; object-fit: fill">
+      <p style="margin: 0; font-size: 14.5px; line-height: 1.6; letter-spacing: -0.01em; color: #6A7078; max-width: 290px; width: 312px; height: 46px">Buying, selling, and working with an agent in one guided experience.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:13px">
+      <span style="font-family: 'JetBrains Mono',monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #00D4C8">Platform</span>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Buy</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Sell</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Agents</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Snap tools</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:13px">
+      <span style="font-family: 'JetBrains Mono',monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #00D4C9">Company</span>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">About us</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Blog</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Careers</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Contact</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:13px">
+      <span style="font-family: 'JetBrains Mono',monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: #00D4C8">Legal</span>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Privacy</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Terms</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">NMLS + licensing</a>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 54px 26px">
+    <span style="font-size:12.5px;letter-spacing:-0.005em;color:#9AA0A8">© 2026 Snaphomz. All rights reserved.</span>
+    <span style="font-size:12.5px;letter-spacing:-0.005em;color:#9AA0A8">Equal Housing Opportunity</span>
+  </div>
+
+  <div style="line-height:0;overflow:hidden;height:14.2vw;display:flex;align-items:flex-end">
+    <span style="display: block; width: 100%; font-size: 14vw; line-height: .74; letter-spacing: -0.06em; font-variation-settings: 'wdth' 120,'wght' 800; color: #0C0E10; white-space: nowrap; text-align: center">SNAPHOMZ</span>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#00D4C8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#00D4C8&quot;,&quot;#FF5C2B&quot;,&quot;#C6F24E&quot;,&quot;#2C5CF6&quot;],&quot;section&quot;:&quot;Theme&quot;},&quot;swapInterval&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6000,&quot;min&quot;:1200,&quot;max&quot;:6000,&quot;step&quot;:100,&quot;unit&quot;:&quot;ms&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;phoneArc&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+const BEDS = ["4 bed", "3 bed", "5 bed", "2 bed"];
+const CITIES = ["San Jose", "Austin", "Los Angeles", "Houston", "San Diego"];
+const VIBES = ["natural light", "a modern kitchen", "mountain views", "a garden"];
+const NEAR = ["hiking trails", "good schools", "parks", "the downtown"];
+const PRICES = ["$900K", "$650K", "$1.2M", "$475K"];
+
+const DISCOVER_BODY = "No filters. No forms. No endless checkboxes. Say it the way you'd say it out loud, and Snaphomz reads meaning - not just keywords - turning your words into real listings that match the home you're picturing.";
+
+const STEPS = [
+  { word: "Discover", tag: "Natural search", headline: "Describe the home in your own words.", body: DISCOVER_BODY },
+  { word: "Personalize", tag: "Tuned to you", headline: "Describe the home in your own words.", body: DISCOVER_BODY },
+  { word: "Engage", tag: "Your AI agent", headline: "Talk to your agent, anytime.", body: "Richard answers questions, books tours, and pulls comps at 2am if that's when you're looking. No callbacks, no waiting on a human to get back to you - just answers when you need them." },
+  { word: "Close", tag: "Offer to keys", headline: "Describe the home in your own words.", body: DISCOVER_BODY }
+];
+
+const SERVICES = [
+  { name: "Buy a home", desc: "Search in plain language" },
+  { name: "Sell a home", desc: "List, price and negotiate" },
+  { name: "Work with an agent", desc: "Richard, on call around the clock" },
+  { name: "Track your deal", desc: "Offer through to close" }
+];
+
+// published bundles replace these paths with inlined blob URLs
+const RES = (id, path) => (typeof window !== "undefined" && window.__resources && window.__resources[id]) || path;
+
+const TOOLS = [
+  { name: "SnapGrad", res: "tool-snapgrad", path: "./tools/snapgrad.png", cta: "Explore Schools" },
+  { name: "Snaphomz Mortgages", res: "tool-snapinterest", path: "./tools/snapinterest.png", cta: "Track Rates" },
+  { name: "Snaphomz Closure", res: "tool-disclosure", path: "./tools/disclosure.jpeg", cta: "Upload Disclosure" },
+  { name: "Rent vs Buy", res: "tool-rentvsbuy", path: "./tools/rentvsbuy.png", cta: "Compare Prices" }
+];
+
+const RAILS = [
+  { title: "New To Market Homes", homes: [
+    ["$492,000", "3 bd · 3 ba · 1,850 sqft", "1234 Silver Lake Blvd, San Jose"],
+    ["$475,000", "3 bd · 3 ba · 2,100 sqft", "5678 Olympic Blvd, San Jose"],
+    ["$499,000", "3 bd · 3 ba · 1,920 sqft", "890 Fairfax Ave, San Jose"],
+    ["$510,000", "3 bd · 3 ba · 1,975 sqft", "2200 Sunset Dr, San Jose"]]},
+  { title: "Price Drop Homes", homes: [
+    ["$544,000", "3 bd · 2 ba · 1,780 sqft", "901 Redwood Ave, San Jose"],
+    ["$612,500", "4 bd · 3 ba · 2,210 sqft", "77 Cypress Ct, San Jose"],
+    ["$389,000", "2 bd · 2 ba · 1,340 sqft", "460 Maple Row, San Jose"],
+    ["$725,000", "4 bd · 3 ba · 2,450 sqft", "18 Birchwood Ln, San Jose"]]},
+  { title: "New Construction Homes", homes: [
+    ["$689,000", "3 bd · 3 ba · 2,020 sqft", "212 Harvest Way, San Jose"],
+    ["$758,000", "4 bd · 3 ba · 2,380 sqft", "55 Meadowbrook Dr, San Jose"],
+    ["$599,000", "3 bd · 2 ba · 1,890 sqft", "9 Aspen Terrace, San Jose"],
+    ["$845,000", "4 bd · 4 ba · 2,650 sqft", "301 Willow Creek Rd, San Jose"]]},
+  { title: "Luxury Homes", homes: [
+    ["$1,895,000", "5 bd · 4 ba · 3,620 sqft", "4 Vista Ridge Ct, San Jose"],
+    ["$2,150,000", "5 bd · 5 ba · 4,100 sqft", "88 Skyline Dr, San Jose"],
+    ["$1,650,000", "4 bd · 4 ba · 3,300 sqft", "210 Ocean View Ter, San Jose"],
+    ["$2,490,000", "6 bd · 5 ba · 4,800 sqft", "12 Grandview Estates, San Jose"]]}
+];
+
+const FAQ_A = "Snaphomz is a modern real estate platform that brings buying, selling, and working with an agent into one clear, guided experience. Just search homes, connect with an agent, manage your offers, and track the deal all the way to close - every step in one place. It's designed to feel simpler and more transparent, so you always know what's happening next.";
+const FAQ_QS = [
+  "What is Snaphomz and how does it work?",
+  "Is Snaphomz free to use?",
+  "Do I still need a real estate agent?",
+  "Is Snaphomz legit, and is my data safe?",
+  "Which areas does Snaphomz cover?",
+  "How is Snaphomz different from Zillow or Redfin?"
+];
+
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+const SVC_BASE = "position:absolute;top:100%;left:-14px;padding-top:12px;transition:opacity .28s ease,transform .34s cubic-bezier(.16,1,.3,1);";
+const TOOLS_BASE = "position:absolute;top:100%;left:50%;padding-top:14px;width:min(1160px,90vw);transition:opacity .28s ease,transform .34s cubic-bezier(.16,1,.3,1);";
+
+class Component extends DCLogic {
+  state = { i: 0, step: 0, tool: 0, time: "", city: "", menu: null };
+  videoRef = React.createRef();
+  rootRef = React.createRef(); navRef = React.createRef(); logoRef = React.createRef();
+  navLinksRef = React.createRef(); signinRef = React.createRef(); signupRef = React.createRef();
+  hiwRef = React.createRef(); stepWordRef = React.createRef(); stepCopyRef = React.createRef(); phoneRef = React.createRef();
+  listingsRef = React.createRef();
+  toolsRef = React.createRef(); toolsHeadRef = React.createRef(); toolStageRef = React.createRef();
+  toolListRef = React.createRef(); toolPanelRef = React.createRef();
+  magicRef = React.createRef(); subRef = React.createRef();
+  cloud1Ref = React.createRef(); cloud2Ref = React.createRef(); cloud3Ref = React.createRef();
+  faqStageRef = React.createRef();
+
+  componentDidMount() {
+    const v = this.videoRef.current;
+    if (v) { v.muted = true; v.defaultMuted = true; v.volume = 0; v.loop = true; v.play().catch(() => {}); v.addEventListener('ended', () => { v.currentTime = 0; v.play().catch(() => {}); }); }
+
+    this.swap = setInterval(() => this.setState(s => ({ i: s.i + 1 })), this.props.swapInterval ?? 2900);
+
+    const tick = () => {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+      this.setState({
+        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }),
+        city: (tz.split("/").pop() || "Local").replace(/_/g, " ")
+      });
+    };
+    tick();
+    this.clock = setInterval(tick, 1000);
+
+    // FAQ cards tilt individually — only the card under the cursor reacts
+    this.tiltCards = Array.from(this.faqStageRef.current?.querySelectorAll('[data-tilt]') || []);
+    for (const c of this.tiltCards) {
+      c.addEventListener('mousemove', e => {
+        const r = c.getBoundingClientRect();
+        const dx = clamp((e.clientX - (r.left + r.width / 2)) / (r.width / 2), -1, 1);
+        const dy = clamp((e.clientY - (r.top + r.height / 2)) / (r.height / 2), -1, 1);
+        c.style.transition = "box-shadow .4s ease";
+        c.style.transform = `rotateY(${(dx * 12).toFixed(2)}deg) rotateX(${(-dy * 9).toFixed(2)}deg) scale(1.04)`;
+        c.style.boxShadow = "0 30px 60px -26px rgba(12,14,16,.45)";
+      });
+      c.addEventListener('mouseleave', () => {
+        c.style.transition = "transform .55s cubic-bezier(.16,1,.3,1),box-shadow .4s ease";
+        c.style.transform = "none";
+        c.style.boxShadow = "none";
+      });
+    }
+
+    this.fillSlots();
+
+    this.listingCards = Array.from(this.listingsRef.current?.querySelectorAll('[data-listing]') || []);
+    // scroll events do not reach window when the page scrolls inside a container,
+    // so drive the whole scroll system off geometry read every frame
+    this.alive = true;
+    this.lastY = -1; this.lastW = -1;
+    const loop = () => {
+      if (!this.alive) return;
+      const y = window.scrollY, w = window.innerWidth;
+      if (y !== this.lastY || w !== this.lastW) {
+        this.lastY = y; this.lastW = w;
+        try { this.frame(); } catch (err) { console.error('frame', err); }
+      }
+      this.raf = requestAnimationFrame(loop);
+    };
+    this.raf = requestAnimationFrame(loop);
+    // rAF is suspended while the tab is hidden — force a recompute the moment it returns
+    this.onVis = () => { this.lastY = -1; this.lastW = -1; };
+    document.addEventListener('visibilitychange', this.onVis);
+  }
+
+  // image-slot sources are declared as ext-resource-dependency and applied here,
+  // so the bundler never meets an unresolvable URL in an attribute
+  fillSlots() {
+    const set = (el, url) => { if (el && !el.getAttribute('src')) el.setAttribute('src', url); };
+    set(document.getElementById('hiw-phone-screen'), RES("phone-screen", "./phone-screen.png"));
+    set(document.getElementById('footer-cta-bg'), RES("listing-2", "./listings/2.jpg"));
+    for (const el of document.querySelectorAll('image-slot[id="faq-figure"]')) {
+      set(el, RES("faq-figure", "./faq-figure.png"));
+    }
+    for (const el of document.querySelectorAll('image-slot[id^="lst-"]')) {
+      const n = (parseInt(el.id.split('-')[2], 10) % 4) + 1;
+      set(el, RES("listing-" + n, "./listings/" + n + ".jpg"));
+    }
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('visibilitychange', this.onVis);
+    clearInterval(this.swap); clearInterval(this.clock); clearInterval(this.autoTool);
+    this.alive = false;
+    if (this.raf) cancelAnimationFrame(this.raf);
+  }
+
+  frame() {
+    const vh = window.innerHeight;
+    const y = window.scrollY;
+
+    const nav = this.navRef.current;
+    if (nav) {
+      const past = y > vh * 0.72;
+      nav.style.padding = past ? "16px 54px" : "28px 54px";
+      nav.style.background = past ? "rgba(244,241,236,.86)" : "transparent";
+      nav.style.backdropFilter = past ? "blur(18px) saturate(1.4)" : "none";
+      if (this.logoRef.current) this.logoRef.current.style.filter = past ? "none" : "brightness(0) invert(1)";
+      const links = this.navLinksRef.current;
+      if (links) {
+        links.style.opacity = past ? "0" : "1";
+        links.style.transform = past ? "translateY(-8px)" : "none";
+        links.style.pointerEvents = past ? "none" : "auto";
+      }
+      const si = this.signinRef.current;
+      if (si) { si.style.opacity = past ? "0" : "1"; si.style.pointerEvents = past ? "none" : "auto"; }
+      const su = this.signupRef.current;
+      if (su) {
+        su.style.background = past ? "#0C0E10" : "#F4F1EC";
+        su.style.color = past ? "#F4F1EC" : "#0C0E10";
+      }
+    }
+
+    // HOW IT WORKS — four pinned passes, phone arcs right→left→right
+    const hiw = this.hiwRef.current;
+    if (hiw) {
+      const r = hiw.getBoundingClientRect();
+      const total = hiw.offsetHeight - vh;
+      const p = clamp(-r.top / total, 0, 1);
+      const seg = 1 / STEPS.length;
+      const idx = clamp(Math.floor(p / seg), 0, STEPS.length - 1);
+      const local = clamp((p - idx * seg) / seg, 0, 1);
+      if (idx !== this.state.step) this.setState({ step: idx });
+
+      const w = window.innerWidth;
+      const rightX = w * 0.26, leftX = -w * 0.26;
+      const fromRight = idx % 2 === 0;
+      const t = ease(local);
+      const x = (fromRight ? rightX : leftX) + ((fromRight ? leftX : rightX) - (fromRight ? rightX : leftX)) * t;
+      const arcOn = this.props.phoneArc ?? true;
+      const arc = arcOn ? Math.sin(local * Math.PI) * (fromRight ? -62 : 62) : 0;
+      const rot = (fromRight ? 1 : -1) * (6 - t * 12);
+      const ph = this.phoneRef.current;
+      if (ph) ph.style.transform = `translate(-50%,-50%) translate(${x.toFixed(1)}px,${arc.toFixed(1)}px) rotate(${rot.toFixed(2)}deg)`;
+
+      const inOut = local < .12 ? local / .12 : local > .88 ? (1 - local) / .12 : 1;
+      const side = fromRight ? t : 1 - t;
+      const fade = clamp(inOut, 0, 1);
+
+      const sw = this.stepWordRef.current;
+      if (sw) {
+        const travel = Math.max(0, w - 108 - sw.offsetWidth);
+        sw.style.opacity = fade;
+        sw.style.transform = `translate(${(travel * side).toFixed(1)}px,${((1 - fade) * 26).toFixed(1)}px)`;
+      }
+      const sc = this.stepCopyRef.current;
+      if (sc) {
+        const travel = Math.max(0, w - 108 - sc.offsetWidth);
+        sc.style.opacity = fade;
+        sc.style.transform = `translate(${(travel * side).toFixed(1)}px,${((1 - fade) * 20).toFixed(1)}px)`;
+      }
+    }
+
+    // LISTINGS — cards rise and settle inside each sticky-stacked rail
+    const lsec = this.listingsRef.current;
+    if (lsec) {
+      const lr = lsec.getBoundingClientRect();
+      if (lr.bottom > -200 && lr.top < vh + 200) {
+        const tops = this.listingCards.map(c => c.getBoundingClientRect().top);
+        for (let k = 0; k < this.listingCards.length; k++) {
+          const t = ease(clamp((vh - tops[k]) / (vh * 0.5), 0, 1));
+          const c = this.listingCards[k];
+          c.style.transform = `translateY(${((1 - t) * 56).toFixed(1)}px)`;
+          c.style.opacity = (0.25 + t * 0.75).toFixed(3);
+        }
+      }
+    }
+
+    // TOOLS — clouds lift and pin at the top, headline reveals, tools rise, row turns vertical
+    const ts = this.toolsRef.current;
+    if (ts) {
+      const r = ts.getBoundingClientRect();
+      const total = ts.offsetHeight - vh;
+      const p = clamp(-r.top / total, 0, 1);
+
+      const turnP = clamp((p - 0.58) / 0.26, 0, 1);
+      const tp = ease(turnP);
+      const vertical = turnP > 0.5;
+      // text and sky clear out once the stack turns vertical
+      const clear = 1 - ease(clamp((p - 0.50) / 0.14, 0, 1));
+
+      const lift = ease(clamp(p / 0.17, 0, 1));
+      const c1 = this.cloud1Ref.current, c2 = this.cloud2Ref.current, c3 = this.cloud3Ref.current;
+      if (c1) { c1.style.transform = `translateY(${(vh * 0.42 - lift * (vh * 0.42 + c1.offsetHeight * 0.60)).toFixed(1)}px)`; c1.style.opacity = clear.toFixed(3); }
+      if (c2) { c2.style.transform = `translateY(${(vh * 0.55 - lift * (vh * 0.55 + c2.offsetHeight * 0.50)).toFixed(1)}px)`; c2.style.opacity = clear.toFixed(3); }
+      if (c3) { c3.style.transform = `translateY(${(vh * 0.66 - lift * (vh * 0.66 + c3.offsetHeight * 0.40)).toFixed(1)}px)`; c3.style.opacity = clear.toFixed(3); }
+
+      // headline reveals in the middle of the screen, then rises as the tools arrive
+      const headP = clamp((p - 0.08) / 0.16, 0, 1);
+      const riseP = clamp((p - 0.26) / 0.18, 0, 1);
+      const th = this.toolsHeadRef.current;
+      if (th) th.style.opacity = (ease(headP) * clear).toFixed(3);
+
+      const stage = this.toolStageRef.current;
+      if (stage) {
+        stage.style.opacity = riseP.toFixed(3);
+        stage.style.transform = `translateY(${((1 - ease(riseP)) * vh * 0.48).toFixed(1)}px)`;
+        stage.style.top = `${(47 - tp * 32).toFixed(2)}%`;
+      }
+
+      // once vertical, cycle the tools on a timer; a click takes over
+      if (vertical && !this.autoTool) {
+        this.autoTool = setInterval(() => this.setState(st => ({ tool: (st.tool + 1) % TOOLS.length })), 3200);
+      } else if (!vertical && this.autoTool) {
+        clearInterval(this.autoTool); this.autoTool = null;
+      }
+
+      const list = this.toolListRef.current, panel = this.toolPanelRef.current;
+      if (list) {
+        // cross-dissolve through the layout switch so cards never look squashed mid-turn
+        const dip = 1 - Math.sin(clamp(turnP, 0, 1) * Math.PI) * 0.88;
+        list.style.opacity = dip.toFixed(3);
+        list.style.width = `${(100 - tp * 68).toFixed(2)}%`;
+        list.style.flexDirection = vertical ? "column" : "row";
+        list.style.gap = vertical ? "18px" : "24px";
+        for (const b of list.querySelectorAll('[data-tool]')) {
+          b.style.flexDirection = vertical ? "row" : "column";
+          b.style.alignItems = "center";
+          b.style.justifyContent = vertical ? "flex-start" : "flex-start";
+          b.style.gap = vertical ? "18px" : "14px";
+          b.style.minHeight = "0";
+          const thumb = b.querySelector('[data-thumb]');
+          if (thumb) {
+            thumb.style.width = vertical ? "clamp(56px,7vh,86px)" : "100%";
+            thumb.style.aspectRatio = "1/1";
+            thumb.style.height = "auto";
+            thumb.style.maxHeight = vertical ? "none" : "calc(100% - 36px)";
+          }
+          const title = b.querySelector('[data-title]');
+          if (title) {
+            title.style.fontSize = vertical ? "17px" : "16.5px";
+            title.style.textAlign = vertical ? "left" : "center";
+            title.style.flex = vertical ? "1" : "none";
+          }
+        }
+      }
+      if (panel) panel.style.opacity = tp.toFixed(3);
+    }
+  }
+
+  renderVals() {
+    const i = this.state.i, a = this.state.tool, s = this.state.step;
+    const pick = arr => arr[i % arr.length];
+    const animName = this.state.i % 2 ? "swB" : "swA";
+    const anim = d => `${animName} .75s cubic-bezier(.16,1,.3,1) ${i === 0 ? d : "0s"} both`;
+    const step = STEPS[s], tool = TOOLS[a];
+    const accent = this.props.accent ?? "#00D4C8";
+    const n = parseInt(accent.replace('#', ''), 16);
+    const ar = (n >> 16) & 255, ag = (n >> 8) & 255, ab = n & 255;
+    const svcPanel = open => SVC_BASE + (open
+      ? "opacity:1;transform:translateY(0);pointer-events:auto;visibility:visible"
+      : "opacity:0;transform:translateY(-10px);pointer-events:none;visibility:hidden");
+    const toolsPanel = open => TOOLS_BASE + (open
+      ? "opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;visibility:visible"
+      : "opacity:0;transform:translateX(-50%) translateY(-10px);pointer-events:none;visibility:hidden");
+
+    return {
+      accent,
+      accentSoft: `rgba(${ar},${ag},${ab},.6)`,
+      accentWash: `rgba(${ar},${ag},${ab},.14)`,
+      videoRef: this.videoRef, rootRef: this.rootRef, navRef: this.navRef, logoRef: this.logoRef,
+      navLinksRef: this.navLinksRef, signinRef: this.signinRef, signupRef: this.signupRef,
+      hiwRef: this.hiwRef, stepWordRef: this.stepWordRef, stepCopyRef: this.stepCopyRef, phoneRef: this.phoneRef,
+      listingsRef: this.listingsRef, toolsRef: this.toolsRef, toolsHeadRef: this.toolsHeadRef,
+      toolStageRef: this.toolStageRef, toolListRef: this.toolListRef, toolPanelRef: this.toolPanelRef,
+      magicRef: this.magicRef, subRef: this.subRef,
+      cloud1Ref: this.cloud1Ref, cloud2Ref: this.cloud2Ref, cloud3Ref: this.cloud3Ref,
+      faqStageRef: this.faqStageRef,
+
+      svcPanel: svcPanel(this.state.menu === "services"),
+      toolPanelMenu: toolsPanel(this.state.menu === "tools"),
+      openServices: () => this.setState({ menu: "services" }),
+      openTools: () => this.setState({ menu: "tools" }),
+      closeMenu: () => this.setState({ menu: null }),
+      services: SERVICES,
+
+      beds: pick(BEDS), city: pick(CITIES), vibe: pick(VIBES), near: pick(NEAR), price: pick(PRICES),
+      animBeds: anim(".2s"), animCity: anim(".35s"), animVibe: anim(".45s"), animNear: anim(".55s"), animPrice: anim(".65s"),
+
+      stepWord: step.word, stepHeadline: step.headline, stepBody: step.body, stepTag: step.tag,
+      stepDots: STEPS.map((_, k) => ({ bg: k === s ? "#0C0E10" : "rgba(12,14,16,.16)" })),
+
+      rails: RAILS.map((r, ri) => ({
+        title: r.title, count: r.homes.length + " homes",
+        homes: r.homes.map(([price, specs, addr], hi) => ({
+          price, specs, addr, slot: "lst-" + ri + "-" + hi
+        }))
+      })),
+
+      tools: TOOLS.map((x, k) => ({
+        ...x,
+        img: RES(x.res, x.path),
+        bgImg: `url("${RES(x.res, x.path)}")`,
+        ring: k === a ? accent : "transparent",
+        titleColor: k === a ? "#0C0E10" : "#7C828A",
+        select: () => {
+          this.setState({ tool: k });
+          if (this.autoTool) {
+            clearInterval(this.autoTool);
+            this.autoTool = setInterval(() => this.setState(st => ({ tool: (st.tool + 1) % TOOLS.length })), 3200);
+          }
+        }
+      })),
+      activeImg: RES(tool.res, tool.path), activeBg: `url("${RES(tool.res, tool.path)}")`, activeName: tool.name,
+
+      faqs: FAQ_QS.map((q, k) => ({
+        q, a: FAQ_A,
+        align: k % 2 ? "flex-end" : "flex-start",
+        width: k === 0 ? "1030px" : (k % 2 ? "880px" : "820px")
+      })),
+
+      localTime: this.state.time, localCity: this.state.city
+    };
+  }
+}
+</script>
+</body>
+</html>

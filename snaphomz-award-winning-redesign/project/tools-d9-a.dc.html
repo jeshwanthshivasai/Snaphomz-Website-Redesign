@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F1EC;font-family:Archivo,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#0C0E10;text-decoration:none}a:hover{color:#2C5CF6}
+</style>
+</helmet>
+<div style="position:relative;width:1440px;height:900px;background:#F4F1EC;overflow:hidden;display:flex;flex-direction:column">
+
+  <div style="padding:52px 54px 0;display:flex;align-items:flex-end;justify-content:space-between;gap:40px">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9AA0A8">Behind the magic</span>
+      <h2 style="margin:0;font-size:56px;line-height:1;letter-spacing:-0.045em;font-variation-settings:'wdth' 96,'wght' 600;color:#0C0E10">A suite of powerful tools</h2>
+    </div>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9AA0A8;padding-bottom:8px">{{ counter }}</span>
+  </div>
+
+  <div style="flex:1;display:flex;gap:44px;padding:44px 54px 54px;min-height:0">
+    <div style="width:428px;flex:none;display:flex;flex-direction:column;gap:12px;min-height:0">
+      <sc-for list="{{ tools }}" as="t" hint-placeholder-count="4">
+        <button onClick="{{ t.select }}" style="all:unset;box-sizing:border-box;cursor:pointer;flex:1;min-height:0;display:flex;gap:14px;align-items:center;padding:14px 16px;border-radius:16px;background:{{ t.bg }};border:1px solid {{ t.border }};transition:background .35s ease,border-color .35s ease,transform .35s cubic-bezier(.16,1,.3,1);transform:{{ t.shift }}" style-hover="background:#FFFFFF">
+          <span style="width:62px;height:62px;border-radius:11px;overflow:hidden;flex:none;background:#E6E2DA;display:block">
+            <img src="{{ t.img }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+          </span>
+          <span style="display:flex;flex-direction:column;gap:5px;min-width:0">
+            <span style="display:flex;align-items:center;gap:9px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.15em;color:{{ t.numColor }}">{{ t.num }}</span>
+              <span style="font-size:17px;font-weight:600;letter-spacing:-0.025em;color:#0C0E10">{{ t.name }}</span>
+            </span>
+            <span style="font-size:13px;line-height:1.42;letter-spacing:-0.008em;color:#6A7078;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ t.blurb }}</span>
+          </span>
+        </button>
+      </sc-for>
+    </div>
+
+    <div style="flex:1;display:flex;flex-direction:column;border-radius:22px;overflow:hidden;background:#FFFFFF;border:1px solid rgba(12,14,16,.08);box-shadow:0 40px 90px -44px rgba(12,14,16,.38);min-width:0">
+      <div style="flex:1;min-height:0;background:#E9E5DD;display:flex;align-items:center;justify-content:center;overflow:hidden">
+        <img src="{{ activeImg }}" alt="{{ activeName }}" style="width:100%;height:100%;object-fit:contain;display:block"/>
+      </div>
+      <div style="padding:22px 26px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-top:1px solid rgba(12,14,16,.08)">
+        <div style="display:flex;flex-direction:column;gap:6px;max-width:560px">
+          <span style="font-size:22px;font-weight:600;letter-spacing:-0.03em;color:#0C0E10">{{ activeName }}</span>
+          <span style="font-size:14px;line-height:1.5;letter-spacing:-0.008em;color:#6A7078">{{ activeBlurb }}</span>
+        </div>
+        <a href="#" style="flex:none;padding:13px 22px;border-radius:999px;background:#0C0E10;color:#F4F1EC;font-size:13.5px;font-weight:600;letter-spacing:-0.01em;white-space:nowrap" style-hover="background:#00D4C8;color:#0C0E10">{{ activeCta }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}">
+const TOOLS = [
+  { num: "01", name: "SnapGrad", img: "./tools/snapgrad.png", cta: "Explore Schools",
+    blurb: "Compare schools by location. Explore which colleges their graduates attend, what majors they choose, tuition they pay, and find homes nearby." },
+  { num: "02", name: "Snaphomz Mortgages", img: "./tools/snapinterest.png", cta: "Track Rates",
+    blurb: "Our 24-month rate predictor saw this coming. Every month you waited without it will cost you. Try it yourself and stop guessing on the biggest purchase of your life." },
+  { num: "03", name: "Snaphomz Closure", img: "./tools/disclosure.jpeg", cta: "Upload Disclosure",
+    blurb: "Upload property disclosures and get AI-powered summaries, red flags, and recommendations to catch the biggest risks hiding in the fine print." },
+  { num: "04", name: "Rent vs Buy", img: "./tools/rentvsbuy.png", cta: "Compare Prices",
+    blurb: "Higher mortgage doesn't always mean you're losing and renting doesn't mean it's cheap. Run both numbers. The answer might surprise you." }
+];
+
+class Component extends DCLogic {
+  state = { active: 0 };
+  renderVals() {
+    const a = this.state.active;
+    const t = TOOLS[a];
+    return {
+      tools: TOOLS.map((x, i) => ({
+        ...x,
+        bg: i === a ? "#FFFFFF" : "rgba(255,255,255,.45)",
+        border: i === a ? "rgba(12,14,16,.14)" : "rgba(12,14,16,.06)",
+        numColor: i === a ? "#00D4C8" : "#B4B9BF",
+        shift: i === a ? "translateX(6px)" : "none",
+        select: () => this.setState({ active: i })
+      })),
+      activeImg: t.img, activeName: t.name, activeBlurb: t.blurb, activeCta: t.cta,
+      counter: "0" + (a + 1) + " / 04"
+    };
+  }
+}
+</script>
+</body>
+</html>

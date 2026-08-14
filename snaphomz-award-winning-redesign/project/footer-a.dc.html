@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F1EC;font-family:Archivo,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#0C0E10;text-decoration:none}a:hover{color:#2C5CF6}
+</style>
+</helmet>
+<div style="width:1440px;background:#F4F1EC;padding:0;overflow:hidden">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 54px;border-bottom:1px solid rgba(12,14,16,.1)">
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="width:6px;height:6px;border-radius:50%;background:#00D4C8;display:block"></span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:#0C0E10">{{ localTime }}</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:#9AA0A8">{{ localCity }}</span>
+    </div>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:#9AA0A8">Browsing from your area</span>
+  </div>
+
+  <a href="#" style="display:flex;align-items:center;justify-content:space-between;gap:40px;margin:38px 54px 0;padding:52px 54px;border-radius:26px;background:#0C0E10;transition:background .4s ease" style-hover="background:#00D4C8">
+    <span style="display:flex;flex-direction:column;gap:12px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(244,241,236,.5)">Your agent is waiting</span>
+      <span style="font-size:92px;line-height:.9;letter-spacing:-0.05em;font-variation-settings:'wdth' 108,'wght' 700;color:#F4F1EC">Sign up</span>
+    </span>
+    <span style="font-size:15px;line-height:1.55;letter-spacing:-0.012em;color:rgba(244,241,236,.66);max-width:300px;text-align:right">Free to use. Your AI agent works the whole deal, from first search to close.</span>
+  </a>
+
+  <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding:64px 54px 54px">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <img src="./logo-black.png" alt="Snaphomz" style="height:22px;width:auto;display:block;align-self:flex-start">
+      <p style="margin:0;font-size:14.5px;line-height:1.6;letter-spacing:-0.01em;color:#6A7078;max-width:290px">Buying, selling, and working with an agent in one guided experience.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:13px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#B4B9BF">Platform</span>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Buy</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Sell</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Agents</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Snap tools</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:13px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#B4B9BF">Company</span>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">About us</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Blog</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Careers</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Contact</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:13px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#B4B9BF">Legal</span>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Privacy</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">Terms</a>
+      <a href="#" style="font-size:14.5px;font-weight:500;color:#0C0E10">NMLS + licensing</a>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 54px 22px">
+    <span style="font-size:12.5px;letter-spacing:-0.005em;color:#9AA0A8">© 2026 Snaphomz. All rights reserved.</span>
+    <span style="font-size:12.5px;letter-spacing:-0.005em;color:#9AA0A8">Equal Housing Opportunity</span>
+  </div>
+
+  <div style="padding:0 0 0;overflow:hidden;line-height:0">
+    <span style="display:block;font-size:239px;line-height:.78;letter-spacing:-0.055em;font-variation-settings:'wdth' 118,'wght' 800;color:#0C0E10;white-space:nowrap;text-align:center;padding:0 10px">SNAPHOMZ</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1080}}">
+class Component extends DCLogic {
+  state = { time: "", city: "" };
+  componentDidMount() {
+    const tick = () => {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+      this.setState({
+        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }),
+        city: (tz.split("/").pop() || "Local").replace(/_/g, " ")
+      });
+    };
+    tick();
+    this.t = setInterval(tick, 1000);
+  }
+  componentWillUnmount() { clearInterval(this.t); }
+  renderVals() {
+    return { localTime: this.state.time, localCity: this.state.city };
+  }
+}
+</script>
+</body>
+</html>

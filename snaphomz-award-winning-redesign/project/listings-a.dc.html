@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#F4F1EC;font-family:Archivo,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#0C0E10;text-decoration:none}a:hover{color:#2C5CF6}
+</style>
+</helmet>
+<div style="position:relative;width:1440px;background:#F4F1EC;overflow:hidden;padding:0 0 104px">
+
+  <div style="padding:96px 54px 44px;display:flex;flex-direction:column;gap:26px">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9AA0A8">Your sentence, answered</span>
+    <p style="margin:0;font-size:44px;line-height:1.32;letter-spacing:-0.032em;font-variation-settings:'wdth' 94,'wght' 450;color:#0C0E10;max-width:1180px">
+      <span>New to market homes in</span>
+      <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:1.08em;color:#00D4C8;line-height:1">San Jose</span>
+      <span>under</span>
+      <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:1.08em;color:#00D4C8;line-height:1">$500K</span>
+      <span>with easy access to</span>
+      <span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:1.08em;color:#00D4C8;line-height:1">hiking trails</span><span>.</span>
+    </p>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:62px">
+    <sc-for list="{{ rails }}" as="r" hint-placeholder-count="4">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding:0 54px">
+          <div style="display:flex;align-items:baseline;gap:16px">
+            <h3 style="margin:0;font-size:29px;line-height:1;letter-spacing:-0.034em;font-variation-settings:'wdth' 96,'wght' 600;color:#0C0E10">{{ r.title }}</h3>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.15em;color:#B4B9BF">{{ r.count }}</span>
+          </div>
+          <a href="#" style="display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;letter-spacing:-0.012em;color:#0C0E10" style-hover="color:#2C5CF6">See all <span style="width:22px;height:1px;background:currentColor;display:block"></span></a>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:0 54px">
+          <sc-for list="{{ r.homes }}" as="h" hint-placeholder-count="4">
+            <a href="#" style="display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:#FFFFFF;border:1px solid rgba(12,14,16,.08);transition:transform .45s cubic-bezier(.16,1,.3,1),box-shadow .45s ease" style-hover="transform:translateY(-6px);box-shadow:0 26px 50px -28px rgba(12,14,16,.34)">
+              <span style="position:relative;display:block;height:186px;background:#E9E5DD">
+                <image-slot id="{{ h.slot }}" placeholder="{{ h.addr }}" shape="rect" style="width:100%;height:100%"></image-slot>
+                <span style="position:absolute;top:12px;left:12px;padding:6px 11px;border-radius:999px;background:rgba(244,241,236,.94);font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#0C0E10;pointer-events:none">For sale</span>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:7px;padding:16px 17px 18px">
+                <span style="font-size:21px;font-weight:650;letter-spacing:-0.03em;color:#0C0E10">{{ h.price }}</span>
+                <span style="font-size:13px;font-weight:500;letter-spacing:-0.006em;color:#6A7078">{{ h.specs }}</span>
+                <span style="font-size:13px;letter-spacing:-0.006em;color:#9AA0A8">{{ h.addr }}</span>
+              </span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1900}}">
+const RAILS = [
+  { title: "New To Market Homes", homes: [
+    ["$492,000", "3 bd · 3 ba · 1,850 sqft", "1234 Silver Lake Blvd, San Jose"],
+    ["$475,000", "3 bd · 3 ba · 2,100 sqft", "5678 Olympic Blvd, San Jose"],
+    ["$499,000", "3 bd · 3 ba · 1,920 sqft", "890 Fairfax Ave, San Jose"],
+    ["$510,000", "3 bd · 3 ba · 1,975 sqft", "2200 Sunset Dr, San Jose"]]},
+  { title: "Price Drop Homes", homes: [
+    ["$544,000", "3 bd · 2 ba · 1,780 sqft", "901 Redwood Ave, San Jose"],
+    ["$612,500", "4 bd · 3 ba · 2,210 sqft", "77 Cypress Ct, San Jose"],
+    ["$389,000", "2 bd · 2 ba · 1,340 sqft", "460 Maple Row, San Jose"],
+    ["$725,000", "4 bd · 3 ba · 2,450 sqft", "18 Birchwood Ln, San Jose"]]},
+  { title: "New Construction Homes", homes: [
+    ["$689,000", "3 bd · 3 ba · 2,020 sqft", "212 Harvest Way, San Jose"],
+    ["$758,000", "4 bd · 3 ba · 2,380 sqft", "55 Meadowbrook Dr, San Jose"],
+    ["$599,000", "3 bd · 2 ba · 1,890 sqft", "9 Aspen Terrace, San Jose"],
+    ["$845,000", "4 bd · 4 ba · 2,650 sqft", "301 Willow Creek Rd, San Jose"]]},
+  { title: "Luxury Homes", homes: [
+    ["$1,895,000", "5 bd · 4 ba · 3,620 sqft", "4 Vista Ridge Ct, San Jose"],
+    ["$2,150,000", "5 bd · 5 ba · 4,100 sqft", "88 Skyline Dr, San Jose"],
+    ["$1,650,000", "4 bd · 4 ba · 3,300 sqft", "210 Ocean View Ter, San Jose"],
+    ["$2,490,000", "6 bd · 5 ba · 4,800 sqft", "12 Grandview Estates, San Jose"]]}
+];
+
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      rails: RAILS.map((r, ri) => ({
+        title: r.title,
+        count: r.homes.length + " homes",
+        homes: r.homes.map(([price, specs, addr], hi) => ({
+          price, specs, addr, slot: "lst-" + ri + "-" + hi
+        }))
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>
