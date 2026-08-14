@@ -8,13 +8,13 @@ const STEPS = [
   {
     word: 'Discover',
     tag: 'Natural search',
-    headline: 'Describe the home in your own words.',
+    headline: 'Describe in your own words.',
     body: DISCOVER_BODY
   },
   {
     word: 'Personalize',
     tag: 'Tuned to you',
-    headline: 'Describe the home in your own words.',
+    headline: 'Describe in your own words.',
     body: DISCOVER_BODY
   },
   {
@@ -26,7 +26,7 @@ const STEPS = [
   {
     word: 'Close',
     tag: 'Offer to keys',
-    headline: 'Describe the home in your own words.',
+    headline: 'Describe in your own words.',
     body: DISCOVER_BODY
   }
 ];
