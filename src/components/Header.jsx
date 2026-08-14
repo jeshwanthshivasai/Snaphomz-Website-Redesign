@@ -188,7 +188,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const past = window.scrollY > window.innerHeight * 0.72;
+      const past = window.scrollY > window.innerHeight * 0.5;
       setScrolledPast(past);
     };
 
@@ -210,11 +210,12 @@ export default function Header() {
         justifyContent: 'space-between',
         gap: '24px',
         padding: scrolledPast ? '16px 54px' : '28px 54px',
-        background: scrolledPast ? 'rgba(244,241,236,.86)' : 'transparent',
-        backdropFilter: scrolledPast ? 'blur(18px) saturate(1.4)' : 'none',
-        WebkitBackdropFilter: scrolledPast ? 'blur(18px) saturate(1.4)' : 'none',
-        animation: 'navIn .9s cubic-bezier(.16,1,.3,1) both',
-        transition: 'padding .5s cubic-bezier(.16,1,.3,1), background .5s ease, backdrop-filter .5s ease'
+        background: scrolledPast ? 'rgba(244, 241, 236, 0.65)' : 'transparent',
+        backdropFilter: scrolledPast ? 'blur(24px) saturate(1.8)' : 'none',
+        WebkitBackdropFilter: scrolledPast ? 'blur(24px) saturate(1.8)' : 'none',
+        borderBottom: scrolledPast ? '1px solid rgba(255, 255, 255, 0.4)' : '1px solid transparent',
+        boxShadow: scrolledPast ? '0 8px 32px 0 rgba(12, 14, 16, 0.05)' : 'none',
+        transition: 'padding .4s cubic-bezier(.16,1,.3,1), background .4s ease, border-bottom-color .4s ease, box-shadow .4s ease'
       }}
     >
       <a href="#">
@@ -222,11 +223,11 @@ export default function Header() {
           src="/logo-black.png"
           alt="Snaphomz"
           style={{
-            height: '41px',
+            height: scrolledPast ? '38px' : '41px',
             width: 'auto',
             display: 'block',
             filter: scrolledPast ? 'none' : 'brightness(0) invert(1)',
-            transition: 'filter .45s ease'
+            transition: 'filter .45s ease, height .4s ease'
           }}
         />
       </a>
@@ -238,14 +239,10 @@ export default function Header() {
           gap: '34px',
           fontSize: '14px',
           fontWeight: 500,
-          letterSpacing: '-0.008em',
-          opacity: scrolledPast ? 0 : 1,
-          transform: scrolledPast ? 'translateY(-8px)' : 'none',
-          pointerEvents: scrolledPast ? 'none' : 'auto',
-          transition: 'opacity .4s ease, transform .5s cubic-bezier(.16,1,.3,1)'
+          letterSpacing: '-0.008em'
         }}
       >
-        <a href="#about" style={{ color: 'rgba(244,241,236,.88)' }}>
+        <a href="#about" style={{ color: scrolledPast ? '#0C0E10' : 'rgba(244, 241, 236, 0.88)' }}>
           About us
         </a>
 
@@ -262,13 +259,13 @@ export default function Header() {
             padding: '10px 0'
           }}
         >
-          <span style={{ color: 'rgba(244,241,236,.88)' }}>Services</span>
+          <span style={{ color: scrolledPast ? '#0C0E10' : 'rgba(244, 241, 236, 0.88)' }}>Services</span>
           <span
             style={{
               width: '5px',
               height: '5px',
-              borderRight: '1.4px solid rgba(244,241,236,.6)',
-              borderBottom: '1.4px solid rgba(244,241,236,.6)',
+              borderRight: scrolledPast ? '1.4px solid #0C0E10' : '1.4px solid rgba(244, 241, 236, 0.6)',
+              borderBottom: scrolledPast ? '1.4px solid #0C0E10' : '1.4px solid rgba(244, 241, 236, 0.6)',
               transform: 'rotate(45deg)',
               display: 'block',
               marginTop: '-3px'
@@ -290,11 +287,12 @@ export default function Header() {
           >
             <div
               style={{
-                background: '#FFFFFF',
+                background: 'rgba(255, 255, 255, 0.92)',
+                backdropFilter: 'blur(20px)',
                 borderRadius: '18px',
                 padding: '10px',
                 width: 'max-content',
-                boxShadow: '0 30px 70px -30px rgba(12,14,16,.4)',
+                boxShadow: '0 30px 70px -30px rgba(12,14,16,.3)',
                 border: '1px solid rgba(12,14,16,.08)',
                 display: 'flex',
                 flexDirection: 'column',
@@ -341,13 +339,13 @@ export default function Header() {
             padding: '10px 0'
           }}
         >
-          <span style={{ color: 'rgba(244,241,236,.88)' }}>Snap tools</span>
+          <span style={{ color: scrolledPast ? '#0C0E10' : 'rgba(244, 241, 236, 0.88)' }}>Snap tools</span>
           <span
             style={{
               width: '5px',
               height: '5px',
-              borderRight: '1.4px solid rgba(244,241,236,.6)',
-              borderBottom: '1.4px solid rgba(244,241,236,.6)',
+              borderRight: scrolledPast ? '1.4px solid #0C0E10' : '1.4px solid rgba(244, 241, 236, 0.6)',
+              borderBottom: scrolledPast ? '1.4px solid #0C0E10' : '1.4px solid rgba(244, 241, 236, 0.6)',
               transform: 'rotate(45deg)',
               display: 'block',
               marginTop: '-3px'
@@ -370,10 +368,11 @@ export default function Header() {
           >
             <div
               style={{
-                background: '#F2F0EC',
+                background: 'rgba(242, 240, 236, 0.94)',
+                backdropFilter: 'blur(24px)',
                 borderRadius: '26px',
                 padding: '14px',
-                boxShadow: '0 40px 90px -34px rgba(12,14,16,.45)',
+                boxShadow: '0 40px 90px -34px rgba(12,14,16,.35)',
                 border: '1px solid rgba(12,14,16,.07)'
               }}
             >
@@ -460,7 +459,7 @@ export default function Header() {
           </div>
         </div>
 
-        <a href="#blog" style={{ color: 'rgba(244,241,236,.88)' }}>
+        <a href="#blog" style={{ color: scrolledPast ? '#0C0E10' : 'rgba(244,241,236,0.88)' }}>
           Blog
         </a>
       </nav>
@@ -471,10 +470,8 @@ export default function Header() {
           style={{
             fontSize: '14px',
             fontWeight: 500,
-            color: 'rgba(244,241,236,.7)',
-            opacity: scrolledPast ? 0 : 1,
-            pointerEvents: scrolledPast ? 'none' : 'auto',
-            transition: 'opacity .4s ease, color .45s ease'
+            color: scrolledPast ? '#0C0E10' : 'rgba(244, 241, 236, 0.7)',
+            transition: 'color .3s ease'
           }}
         >
           Sign in
@@ -482,14 +479,14 @@ export default function Header() {
         <a
           href="#signup"
           style={{
-            padding: '12px 24px',
+            padding: '11px 22px',
             borderRadius: '999px',
             background: scrolledPast ? '#0C0E10' : '#F4F1EC',
             color: scrolledPast ? '#F4F1EC' : '#0C0E10',
             fontSize: '14px',
             fontWeight: 600,
             letterSpacing: '-0.008em',
-            transition: 'background .45s ease, color .45s ease'
+            transition: 'background .3s ease, color .3s ease'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.background = '#00D4C8';

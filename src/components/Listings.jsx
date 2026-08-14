@@ -83,6 +83,7 @@ export default function Listings({ accent = '#00D4C8' }) {
       ref={containerRef}
       style={{
         position: 'relative',
+        zIndex: 1,
         width: '100%',
         background: '#F4F1EC'
       }}
@@ -94,6 +95,7 @@ export default function Listings({ accent = '#00D4C8' }) {
             style={{
               position: 'sticky',
               top: 0,
+              zIndex: 5,
               background: '#F4F1EC',
               borderTop: '1px solid rgba(12,14,16,.12)',
               display: 'flex',
