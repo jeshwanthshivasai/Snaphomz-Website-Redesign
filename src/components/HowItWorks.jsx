@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Phone3D from './Phone3D';
 
 const DISCOVER_BODY =
   "No filters. No forms. No endless checkboxes. Say it the way you'd say it out loud, and Snaphomz reads meaning - not just keywords - turning your words into real listings that match the home you're picturing.";
@@ -36,7 +37,7 @@ const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 export default function HowItWorks({ accent = '#00D4C8' }) {
   const sectionRef = useRef(null);
   const [stepIndex, setStepIndex] = useState(0);
-  const [phoneTransform, setPhoneTransform] = useState('translate(-50%,-50%) translate(0px,0px) rotate(0deg)');
+  const [phone3D, setPhone3D] = useState({ x: 2.2, arc: 0, rot: 0 });
   const [wordStyle, setWordStyle] = useState({ opacity: 1, transform: 'translate(0px, 0px)' });
   const [copyStyle, setCopyStyle] = useState({ opacity: 1, transform: 'translate(0px, 0px)' });
 
@@ -67,13 +68,17 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
       const arc = Math.sin(local * Math.PI) * (fromRight ? -62 : 62);
       const rot = (fromRight ? 1 : -1) * (6 - t * 12);
 
-      setPhoneTransform(`translate(-50%,-50%) translate(${x.toFixed(1)}px,${arc.toFixed(1)}px) rotate(${rot.toFixed(2)}deg)`);
+      // Convert pixel scroll coordinates to 3D world units for Three.js camera viewport
+      const normX = (x / (w * 0.26)) * 2.3;
+      const normArc = (arc / 62) * 0.45;
+
+      setPhone3D({ x: normX, arc: normArc, rot });
 
       const inOut = local < 0.12 ? local / 0.12 : local > 0.88 ? (1 - local) / 0.12 : 1;
       const side = fromRight ? t : 1 - t;
       const fade = clamp(inOut, 0, 1);
 
-      const travelWord = Math.max(0, w - 108 - 400); // approximate text width
+      const travelWord = Math.max(0, w - 108 - 400);
       const travelCopy = Math.max(0, w - 108 - 500);
 
       setWordStyle({
@@ -216,39 +221,18 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
           </div>
         </div>
 
-        {/* Floating 3D Phone Screen Mockup */}
+        {/* Interactive 3D iPhone 16 Model Canvas */}
         <div
           style={{
             position: 'absolute',
-            top: '50%',
-            left: '50%',
-            width: 'min(360px, 25vw)',
-            aspectRatio: '372 / 736',
-            borderRadius: '54px',
-            background: '#0C0E10',
-            padding: '10px',
-            boxShadow: '0 60px 120px -40px rgba(12,14,16,.45), 0 8px 26px -10px rgba(12,14,16,.25)',
+            inset: 0,
+            width: '100%',
+            height: '100%',
             zIndex: 4,
-            willChange: 'transform',
-            transform: phoneTransform
+            pointerEvents: 'none'
           }}
         >
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              height: '100%',
-              borderRadius: '45px',
-              overflow: 'hidden',
-              background: '#F4F1EC'
-            }}
-          >
-            <img
-              src="/phone-screen.png"
-              alt="Phone Screen App Interface"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-          </div>
+          <Phone3D scrollX={phone3D.x} scrollArc={phone3D.arc} scrollRot={phone3D.rot} />
         </div>
 
         {/* Step Dots Progress */}

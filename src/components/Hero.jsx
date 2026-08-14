@@ -86,12 +86,12 @@ export default function Hero({ accent = '#00D4C8' }) {
         <p
           style={{
             margin: 0,
-            fontSize: 'clamp(46px, 4.8vw, 70px)',
+            fontSize: 'clamp(42px, 4.4vw, 65px)',
             lineHeight: 1.34,
             letterSpacing: '-0.035em',
             color: '#F4F1EC',
             fontVariationSettings: "'wdth' 96, 'wght' 450",
-            maxWidth: '1180px'
+            maxWidth: '1380px'
           }}
         >
           <span style={{ display: 'inline-block', animation: 'wIn .9s cubic-bezier(.16,1,.3,1) .05s both' }}>I</span>{' '}
@@ -133,56 +133,62 @@ export default function Hero({ accent = '#00D4C8' }) {
             {pick(CITIES)}
           </span>{' '}
           <span style={{ display: 'inline-block', animation: 'wIn .9s cubic-bezier(.16,1,.3,1) .4s both' }}>with</span>{' '}
-          <span
-            key={`vibe-${index}`}
-            style={{
-              display: 'inline-block',
-              fontFamily: "'Instrument Serif', serif",
-              fontStyle: 'italic',
-              fontSize: '1.08em',
-              color: accent,
-              borderBottom: `2px solid ${accentSoft}`,
-              lineHeight: 1,
-              animation: getAnim('.45s')
-            }}
-          >
-            {pick(VIBES)}
-          </span>
-          <span style={{ display: 'inline-block', animation: 'wIn .9s cubic-bezier(.16,1,.3,1) .45s both' }}>,</span>{' '}
+          <span style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
+            <span
+              key={`vibe-${index}`}
+              style={{
+                display: 'inline-block',
+                fontFamily: "'Instrument Serif', serif",
+                fontStyle: 'italic',
+                fontSize: '1.08em',
+                color: accent,
+                borderBottom: `2px solid ${accentSoft}`,
+                lineHeight: 1,
+                animation: getAnim('.45s')
+              }}
+            >
+              {pick(VIBES)}
+            </span>
+            <span style={{ display: 'inline-block', animation: 'wIn .9s cubic-bezier(.16,1,.3,1) .45s both' }}>,</span>
+          </span>{' '}
           <span style={{ display: 'inline-block', animation: 'wIn .9s cubic-bezier(.16,1,.3,1) .5s both' }}>near</span>{' '}
-          <span
-            key={`near-${index}`}
-            style={{
-              display: 'inline-block',
-              fontFamily: "'Instrument Serif', serif",
-              fontStyle: 'italic',
-              fontSize: '1.08em',
-              color: accent,
-              borderBottom: `2px solid ${accentSoft}`,
-              lineHeight: 1,
-              animation: getAnim('.55s')
-            }}
-          >
-            {pick(NEAR)}
-          </span>
-          <span style={{ display: 'inline-block', animation: 'wIn .9s cubic-bezier(.16,1,.3,1) .55s both' }}>,</span>{' '}
+          <span style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
+            <span
+              key={`near-${index}`}
+              style={{
+                display: 'inline-block',
+                fontFamily: "'Instrument Serif', serif",
+                fontStyle: 'italic',
+                fontSize: '1.08em',
+                color: accent,
+                borderBottom: `2px solid ${accentSoft}`,
+                lineHeight: 1,
+                animation: getAnim('.55s')
+              }}
+            >
+              {pick(NEAR)}
+            </span>
+            <span style={{ display: 'inline-block', animation: 'wIn .9s cubic-bezier(.16,1,.3,1) .55s both' }}>,</span>
+          </span>{' '}
           <span style={{ display: 'inline-block', animation: 'wIn .9s cubic-bezier(.16,1,.3,1) .6s both' }}>around</span>{' '}
-          <span
-            key={`price-${index}`}
-            style={{
-              display: 'inline-block',
-              fontFamily: "'Instrument Serif', serif",
-              fontStyle: 'italic',
-              fontSize: '1.08em',
-              color: accent,
-              borderBottom: `2px solid ${accentSoft}`,
-              lineHeight: 1,
-              animation: getAnim('.65s')
-            }}
-          >
-            {pick(PRICES)}
+          <span style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
+            <span
+              key={`price-${index}`}
+              style={{
+                display: 'inline-block',
+                fontFamily: "'Instrument Serif', serif",
+                fontStyle: 'italic',
+                fontSize: '1.08em',
+                color: accent,
+                borderBottom: `2px solid ${accentSoft}`,
+                lineHeight: 1,
+                animation: getAnim('.65s')
+              }}
+            >
+              {pick(PRICES)}
+            </span>
+            <span style={{ display: 'inline-block', animation: 'wIn .9s cubic-bezier(.16,1,.3,1) .65s both' }}>.</span>
           </span>
-          <span style={{ display: 'inline-block', animation: 'wIn .9s cubic-bezier(.16,1,.3,1) .65s both' }}>.</span>
         </p>
       </div>
     </section>
