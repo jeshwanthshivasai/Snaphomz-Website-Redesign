@@ -1,58 +1,98 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="./support.js"></script>
 </head>
+
 <body>
-<x-dc>
-<helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="./image-slot.js"></script>
-<style>
-body{margin:0;background:#F4F1EC;font-family:Archivo,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-a{color:#0C0E10;text-decoration:none}a:hover{color:#2C5CF6}
-</style>
-</helmet>
-<div style="position:relative;width:1440px;height:900px;background:#F4F1EC;overflow:hidden">
+  <x-dc>
+    <helmet>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+      <script src="./image-slot.js"></script>
+      <style>
+        body {
+          margin: 0;
+          background: #F4F1EC;
+          font-family: Archivo, system-ui, sans-serif;
+          -webkit-font-smoothing: antialiased
+        }
 
-  <div style="position:absolute;left:0;right:0;top:0;height:64px;border-bottom:1px solid rgba(12,14,16,.1);display:flex;align-items:center;justify-content:space-between;padding:0 54px">
-    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#0C0E10">How it works</span>
-    <div style="display:flex;gap:36px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase">
-      <span style="color:#0C0E10">01 Discover</span>
-      <span style="color:#BFC3C9">02 Personalize</span>
-      <span style="color:#BFC3C9">03 Engage</span>
-      <span style="color:#BFC3C9">04 Close</span>
+        a {
+          color: #0C0E10;
+          text-decoration: none
+        }
+
+        a:hover {
+          color: #2C5CF6
+        }
+      </style>
+    </helmet>
+    <div style="position:relative;width:1440px;height:900px;background:#F4F1EC;overflow:hidden">
+
+      <div
+        style="position:absolute;left:0;right:0;top:0;height:64px;border-bottom:1px solid rgba(12,14,16,.1);display:flex;align-items:center;justify-content:space-between;padding:0 54px">
+        <span
+          style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#0C0E10">How
+          it works</span>
+        <div
+          style="display:flex;gap:36px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase">
+          <span style="color:#0C0E10">01 Discover</span>
+          <span style="color:#BFC3C9">02 Personalize</span>
+          <span style="color:#BFC3C9">03 Engage</span>
+          <span style="color:#BFC3C9">04 Close</span>
+        </div>
+      </div>
+
+      <h2
+        style="position:absolute;left:0;right:0;top:274px;margin:0;text-align:center;font-size:290px;line-height:.8;letter-spacing:-0.07em;font-variation-settings:'wdth' 68,'wght' 400;color:rgba(12,14,16,.075);user-select:none">
+        discover</h2>
+
+      <div style="position:absolute;left:54px;top:212px;width:492px;display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="width:7px;height:7px;border-radius:50%;background:#00D4C8;display:block"></span>
+          <span
+            style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:#0C0E10">Natural
+            search</span>
+        </div>
+        <h3
+          style="margin:0;font-size:54px;line-height:1.02;letter-spacing:-0.042em;font-variation-settings:'wdth' 96,'wght' 550;color:#0C0E10">
+          Describe in your own words.</h3>
+        <p style="margin:0;font-size:17.5px;line-height:1.62;letter-spacing:-0.012em;color:#5C626A;text-wrap:pretty">No
+          filters. No forms. No endless checkboxes. Say it the way you'd say it out loud, and Snaphomz reads meaning -
+          not just keywords - turning your words into real listings that match the home you're picturing.</p>
+        <p
+          style="margin:8px 0 0;font-family:'Instrument Serif',serif;font-style:italic;font-size:25px;line-height:1.3;letter-spacing:-0.01em;color:#00D4C8">
+          "a bright 3 bed near hiking trails, around $900K"</p>
+      </div>
+
+      <div
+        style="position:absolute;right:150px;top:74px;width:358px;height:752px;border-radius:52px;background:#0C0E10;padding:10px;box-shadow:0 70px 130px -46px rgba(12,14,16,.5),0 10px 30px -12px rgba(12,14,16,.28)">
+        <div style="position:relative;width:100%;height:100%;border-radius:43px;overflow:hidden;background:#F4F1EC">
+          <image-slot id="hiw-b-screen" src="./phone-screen.png" shape="rect" fit="cover" placeholder="phone screen"
+            style="width:100%;height:100%"></image-slot>
+        </div>
+      </div>
+
+      <div
+        style="position:absolute;left:0;right:0;bottom:0;height:58px;border-top:1px solid rgba(12,14,16,.1);display:flex;align-items:center;justify-content:space-between;padding:0 54px">
+        <span
+          style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9AA0A8">Step
+          one of four</span>
+        <span
+          style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9AA0A8">Keep
+          scrolling</span>
+      </div>
     </div>
-  </div>
-
-  <h2 style="position:absolute;left:0;right:0;top:274px;margin:0;text-align:center;font-size:290px;line-height:.8;letter-spacing:-0.07em;font-variation-settings:'wdth' 68,'wght' 400;color:rgba(12,14,16,.075);user-select:none">discover</h2>
-
-  <div style="position:absolute;left:54px;top:212px;width:492px;display:flex;flex-direction:column;gap:24px">
-    <div style="display:flex;align-items:center;gap:10px">
-      <span style="width:7px;height:7px;border-radius:50%;background:#00D4C8;display:block"></span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:#0C0E10">Natural search</span>
-    </div>
-    <h3 style="margin:0;font-size:54px;line-height:1.02;letter-spacing:-0.042em;font-variation-settings:'wdth' 96,'wght' 550;color:#0C0E10">Describe the home in your own words.</h3>
-    <p style="margin:0;font-size:17.5px;line-height:1.62;letter-spacing:-0.012em;color:#5C626A;text-wrap:pretty">No filters. No forms. No endless checkboxes. Say it the way you'd say it out loud, and Snaphomz reads meaning - not just keywords - turning your words into real listings that match the home you're picturing.</p>
-    <p style="margin:8px 0 0;font-family:'Instrument Serif',serif;font-style:italic;font-size:25px;line-height:1.3;letter-spacing:-0.01em;color:#00D4C8">"a bright 3 bed near hiking trails, around $900K"</p>
-  </div>
-
-  <div style="position:absolute;right:150px;top:74px;width:358px;height:752px;border-radius:52px;background:#0C0E10;padding:10px;box-shadow:0 70px 130px -46px rgba(12,14,16,.5),0 10px 30px -12px rgba(12,14,16,.28)">
-    <div style="position:relative;width:100%;height:100%;border-radius:43px;overflow:hidden;background:#F4F1EC">
-      <image-slot id="hiw-b-screen" src="./phone-screen.png" shape="rect" fit="cover" placeholder="phone screen" style="width:100%;height:100%"></image-slot>
-    </div>
-  </div>
-
-  <div style="position:absolute;left:0;right:0;bottom:0;height:58px;border-top:1px solid rgba(12,14,16,.1);display:flex;align-items:center;justify-content:space-between;padding:0 54px">
-    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9AA0A8">Step one of four</span>
-    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#9AA0A8">Keep scrolling</span>
-  </div>
-</div>
-</x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}"></script>
+  </x-dc>
+  <script type="text/x-dc" data-dc-script
+    data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}"></script>
 </body>
+
 </html>

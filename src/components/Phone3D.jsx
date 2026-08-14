@@ -25,7 +25,7 @@ class Phone3DErrorBoundary extends Component {
   }
 }
 
-function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0 }) {
+function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0 }) {
   const { scene } = useGLTF('/iphone_16.glb');
   const texture = useTexture('/phone-screen.png');
   const groupRef = useRef();
@@ -54,7 +54,7 @@ function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0 }) {
           child.material = screenMat;
         } else {
           if (child.material) {
-            child.material.envMapIntensity = 1.4;
+            child.material.envMapIntensity = 1.5;
           }
         }
       }
@@ -63,14 +63,22 @@ function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0 }) {
 
   useFrame(() => {
     if (groupRef.current) {
-      // Lerp position tracking
+      // Lerp position tracking smoothly
       groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, scrollX, 0.1);
       groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, scrollArc, 0.1);
 
-      // Match Screenshot 1 baseline tilt pose (-30deg Y, 12deg X, 14deg Z) + dynamic scroll rotation
-      const targetRotY = THREE.MathUtils.degToRad(-30) + THREE.MathUtils.degToRad(-scrollRot * 0.8);
-      const targetRotX = THREE.MathUtils.degToRad(12);
-      const targetRotZ = THREE.MathUtils.degToRad(14) + THREE.MathUtils.degToRad(scrollRot * 0.5);
+      const curX = groupRef.current.position.x;
+      const progressFactor = THREE.MathUtils.clamp(curX / 2.2, -1, 1);
+
+      // Baseline inward facing angle + 360 degree spin during scroll travel
+      const baseFacingY = progressFactor * THREE.MathUtils.degToRad(-26);
+      const targetRotY = baseFacingY + scrollSpin;
+
+      // Dynamic Z tilt matching side travel
+      const targetRotZ = progressFactor * THREE.MathUtils.degToRad(-12);
+
+      // Upright forward pitch
+      const targetRotX = THREE.MathUtils.degToRad(3);
 
       groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, 0.1);
       groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, 0.1);
@@ -79,7 +87,7 @@ function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0 }) {
   });
 
   return (
-    <group ref={groupRef} scale={0.17} position={[1.8, 0, 0]}>
+    <group ref={groupRef} scale={0.30} position={[2.2, 0, 0]}>
       <primitive object={scene} />
     </group>
   );
@@ -130,7 +138,7 @@ function Phone2DFallback() {
   );
 }
 
-export default function Phone3D({ scrollX = 0, scrollArc = 0, scrollRot = 0 }) {
+export default function Phone3D({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0 }) {
   return (
     <Phone3DErrorBoundary fallback={<Phone2DFallback />}>
       <div style={{ width: '100%', height: '100%', position: 'relative' }}>
@@ -139,13 +147,13 @@ export default function Phone3D({ scrollX = 0, scrollArc = 0, scrollRot = 0 }) {
           style={{ width: '100%', height: '100%', pointerEvents: 'none' }}
           gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         >
-          <ambientLight intensity={1.8} />
-          <directionalLight position={[10, 10, 10]} intensity={2.4} />
+          <ambientLight intensity={2.0} />
+          <directionalLight position={[10, 10, 10]} intensity={2.6} />
           <directionalLight position={[-10, -10, -5]} intensity={0.8} />
           <pointLight position={[0, 5, 5]} intensity={1.5} color="#00D4C8" />
 
           <Suspense fallback={null}>
-            <Model scrollX={scrollX} scrollArc={scrollArc} scrollRot={scrollRot} />
+            <Model scrollX={scrollX} scrollArc={scrollArc} scrollRot={scrollRot} scrollSpin={scrollSpin} />
           </Suspense>
         </Canvas>
       </div>

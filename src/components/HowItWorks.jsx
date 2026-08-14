@@ -36,10 +36,14 @@ const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
 export default function HowItWorks({ accent = '#00D4C8' }) {
   const sectionRef = useRef(null);
+  const stepWordRef = useRef(null);
+  const stepCopyRef = useRef(null);
+
   const [stepIndex, setStepIndex] = useState(0);
-  const [phone3D, setPhone3D] = useState({ x: 2.2, arc: 0, rot: 0 });
-  const [wordStyle, setWordStyle] = useState({ opacity: 1, transform: 'translate(0px, 0px)' });
-  const [copyStyle, setCopyStyle] = useState({ opacity: 1, transform: 'translate(0px, 0px)' });
+  const [phone3D, setPhone3D] = useState({ x: 2.2, arc: 0, rot: 0, spin: 0 });
+  const [isRightText, setIsRightText] = useState(false);
+  const [wordStyle, setWordStyle] = useState({ opacity: 1, transform: 'translate(0px, 0px)', textAlign: 'left' });
+  const [copyStyle, setCopyStyle] = useState({ opacity: 1, transform: 'translate(0px, 0px)', alignItems: 'flex-start', textAlign: 'left' });
 
   useEffect(() => {
     let animationFrameId;
@@ -54,41 +58,69 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
       const p = clamp(-r.top / total, 0, 1);
 
       const seg = 1 / STEPS.length;
-      const idx = clamp(Math.floor(p / seg), 0, STEPS.length - 1);
-      const local = clamp((p - idx * seg) / seg, 0, 1);
+      const rawIdx = clamp(Math.floor(p / seg), 0, STEPS.length - 1);
+      const local = clamp((p - rawIdx * seg) / seg, 0, 1);
 
-      setStepIndex(idx);
+      // Step content switches MIDWAY (at local = 0.5)
+      const displayIdx = local >= 0.5 ? Math.min(rawIdx + 1, STEPS.length - 1) : rawIdx;
+      setStepIndex(displayIdx);
 
       const w = window.innerWidth;
       const rightX = w * 0.26;
       const leftX = -w * 0.26;
-      const fromRight = idx % 2 === 0;
+      const fromRight = rawIdx % 2 === 0;
       const t = ease(local);
+
+      // Phone 3D position
       const x = (fromRight ? rightX : leftX) + ((fromRight ? leftX : rightX) - (fromRight ? rightX : leftX)) * t;
       const arc = Math.sin(local * Math.PI) * (fromRight ? -62 : 62);
       const rot = (fromRight ? 1 : -1) * (6 - t * 12);
 
-      // Convert pixel scroll coordinates to 3D world units for Three.js camera viewport
-      const normX = (x / (w * 0.26)) * 2.3;
+      // 360-degree spin angle during travel (2 * Math.PI)
+      const spinAngle = (fromRight ? 1 : -1) * (t * Math.PI * 2);
+
+      // Convert pixel scroll coordinates to 3D world units
+      const normX = (x / (w * 0.26)) * 2.2;
       const normArc = (arc / 62) * 0.45;
 
-      setPhone3D({ x: normX, arc: normArc, rot });
+      setPhone3D({ x: normX, arc: normArc, rot, spin: spinAngle });
 
-      const inOut = local < 0.12 ? local / 0.12 : local > 0.88 ? (1 - local) / 0.12 : 1;
-      const side = fromRight ? t : 1 - t;
-      const fade = clamp(inOut, 0, 1);
+      // Continuous horizontal sliding progress from 0 -> 1 across the viewport
+      const sideProgress = fromRight ? t : 1 - t;
 
-      const travelWord = Math.max(0, w - 108 - 400);
-      const travelCopy = Math.max(0, w - 108 - 500);
+      // Midway fade transition: subtle dip at 0.5 during section change
+      let fade;
+      if (local < 0.35) {
+        fade = 1;
+      } else if (local < 0.5) {
+        fade = (0.5 - local) / 0.15;
+      } else if (local < 0.65) {
+        fade = (local - 0.5) / 0.15;
+      } else {
+        fade = 1;
+      }
+
+      // Alignment switches at midpoint 0.5
+      const isRight = local >= 0.5 ? fromRight : !fromRight;
+      setIsRightText(isRight);
+
+      const wordW = stepWordRef.current ? stepWordRef.current.offsetWidth : 350;
+      const copyW = stepCopyRef.current ? stepCopyRef.current.offsetWidth : 500;
+
+      const travelWord = Math.max(0, w - 108 - wordW);
+      const travelCopy = Math.max(0, w - 108 - copyW);
 
       setWordStyle({
         opacity: fade,
-        transform: `translate(${(travelWord * side).toFixed(1)}px, ${((1 - fade) * 26).toFixed(1)}px)`
+        transform: `translate(${(travelWord * sideProgress).toFixed(1)}px, ${((1 - fade) * 26).toFixed(1)}px)`,
+        textAlign: isRight ? 'right' : 'left'
       });
 
       setCopyStyle({
         opacity: fade,
-        transform: `translate(${(travelCopy * side).toFixed(1)}px, ${((1 - fade) * 20).toFixed(1)}px)`
+        transform: `translate(${(travelCopy * sideProgress).toFixed(1)}px, ${((1 - fade) * 20).toFixed(1)}px)`,
+        alignItems: isRight ? 'flex-end' : 'flex-start',
+        textAlign: isRight ? 'right' : 'left'
       });
     };
 
@@ -143,6 +175,7 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
 
         {/* Dynamic Step Word */}
         <div
+          ref={stepWordRef}
           style={{
             position: 'absolute',
             left: '54px',
@@ -168,6 +201,7 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
 
         {/* Dynamic Step Copy */}
         <div
+          ref={stepCopyRef}
           style={{
             position: 'absolute',
             left: '54px',
@@ -205,19 +239,47 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
           >
             {currentStep.body}
           </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '4px' }}>
-            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: accent, display: 'block' }} />
-            <span
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '10.5px',
-                letterSpacing: '.15em',
-                textTransform: 'uppercase',
-                color: '#0C0E10'
-              }}
-            >
-              {currentStep.tag}
-            </span>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: isRightText ? 'flex-end' : 'flex-start',
+              gap: '10px',
+              marginTop: '4px',
+              width: '100%'
+            }}
+          >
+            {isRightText ? (
+              <>
+                <span
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '10.5px',
+                    letterSpacing: '.15em',
+                    textTransform: 'uppercase',
+                    color: '#0C0E10'
+                  }}
+                >
+                  {currentStep.tag}
+                </span>
+                <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: accent, display: 'block' }} />
+              </>
+            ) : (
+              <>
+                <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: accent, display: 'block' }} />
+                <span
+                  style={{
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontSize: '10.5px',
+                    letterSpacing: '.15em',
+                    textTransform: 'uppercase',
+                    color: '#0C0E10'
+                  }}
+                >
+                  {currentStep.tag}
+                </span>
+              </>
+            )}
           </div>
         </div>
 
@@ -232,7 +294,7 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
             pointerEvents: 'none'
           }}
         >
-          <Phone3D scrollX={phone3D.x} scrollArc={phone3D.arc} scrollRot={phone3D.rot} />
+          <Phone3D scrollX={phone3D.x} scrollArc={phone3D.arc} scrollRot={phone3D.rot} scrollSpin={phone3D.spin} />
         </div>
 
         {/* Step Dots Progress */}
