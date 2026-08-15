@@ -28,7 +28,7 @@ export default function FAQ() {
     const img = card.querySelector('img');
 
     card.style.transition = 'transform .12s cubic-bezier(0.16, 1, 0.3, 1)';
-    card.style.transform = `perspective(1000px) rotateY(${(dx * 22).toFixed(2)}deg) rotateX(${(-dy * 16).toFixed(2)}deg) scale3d(1.08, 1.08, 1.08)`;
+    card.style.transform = `perspective(1000px) rotateY(${(dx * 22).toFixed(2)}deg) rotateX(${(-dy * 16).toFixed(2)}deg)`;
     
     if (img) {
       img.style.transition = 'filter .2s ease';
@@ -43,7 +43,7 @@ export default function FAQ() {
     const img = card.querySelector('img');
 
     card.style.transition = 'transform .55s cubic-bezier(.16,1,.3,1)';
-    card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1)';
+    card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg)';
 
     if (img) {
       img.style.transition = 'filter .55s cubic-bezier(.16,1,.3,1)';
@@ -94,7 +94,7 @@ export default function FAQ() {
                   gap: '12px',
                   minWidth: 0,
                   justifyContent: 'center',
-                  padding: '36px 44px 36px 270px',
+                  padding: '38px 44px 38px 315px',
                   borderRadius: '24px',
                   background: '#FFFFFF',
                   border: '1px solid rgba(12,14,16,.08)',
@@ -128,7 +128,7 @@ export default function FAQ() {
                 </p>
               </div>
 
-              {/* Overlapping Transparent 3D Graphic (Enlarged & shifted slightly right) */}
+              {/* Overlapping Transparent 3D Graphic (Enlarged size) */}
               <div
                 ref={(el) => (cardRefs.current[k] = el)}
                 onMouseMove={(e) => handleMouseMove(e, k)}
@@ -137,9 +137,9 @@ export default function FAQ() {
                   position: 'absolute',
                   left: '10px',
                   top: '50%',
-                  width: '240px',
-                  height: '290px',
-                  marginTop: '-145px',
+                  width: '270px',
+                  height: '325px',
+                  marginTop: '-162.5px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -153,8 +153,8 @@ export default function FAQ() {
                   src="/SnaphomzFAQ.png"
                   alt="3D Figure Render"
                   style={{
-                    width: '100%',
-                    height: '100%',
+                    width: '110%',
+                    height: '110%',
                     objectFit: 'contain',
                     filter: 'drop-shadow(0 16px 28px rgba(12,14,16,0.18))'
                   }}
