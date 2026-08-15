@@ -154,7 +154,7 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
         <div
           style={{
             position: 'absolute',
-            top: 0,
+            top: -10,
             left: '-5%',
             width: '110%',
             height: `${cloudHeightVh.toFixed(1)}vh`,
