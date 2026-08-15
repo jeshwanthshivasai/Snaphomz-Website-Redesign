@@ -8,9 +8,15 @@ const PRICES = ['$900K', '$650K', '$1.2M', '$475K'];
 
 export default function Hero({ accent = '#00D4C8' }) {
   const [index, setIndex] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
   const videoRef = useRef(null);
 
   useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
     const video = videoRef.current;
     if (video) {
       video.muted = true;
@@ -24,7 +30,10 @@ export default function Hero({ accent = '#00D4C8' }) {
       setIndex((i) => i + 1);
     }, 2900);
 
-    return () => clearInterval(timer);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearInterval(timer);
+    };
   }, []);
 
   const pick = (arr) => arr[index % arr.length];
@@ -38,6 +47,9 @@ export default function Hero({ accent = '#00D4C8' }) {
   const b = parseInt(hex.substring(4, 6), 16) || 200;
   const accentSoft = `rgba(${r},${g},${b},0.6)`;
   const accentWash = `rgba(${r},${g},${b},0.14)`;
+
+  const heroTranslateY = (scrollY * 0.42).toFixed(1);
+  const heroOpacity = Math.max(0, 1 - scrollY / 650).toFixed(2);
 
   return (
     <section
@@ -80,7 +92,10 @@ export default function Hero({ accent = '#00D4C8' }) {
           position: 'absolute',
           left: '54px',
           right: '54px',
-          bottom: '76px'
+          bottom: '76px',
+          transform: `translateY(${heroTranslateY}px)`,
+          opacity: heroOpacity,
+          willChange: 'transform, opacity'
         }}
       >
         <p

@@ -174,11 +174,18 @@ export default function Listings({ accent = '#00D4C8' }) {
                     onMouseEnter={(e) => (e.currentTarget.style.boxShadow = '0 26px 50px -28px rgba(12,14,16,.34)')}
                     onMouseLeave={(e) => (e.currentTarget.style.boxShadow = 'none')}
                   >
-                    <span style={{ position: 'relative', display: 'block', height: '200px', background: '#E9E5DD' }}>
+                    <span style={{ position: 'relative', display: 'block', height: '200px', background: '#E9E5DD', overflow: 'hidden' }}>
                       <img
                         src={h.image}
                         alt={h.addr}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                        style={{
+                          width: '100%',
+                          height: '112%',
+                          objectFit: 'cover',
+                          display: 'block',
+                          transform: 'scale(1.06) translateY(-3%)',
+                          transition: 'transform .5s cubic-bezier(.16,1,.3,1)'
+                        }}
                       />
                       <span
                         style={{

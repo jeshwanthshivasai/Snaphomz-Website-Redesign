@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const FAQ_A =
   "Snaphomz is a modern real estate platform that brings buying, selling, and working with an agent into one clear, guided experience. Just search homes, connect with an agent, manage your offers, and track the deal all the way to close - every step in one place. It's designed to feel simpler and more transparent, so you always know what's happening next.";
@@ -16,6 +16,23 @@ const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
 export default function FAQ() {
   const cardRefs = useRef([]);
+  const sectionRef = useRef(null);
+  const [scrollP, setScrollP] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const el = sectionRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const p = clamp((vh - r.top) / (vh + r.height), 0, 1);
+      setScrollP(p);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleMouseMove = (e, index) => {
     const card = cardRefs.current[index];
@@ -51,8 +68,10 @@ export default function FAQ() {
     }
   };
 
+  const floatParallaxY = ((scrollP - 0.5) * 35).toFixed(1);
+
   return (
-    <section id="about" data-screen-label="FAQ" style={{ position: 'relative', width: '100%', background: '#F4F1EC', padding: '0 0 128px' }}>
+    <section ref={sectionRef} id="about" data-screen-label="FAQ" style={{ position: 'relative', width: '100%', background: '#F4F1EC', padding: '0 0 128px' }}>
       <div style={{ padding: '118px 54px 20px' }}>
         <h2
           style={{
@@ -156,7 +175,9 @@ export default function FAQ() {
                     width: '110%',
                     height: '110%',
                     objectFit: 'contain',
-                    filter: 'drop-shadow(0 16px 28px rgba(12,14,16,0.18))'
+                    filter: 'drop-shadow(0 16px 28px rgba(12,14,16,0.18))',
+                    transform: `translateY(${floatParallaxY}px)`,
+                    transition: 'transform 0.1s linear'
                   }}
                 />
               </div>
