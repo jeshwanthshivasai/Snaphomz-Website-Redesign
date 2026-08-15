@@ -36,14 +36,12 @@ const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
 export default function HowItWorks({ accent = '#00D4C8' }) {
   const sectionRef = useRef(null);
-  const stepWordRef = useRef(null);
   const stepCopyRef = useRef(null);
 
   const [stepIndex, setStepIndex] = useState(0);
   const [phone3D, setPhone3D] = useState({ x: 2.2, arc: 0, rot: 0, spin: 0 });
   const [isRightText, setIsRightText] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [wordStyle, setWordStyle] = useState({ opacity: 1, transform: 'translate(0px, 0px)', textAlign: 'left' });
   const [copyStyle, setCopyStyle] = useState({ opacity: 1, transform: 'translate(0px, 0px)', alignItems: 'flex-start', textAlign: 'left' });
 
   useEffect(() => {
@@ -111,22 +109,14 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
       const isRight = local >= 0.5 ? fromRight : !fromRight;
       setIsRightText(isRight);
 
-      const wordW = stepWordRef.current ? stepWordRef.current.offsetWidth : (isMob ? 180 : 350);
-      const copyW = stepCopyRef.current ? stepCopyRef.current.offsetWidth : (isMob ? 280 : 500);
-
+      const copyW = stepCopyRef.current ? stepCopyRef.current.offsetWidth : (isMob ? 280 : 520);
       const edgePadding = isMob ? 28 : 108;
-      const travelWord = Math.max(0, w - edgePadding - wordW);
       const travelCopy = Math.max(0, w - edgePadding - copyW);
 
-      setWordStyle({
-        opacity: fade,
-        transform: `translate(${(travelWord * sideProgress).toFixed(1)}px, ${((1 - fade) * 26).toFixed(1)}px)`,
-        textAlign: isRight ? 'right' : 'left'
-      });
-
+      // 🌟 STAGE 100% STRAIGHT HORIZONTAL LINE SLIDING (Y fixed at 0px)
       setCopyStyle({
         opacity: fade,
-        transform: `translate(${(travelCopy * sideProgress).toFixed(1)}px, ${((1 - fade) * 20).toFixed(1)}px)`,
+        transform: `translate(${(travelCopy * sideProgress).toFixed(1)}px, 0px)`,
         alignItems: isRight ? 'flex-end' : 'flex-start',
         textAlign: isRight ? 'right' : 'left'
       });
@@ -184,79 +174,73 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
           How it works
         </h2>
 
-        {/* Dynamic Step Word */}
+        {/* Unified Dynamic Step Text Block (Word + Headline + Body + Tag) */}
         <div
-          ref={stepWordRef}
+          ref={stepCopyRef}
           style={{
             position: 'absolute',
             left: isMobile ? '16px' : '54px',
-            top: isMobile ? '150px' : '268px',
+            top: isMobile ? '150px' : '220px',
+            width: isMobile ? 'calc(100vw - 32px)' : 'min(520px, 40vw)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '0px',
             zIndex: 2,
             willChange: 'transform, opacity',
-            ...wordStyle
+            ...copyStyle
           }}
         >
+          {/* Step Word ("Discover", "Personalize", etc.) */}
           <h3
             style={{
               margin: 0,
-              fontSize: isMobile ? 'clamp(32px, 7.5vw, 54px)' : 'clamp(58px, 6.6vw, 96px)',
-              lineHeight: 0.9,
-              letterSpacing: '-0.052em',
+              fontSize: isMobile ? 'clamp(32px, 7.5vw, 54px)' : 'clamp(62px, 6.2vw, 92px)',
+              lineHeight: 0.92,
+              letterSpacing: '-0.05em',
               fontVariationSettings: "'wdth' 76, 'wght' 500",
               color: '#0C0E10'
             }}
           >
             {currentStep.word}
           </h3>
-        </div>
 
-        {/* Dynamic Step Copy */}
-        <div
-          ref={stepCopyRef}
-          style={{
-            position: 'absolute',
-            left: isMobile ? '16px' : '54px',
-            bottom: isMobile ? '28px' : '96px',
-            width: isMobile ? 'calc(100vw - 32px)' : 'min(540px, 40vw)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: isMobile ? '8px' : '20px',
-            zIndex: 2,
-            willChange: 'transform, opacity',
-            ...copyStyle
-          }}
-        >
+          {/* Headline ("Describe in your own words.") */}
           <h4
             style={{
-              margin: 0,
-              fontSize: isMobile ? 'clamp(19px, 4.8vw, 26px)' : 'clamp(30px, 2.9vw, 42px)',
-              lineHeight: 1.08,
-              letterSpacing: '-0.038em',
+              margin: isMobile ? '14px 0 8px' : '28px 0 14px',
+              fontSize: isMobile ? 'clamp(19px, 4.8vw, 26px)' : 'clamp(28px, 2.7vw, 38px)',
+              lineHeight: 1.1,
+              letterSpacing: '-0.035em',
               fontVariationSettings: "'wdth' 98, 'wght' 600",
               color: '#0C0E10'
             }}
           >
             {currentStep.headline}
           </h4>
+
+          {/* Body Copy */}
           <p
             style={{
               margin: 0,
-              fontSize: isMobile ? '13px' : '17px',
-              lineHeight: 1.5,
+              fontSize: isMobile ? '13px' : '16px',
+              lineHeight: 1.6,
               letterSpacing: '-0.012em',
               color: '#5C626A',
-              textWrap: 'pretty'
+              textWrap: 'pretty',
+              maxWidth: '480px'
             }}
           >
             {currentStep.body}
           </p>
+
+          {/* Tag & Dot */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: isRightText ? 'flex-end' : 'flex-start',
               gap: '10px',
-              marginTop: '2px',
+              marginTop: isMobile ? '12px' : '18px',
               width: '100%'
             }}
           >
