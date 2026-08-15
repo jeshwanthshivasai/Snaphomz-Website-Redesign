@@ -109,11 +109,11 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
       const isRight = local >= 0.5 ? fromRight : !fromRight;
       setIsRightText(isRight);
 
-      const copyW = stepCopyRef.current ? stepCopyRef.current.offsetWidth : (isMob ? 280 : 520);
+      const copyW = stepCopyRef.current ? stepCopyRef.current.offsetWidth : (isMob ? 280 : 440);
       const edgePadding = isMob ? 28 : 108;
       const travelCopy = Math.max(0, w - edgePadding - copyW);
 
-      // 🌟 STAGE 100% STRAIGHT HORIZONTAL LINE SLIDING (Y fixed at 0px)
+      // 100% straight horizontal line translation (Y fixed at 0px)
       setCopyStyle({
         opacity: fade,
         transform: `translate(${(travelCopy * sideProgress).toFixed(1)}px, 0px)`,
@@ -141,6 +141,11 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
   }, []);
 
   const currentStep = STEPS[stepIndex];
+  const charLength = currentStep.word.length;
+
+  // Calculate exact font size based on word length so longer words (like Personalize) fit 100% with ZERO overflow
+  const desktopVw = Math.min(5.6, 52 / charLength);
+  const mobileVw = Math.min(8.2, 42 / charLength);
 
   return (
     <section
@@ -155,16 +160,17 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
       }}
     >
       <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
+        {/* Section Header: how it works */}
         <h2
           style={{
             position: 'absolute',
-            left: isMobile ? '16px' : '50px',
+            left: isMobile ? '16px' : '54px',
             top: isMobile ? '88px' : '88px',
             margin: 0,
             fontFamily: "'Instrument Serif', serif",
             fontStyle: 'italic',
             fontWeight: 400,
-            fontSize: isMobile ? 'clamp(38px, 9vw, 70px)' : 'clamp(78px, 9.4vw, 134px)',
+            fontSize: isMobile ? 'clamp(38px, 9vw, 68px)' : 'clamp(76px, 9vw, 130px)',
             lineHeight: 0.86,
             letterSpacing: '-0.025em',
             color: '#0C0E10',
@@ -174,14 +180,14 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
           How it works
         </h2>
 
-        {/* Unified Dynamic Step Text Block (Word + Headline + Body + Tag) */}
+        {/* Content Block: Sharp Pop Square Box (main title at full bottom width with ZERO padding) + Subtitle + Description */}
         <div
           ref={stepCopyRef}
           style={{
             position: 'absolute',
             left: isMobile ? '16px' : '54px',
-            top: isMobile ? '150px' : '220px',
-            width: isMobile ? 'calc(100vw - 32px)' : 'min(520px, 40vw)',
+            bottom: isMobile ? '28px' : '64px',
+            width: isMobile ? 'calc(100vw - 32px)' : 'min(440px, 36vw)',
             display: 'flex',
             flexDirection: 'column',
             gap: '0px',
@@ -190,26 +196,50 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
             ...copyStyle
           }}
         >
-          {/* Step Word ("Discover", "Personalize", etc.) */}
-          <h3
+          {/* Sharp Pop-Accent Square Box (borderRadius: 0px, padding: 0px) */}
+          <div
             style={{
-              margin: 0,
-              fontSize: isMobile ? 'clamp(32px, 7.5vw, 54px)' : 'clamp(62px, 6.2vw, 92px)',
-              lineHeight: 0.92,
-              letterSpacing: '-0.05em',
-              fontVariationSettings: "'wdth' 76, 'wght' 500",
-              color: '#0C0E10'
+              width: '100%',
+              aspectRatio: '1 / 1',
+              maxWidth: isMobile ? '220px' : '320px',
+              maxHeight: isMobile ? '220px' : '320px',
+              borderRadius: '0px',
+              background: accent,
+              padding: '0px', // Zero padding inside box as strictly requested!
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              alignItems: isRightText ? 'flex-end' : 'flex-start',
+              boxShadow: '0 24px 60px -20px rgba(0, 212, 200, 0.35)',
+              transition: 'background .4s ease',
+              overflow: 'hidden'
             }}
           >
-            {currentStep.word}
-          </h3>
+            {/* Main Title sitting flush at the bottom edge with ZERO padding and dynamic character length fitting */}
+            <h3
+              style={{
+                margin: 0,
+                padding: 0,
+                width: '100%',
+                fontSize: isMobile ? `clamp(24px, ${mobileVw}vw, 44px)` : `clamp(38px, ${desktopVw}vw, 76px)`,
+                lineHeight: 0.82,
+                letterSpacing: '-0.06em',
+                fontVariationSettings: "'wdth' 85, 'wght' 700",
+                color: '#0C0E10',
+                textAlign: isRightText ? 'right' : 'left',
+                whiteSpace: 'nowrap'
+              }}
+            >
+              {currentStep.word}
+            </h3>
+          </div>
 
-          {/* Headline ("Describe in your own words.") */}
+          {/* Sub Title (Headline) */}
           <h4
             style={{
-              margin: isMobile ? '14px 0 8px' : '28px 0 14px',
-              fontSize: isMobile ? 'clamp(19px, 4.8vw, 26px)' : 'clamp(28px, 2.7vw, 38px)',
-              lineHeight: 1.1,
+              margin: isMobile ? '14px 0 6px' : '20px 0 8px',
+              fontSize: isMobile ? 'clamp(18px, 4.5vw, 24px)' : 'clamp(26px, 2.4vw, 34px)',
+              lineHeight: 1.12,
               letterSpacing: '-0.035em',
               fontVariationSettings: "'wdth' 98, 'wght' 600",
               color: '#0C0E10'
@@ -218,64 +248,23 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
             {currentStep.headline}
           </h4>
 
-          {/* Body Copy */}
+          {/* Description (Body - Exactly 3 Lines) */}
           <p
             style={{
               margin: 0,
-              fontSize: isMobile ? '13px' : '16px',
-              lineHeight: 1.6,
+              fontSize: isMobile ? '13px' : '15px',
+              lineHeight: 1.5,
               letterSpacing: '-0.012em',
               color: '#5C626A',
-              textWrap: 'pretty',
-              maxWidth: '480px'
+              display: '-webkit-box',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
             }}
           >
             {currentStep.body}
           </p>
-
-          {/* Tag & Dot */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: isRightText ? 'flex-end' : 'flex-start',
-              gap: '10px',
-              marginTop: isMobile ? '12px' : '18px',
-              width: '100%'
-            }}
-          >
-            {isRightText ? (
-              <>
-                <span
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '10px',
-                    letterSpacing: '.15em',
-                    textTransform: 'uppercase',
-                    color: '#0C0E10'
-                  }}
-                >
-                  {currentStep.tag}
-                </span>
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: accent, display: 'block' }} />
-              </>
-            ) : (
-              <>
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: accent, display: 'block' }} />
-                <span
-                  style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '10px',
-                    letterSpacing: '.15em',
-                    textTransform: 'uppercase',
-                    color: '#0C0E10'
-                  }}
-                >
-                  {currentStep.tag}
-                </span>
-              </>
-            )}
-          </div>
         </div>
 
         {/* Interactive 3D iPhone 16 Model Canvas */}
