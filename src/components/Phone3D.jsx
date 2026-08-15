@@ -5,29 +5,34 @@ import * as THREE from 'three';
 
 /**
  * =========================================================================
- * 3D IPHONE POSE & ROTATION CONFIGURATION (TWEAK THESE VALUES TO ADJUST POSE)
+ * 3D IPHONE POSE & ROTATION CONFIGURATION (DEVICE-SPECIFIC SETTINGS)
+ * Tweak each device section independently! Changes to mobile won't touch desktop/tablet.
  * =========================================================================
  */
 export const PHONE_POSE_CONFIG = {
-  // --- FACING ANGLE (Y-axis rotation / Yaw) ---
-  // Angle in degrees that the phone turns inward toward the text on each side
-  // Increase to turn more sideways, decrease to face more straight forward
-  facingAngleDeg: 100,
+  // --- MOBILE CONFIGURATION (< 640px) ---
+  mobile: {
+    facingAngleDeg: 100,  // Y-axis rotation / Yaw (Mobile facing angle)
+    tiltAngleDeg: 10,     // Z-axis rotation / Roll (Mobile tilt angle)
+    forwardPitchDeg: -5,  // X-axis rotation / Pitch (Mobile forward pitch)
+    scale: 0.23           // 3D Phone scale on mobile
+  },
 
-  // --- TILT ANGLE (Z-axis rotation / Roll) ---
-  // Angle in degrees that the phone tilts sideways when moving to left/right
-  // Increase for more side tilt, decrease for straighter vertical alignment
-  tiltAngleDeg: 10,
+  // --- TABLET CONFIGURATION (640px - 1024px) ---
+  tablet: {
+    facingAngleDeg: 26,   // Y-axis rotation / Yaw for tablet
+    tiltAngleDeg: 12,     // Z-axis rotation / Roll for tablet
+    forwardPitchDeg: 3,   // X-axis rotation / Pitch for tablet
+    scale: 0.23           // 3D Phone scale on tablet
+  },
 
-  // --- FORWARD PITCH (X-axis rotation / Pitch) ---
-  // Angle in degrees that the phone pitches forward toward the viewer
-  // Positive value = top leans forward; 0 = perfectly upright
-  forwardPitchDeg: -5,
-
-  // --- SCALE (3D Phone size relative to viewport) ---
-  scaleMobile: 0.23,   // Mobile screen scale (< 640px)
-  scaleTablet: 0.23,   // Tablet screen scale (640px - 1024px)
-  scaleDesktop: 0.30   // Desktop screen scale (> 1024px)
+  // --- DESKTOP CONFIGURATION (> 1024px) ---
+  desktop: {
+    facingAngleDeg: 26,   // Y-axis rotation / Yaw for desktop
+    tiltAngleDeg: 12,     // Z-axis rotation / Roll for desktop
+    forwardPitchDeg: 3,   // X-axis rotation / Pitch for desktop
+    scale: 0.30           // 3D Phone scale on desktop
+  }
 };
 
 class Phone3DErrorBoundary extends Component {
@@ -52,7 +57,7 @@ class Phone3DErrorBoundary extends Component {
   }
 }
 
-function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0, scale = 0.30, isMobile = false }) {
+function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0, poseConfig = PHONE_POSE_CONFIG.desktop, isMobile = false }) {
   const { scene } = useGLTF('/iphone_16.glb');
   const texture = useTexture('/phone-screen.png');
   const groupRef = useRef();
@@ -98,15 +103,15 @@ function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0, scal
       const curX = groupRef.current.position.x;
       const progressFactor = THREE.MathUtils.clamp(curX / 2.2, -1, 1);
 
-      // 🌟 FACING ANGLE (Y-axis rotation): Configured by PHONE_POSE_CONFIG.facingAngleDeg
-      const baseFacingY = progressFactor * THREE.MathUtils.degToRad(-PHONE_POSE_CONFIG.facingAngleDeg);
+      // Device-specific facing angle (Y-axis rotation)
+      const baseFacingY = progressFactor * THREE.MathUtils.degToRad(-poseConfig.facingAngleDeg);
       const targetRotY = baseFacingY + scrollSpin;
 
-      // 🌟 TILT ANGLE (Z-axis rotation): Configured by PHONE_POSE_CONFIG.tiltAngleDeg
-      const targetRotZ = progressFactor * THREE.MathUtils.degToRad(-PHONE_POSE_CONFIG.tiltAngleDeg);
+      // Device-specific tilt angle (Z-axis rotation)
+      const targetRotZ = progressFactor * THREE.MathUtils.degToRad(-poseConfig.tiltAngleDeg);
 
-      // 🌟 FORWARD PITCH (X-axis rotation): Configured by PHONE_POSE_CONFIG.forwardPitchDeg
-      const targetRotX = THREE.MathUtils.degToRad(PHONE_POSE_CONFIG.forwardPitchDeg);
+      // Device-specific forward pitch (X-axis rotation)
+      const targetRotX = THREE.MathUtils.degToRad(poseConfig.forwardPitchDeg);
 
       groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, 0.1);
       groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, 0.1);
@@ -115,7 +120,7 @@ function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0, scal
   });
 
   return (
-    <group ref={groupRef} scale={scale} position={[2.2, 0, 0]}>
+    <group ref={groupRef} scale={poseConfig.scale} position={[2.2, 0, 0]}>
       <primitive object={scene} />
     </group>
   );
@@ -167,20 +172,20 @@ function Phone2DFallback() {
 }
 
 export default function Phone3D({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0 }) {
-  const [responsiveScale, setResponsiveScale] = useState(PHONE_POSE_CONFIG.scaleDesktop);
+  const [devicePose, setDevicePose] = useState(PHONE_POSE_CONFIG.desktop);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
       if (w < 640) {
-        setResponsiveScale(PHONE_POSE_CONFIG.scaleMobile);
+        setDevicePose(PHONE_POSE_CONFIG.mobile);
         setIsMobile(true);
       } else if (w < 1024) {
-        setResponsiveScale(PHONE_POSE_CONFIG.scaleTablet);
+        setDevicePose(PHONE_POSE_CONFIG.tablet);
         setIsMobile(false);
       } else {
-        setResponsiveScale(PHONE_POSE_CONFIG.scaleDesktop);
+        setDevicePose(PHONE_POSE_CONFIG.desktop);
         setIsMobile(false);
       }
     };
@@ -209,7 +214,7 @@ export default function Phone3D({ scrollX = 0, scrollArc = 0, scrollRot = 0, scr
               scrollArc={scrollArc}
               scrollRot={scrollRot}
               scrollSpin={scrollSpin}
-              scale={responsiveScale}
+              poseConfig={devicePose}
               isMobile={isMobile}
             />
           </Suspense>
