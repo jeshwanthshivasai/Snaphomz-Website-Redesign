@@ -162,7 +162,10 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
             pointerEvents: 'none',
             overflow: 'hidden',
             willChange: 'height',
-            transition: 'none'
+            transition: 'none',
+            /* 🌟 THIS FEATHERS/FADES THE TOP EDGE OF THE CLOUDS SEAMLESSLY */
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 25%, black 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 25%, black 100%)'
           }}
         >
           {/* Primary Cloud */}
