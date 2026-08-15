@@ -198,6 +198,39 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
               transform: 'scaleX(-1)'
             }}
           />
+          {/* Top-Left Corner Cloud */}
+          <img
+            src="/cloud.png"
+            alt=""
+            style={{
+              position: 'absolute',
+              top: '-15%',
+              left: '-15%',
+              width: '60%',
+              height: '110%',
+              objectFit: 'contain',
+              objectPosition: 'left top',
+              opacity: 0.9,
+              transform: 'scale(1.25)'
+            }}
+          />
+
+          {/* Top-Right Corner Cloud */}
+          <img
+            src="/cloud.png"
+            alt=""
+            style={{
+              position: 'absolute',
+              top: '-15%',
+              right: '-15%',
+              width: '60%',
+              height: '110%',
+              objectFit: 'contain',
+              objectPosition: 'right top',
+              opacity: 0.9,
+              transform: 'scaleX(-1) scale(1.25)'
+            }}
+          />
           {/* Soft bottom vignette */}
           <div
             style={{
