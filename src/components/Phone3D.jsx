@@ -21,16 +21,16 @@ export const PHONE_POSE_CONFIG = {
   // --- TABLET CONFIGURATION (640px - 1024px) ---
   tablet: {
     facingAngleDeg: 26,   // Y-axis rotation / Yaw for tablet
-    tiltAngleDeg: 12,     // Z-axis rotation / Roll for tablet
-    forwardPitchDeg: 3,   // X-axis rotation / Pitch for tablet
+    tiltAngleDeg: 10,     // Z-axis rotation / Roll for tablet
+    forwardPitchDeg: -5,   // X-axis rotation / Pitch for tablet
     scale: 0.23           // 3D Phone scale on tablet
   },
 
   // --- DESKTOP CONFIGURATION (> 1024px) ---
   desktop: {
-    facingAngleDeg: 26,   // Y-axis rotation / Yaw for desktop
-    tiltAngleDeg: 12,     // Z-axis rotation / Roll for desktop
-    forwardPitchDeg: 3,   // X-axis rotation / Pitch for desktop
+    facingAngleDeg: 30,   // Y-axis rotation / Yaw for desktop
+    tiltAngleDeg: 10,     // Z-axis rotation / Roll for desktop
+    forwardPitchDeg: -5,   // X-axis rotation / Pitch for desktop
     scale: 0.30           // 3D Phone scale on desktop
   }
 };
