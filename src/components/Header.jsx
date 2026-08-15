@@ -358,7 +358,7 @@ export default function Header() {
               top: '100%',
               left: '50%',
               paddingTop: '14px',
-              width: 'min(1160px, 90vw)',
+              width: 'min(820px, 92vw)',
               transition: 'opacity .28s ease, transform .34s cubic-bezier(.16,1,.3,1)',
               opacity: activeMenu === 'tools' ? 1 : 0,
               transform: activeMenu === 'tools' ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(-10px)',
@@ -389,7 +389,7 @@ export default function Header() {
                 >
                   Snap tools
                 </span>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: '22px 16px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px 16px' }}>
                   {SNAP_TOOLS_ROW1.map((t, i) => (
                     <a
                       key={i}
@@ -423,7 +423,7 @@ export default function Header() {
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: '22px 16px', padding: '26px 26px 20px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px 16px', padding: '26px 26px 20px' }}>
                 {SNAP_TOOLS_ROW2.map((t, i) => (
                   <a
                     key={i}
