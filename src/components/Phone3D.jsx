@@ -3,6 +3,33 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
+/**
+ * =========================================================================
+ * 3D IPHONE POSE & ROTATION CONFIGURATION (TWEAK THESE VALUES TO ADJUST POSE)
+ * =========================================================================
+ */
+export const PHONE_POSE_CONFIG = {
+  // --- FACING ANGLE (Y-axis rotation / Yaw) ---
+  // Angle in degrees that the phone turns inward toward the text on each side
+  // Increase to turn more sideways, decrease to face more straight forward
+  facingAngleDeg: 100,
+
+  // --- TILT ANGLE (Z-axis rotation / Roll) ---
+  // Angle in degrees that the phone tilts sideways when moving to left/right
+  // Increase for more side tilt, decrease for straighter vertical alignment
+  tiltAngleDeg: 10,
+
+  // --- FORWARD PITCH (X-axis rotation / Pitch) ---
+  // Angle in degrees that the phone pitches forward toward the viewer
+  // Positive value = top leans forward; 0 = perfectly upright
+  forwardPitchDeg: -5,
+
+  // --- SCALE (3D Phone size relative to viewport) ---
+  scaleMobile: 0.23,   // Mobile screen scale (< 640px)
+  scaleTablet: 0.23,   // Tablet screen scale (640px - 1024px)
+  scaleDesktop: 0.30   // Desktop screen scale (> 1024px)
+};
+
 class Phone3DErrorBoundary extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +52,7 @@ class Phone3DErrorBoundary extends Component {
   }
 }
 
-function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0, scale = 0.30 }) {
+function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0, scale = 0.30, isMobile = false }) {
   const { scene } = useGLTF('/iphone_16.glb');
   const texture = useTexture('/phone-screen.png');
   const groupRef = useRef();
@@ -63,22 +90,23 @@ function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0, scal
 
   useFrame(() => {
     if (groupRef.current) {
-      // Pure horizontal position tracking (Y fixed at 0 - no vertical lifting up/down)
+      // Horizontal tracking with Y centered in open space between top title and bottom description
+      const targetY = isMobile ? 0.20 : 0.0;
       groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, scrollX, 0.1);
-      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, 0, 0.1);
+      groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.1);
 
       const curX = groupRef.current.position.x;
       const progressFactor = THREE.MathUtils.clamp(curX / 2.2, -1, 1);
 
-      // Baseline inward facing angle + 360 degree spin during travel
-      const baseFacingY = progressFactor * THREE.MathUtils.degToRad(-26);
+      // 🌟 FACING ANGLE (Y-axis rotation): Configured by PHONE_POSE_CONFIG.facingAngleDeg
+      const baseFacingY = progressFactor * THREE.MathUtils.degToRad(-PHONE_POSE_CONFIG.facingAngleDeg);
       const targetRotY = baseFacingY + scrollSpin;
 
-      // Dynamic Z tilt matching side position (-12deg when on right, +12deg when on left)
-      const targetRotZ = progressFactor * THREE.MathUtils.degToRad(-12);
+      // 🌟 TILT ANGLE (Z-axis rotation): Configured by PHONE_POSE_CONFIG.tiltAngleDeg
+      const targetRotZ = progressFactor * THREE.MathUtils.degToRad(-PHONE_POSE_CONFIG.tiltAngleDeg);
 
-      // Upright forward pitch
-      const targetRotX = THREE.MathUtils.degToRad(3);
+      // 🌟 FORWARD PITCH (X-axis rotation): Configured by PHONE_POSE_CONFIG.forwardPitchDeg
+      const targetRotX = THREE.MathUtils.degToRad(PHONE_POSE_CONFIG.forwardPitchDeg);
 
       groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotY, 0.1);
       groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotX, 0.1);
@@ -106,10 +134,10 @@ function Phone2DFallback() {
     <div
       style={{
         position: 'absolute',
-        top: '50%',
+        top: '45%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 'min(280px, 60vw)',
+        width: 'min(260px, 60vw)',
         aspectRatio: '372 / 736',
         borderRadius: '44px',
         background: '#0C0E10',
@@ -139,17 +167,21 @@ function Phone2DFallback() {
 }
 
 export default function Phone3D({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0 }) {
-  const [responsiveScale, setResponsiveScale] = useState(0.30);
+  const [responsiveScale, setResponsiveScale] = useState(PHONE_POSE_CONFIG.scaleDesktop);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
       if (w < 640) {
-        setResponsiveScale(0.15);
+        setResponsiveScale(PHONE_POSE_CONFIG.scaleMobile);
+        setIsMobile(true);
       } else if (w < 1024) {
-        setResponsiveScale(0.22);
+        setResponsiveScale(PHONE_POSE_CONFIG.scaleTablet);
+        setIsMobile(false);
       } else {
-        setResponsiveScale(0.30);
+        setResponsiveScale(PHONE_POSE_CONFIG.scaleDesktop);
+        setIsMobile(false);
       }
     };
 
@@ -178,6 +210,7 @@ export default function Phone3D({ scrollX = 0, scrollArc = 0, scrollRot = 0, scr
               scrollRot={scrollRot}
               scrollSpin={scrollSpin}
               scale={responsiveScale}
+              isMobile={isMobile}
             />
           </Suspense>
         </Canvas>

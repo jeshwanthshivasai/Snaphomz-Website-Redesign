@@ -8,18 +8,16 @@ const TOOLS = [
 ];
 
 export const CLOUD_CONFIG = {
-  pinnedCloudHeightVh: 45,
+  pinnedCloudHeightVh: 48,
   cloudVignetteHeightPx: 35,
   cloudOpacity: 0.95,
-  headlineTopPaddingDesktop: '16vh',
-  headlineTopPaddingMobile: '12vh',
-  subtitleBottomMarginDesktop: '6vh',
-  subtitleBottomMarginMobile: '2.5vh',
+  headlineTopPaddingDesktop: '20vh',
+  headlineTopPaddingMobile: '20vh',
   gridColumnsMobile: 'repeat(2, 1fr)',
   gridColumnsDesktop: 'repeat(4, 1fr)',
   paddingHorizontalDesktop: '54px',
   paddingHorizontalMobile: '16px',
-  paddingBottomDesktop: '3.5vh',
+  paddingBottomDesktop: '3vh',
   paddingBottomMobile: '2vh'
 };
 
@@ -73,10 +71,6 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
   const headlinePaddingTop = isMobile
     ? CLOUD_CONFIG.headlineTopPaddingMobile
     : CLOUD_CONFIG.headlineTopPaddingDesktop;
-
-  const subtitleMarginBottom = isMobile
-    ? CLOUD_CONFIG.subtitleBottomMarginMobile
-    : CLOUD_CONFIG.subtitleBottomMarginDesktop;
 
   const gridColumns = isMobile
     ? CLOUD_CONFIG.gridColumnsMobile
@@ -218,7 +212,7 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
           />
         </div>
 
-        {/* HEADLINE LAYER (zIndex: 35 — IN FRONT OF clouds for 100% crisp solid text) */}
+        {/* HEADLINE & SUBTITLE LAYER (zIndex: 35 — Grouped together above clouds) */}
         <div
           style={{
             position: 'absolute',
@@ -242,20 +236,36 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
           <h2
             style={{
               margin: 0,
-              fontSize: isMobile ? 'clamp(36px, 8.5vw, 60px)' : 'clamp(72px, 9.4vw, 134px)',
+              fontSize: isMobile ? 'clamp(34px, 8vw, 56px)' : 'clamp(72px, 9.4vw, 134px)',
               lineHeight: 0.9,
               letterSpacing: '-0.05em',
               fontVariationSettings: "'wdth' 106, 'wght' 800",
               color: '#0C0E10',
               whiteSpace: 'nowrap',
-              textShadow: '0 2px 20px rgba(255,255,255,0.8)'
+              textAlign: 'center'
             }}
           >
             Behind the magic
           </h2>
+
+          <span
+            style={{
+              display: 'block',
+              fontSize: isMobile ? 'clamp(14px, 3.8vw, 18px)' : 'clamp(20px, 2.1vw, 30px)',
+              lineHeight: 1,
+              letterSpacing: '-0.018em',
+              fontVariationSettings: "'wdth' 96, 'wght' 600",
+              color: '#0C0E10',
+              whiteSpace: 'nowrap',
+              textAlign: 'center',
+              marginTop: isMobile ? '12px' : '20px'
+            }}
+          >
+            are a suite of powerful tools
+          </span>
         </div>
 
-        {/* SUBTITLE & CARDS LAYER (zIndex: 30) */}
+        {/* CARDS LAYER (zIndex: 30) */}
         <div
           style={{
             position: 'absolute',
@@ -274,23 +284,6 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
             willChange: 'transform, opacity'
           }}
         >
-          {/* Subtitle */}
-          <span
-            style={{
-              display: 'block',
-              fontSize: isMobile ? 'clamp(14px, 3.8vw, 18px)' : 'clamp(20px, 2.1vw, 30px)',
-              lineHeight: 1,
-              letterSpacing: '-0.018em',
-              fontVariationSettings: "'wdth' 96, 'wght' 600",
-              color: '#0C0E10',
-              whiteSpace: 'nowrap',
-              textAlign: 'center',
-              marginBottom: subtitleMarginBottom
-            }}
-          >
-            are a suite of powerful tools
-          </span>
-
           {/* CARDS GRID */}
           <div
             style={{
