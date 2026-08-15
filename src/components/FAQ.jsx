@@ -4,12 +4,12 @@ const FAQ_A =
   "Snaphomz is a modern real estate platform that brings buying, selling, and working with an agent into one clear, guided experience. Just search homes, connect with an agent, manage your offers, and track the deal all the way to close - every step in one place. It's designed to feel simpler and more transparent, so you always know what's happening next.";
 
 const FAQS = [
-  { q: 'What is Snaphomz and how does it work?', align: 'flex-start', width: '1030px' },
-  { q: 'Is Snaphomz free to use?', align: 'flex-end', width: '880px' },
-  { q: 'Do I still need a real estate agent?', align: 'flex-start', width: '820px' },
-  { q: 'Is Snaphomz legit, and is my data safe?', align: 'flex-end', width: '880px' },
-  { q: 'Which areas does Snaphomz cover?', align: 'flex-start', width: '820px' },
-  { q: 'How is Snaphomz different from Zillow or Redfin?', align: 'flex-end', width: '880px' }
+  { q: 'What is Snaphomz and how does it work?', align: 'flex-start', width: '940px' },
+  { q: 'Is Snaphomz free to use?', align: 'flex-end', width: '940px' },
+  { q: 'Do I still need a real estate agent?', align: 'flex-start', width: '940px' },
+  { q: 'Is Snaphomz legit, and is my data safe?', align: 'flex-end', width: '940px' },
+  { q: 'Which areas does Snaphomz cover?', align: 'flex-start', width: '940px' },
+  { q: 'How is Snaphomz different from Zillow or Redfin?', align: 'flex-end', width: '940px' }
 ];
 
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -25,18 +25,30 @@ export default function FAQ() {
     const dx = clamp((e.clientX - (r.left + r.width / 2)) / (r.width / 2), -1, 1);
     const dy = clamp((e.clientY - (r.top + r.height / 2)) / (r.height / 2), -1, 1);
 
-    card.style.transition = 'box-shadow .4s ease';
-    card.style.transform = `rotateY(${(dx * 12).toFixed(2)}deg) rotateX(${(-dy * 9).toFixed(2)}deg) scale(1.04)`;
-    card.style.boxShadow = '0 30px 60px -26px rgba(12,14,16,.45)';
+    const img = card.querySelector('img');
+
+    card.style.transition = 'transform .12s cubic-bezier(0.16, 1, 0.3, 1)';
+    card.style.transform = `perspective(1000px) rotateY(${(dx * 22).toFixed(2)}deg) rotateX(${(-dy * 16).toFixed(2)}deg) scale3d(1.08, 1.08, 1.08)`;
+    
+    if (img) {
+      img.style.transition = 'filter .2s ease';
+      img.style.filter = `drop-shadow(${(-dx * 12).toFixed(1)}px ${(20 - dy * 8).toFixed(1)}px 28px rgba(12,14,16,0.24))`;
+    }
   };
 
   const handleMouseLeave = (index) => {
     const card = cardRefs.current[index];
     if (!card) return;
 
-    card.style.transition = 'transform .55s cubic-bezier(.16,1,.3,1), box-shadow .4s ease';
-    card.style.transform = 'none';
-    card.style.boxShadow = 'none';
+    const img = card.querySelector('img');
+
+    card.style.transition = 'transform .55s cubic-bezier(.16,1,.3,1)';
+    card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1)';
+
+    if (img) {
+      img.style.transition = 'filter .55s cubic-bezier(.16,1,.3,1)';
+      img.style.filter = 'drop-shadow(0px 14px 24px rgba(12,14,16,0.15))';
+    }
   };
 
   return (
@@ -65,55 +77,34 @@ export default function FAQ() {
           <div key={k} style={{ display: 'flex', justifyContent: q.align }}>
             <div
               style={{
+                position: 'relative',
                 width: q.width,
                 maxWidth: '100%',
                 display: 'flex',
-                gap: '26px',
-                alignItems: 'stretch',
-                padding: '30px',
-                borderRadius: '24px',
-                background: '#FFFFFF',
-                border: '1px solid rgba(12,14,16,.08)',
-                boxShadow: '0 30px 60px -34px rgba(12,14,16,.3)',
-                perspective: '900px'
+                alignItems: 'center',
+                perspective: '1200px'
               }}
             >
-              {/* 3D Tilt Image Card */}
+              {/* White FAQ Text Card */}
               <div
-                ref={(el) => (cardRefs.current[k] = el)}
-                onMouseMove={(e) => handleMouseMove(e, k)}
-                onMouseLeave={() => handleMouseLeave(k)}
                 style={{
-                  position: 'relative',
-                  width: '236px',
-                  aspectRatio: '1 / 1',
-                  flex: 'none',
-                  alignSelf: 'center',
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  background: '#EDE9E1',
-                  cursor: 'pointer'
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
+                  minWidth: 0,
+                  justifyContent: 'center',
+                  padding: '36px 44px 36px 270px',
+                  borderRadius: '24px',
+                  background: '#FFFFFF',
+                  border: '1px solid rgba(12,14,16,.08)',
+                  boxShadow: '0 24px 50px -28px rgba(12,14,16,.22)'
                 }}
               >
-                <img
-                  src="/faq-figure.png"
-                  alt="3D Figure Render"
-                  style={{
-                    position: 'absolute',
-                    top: '-8%',
-                    left: '-8%',
-                    width: '116%',
-                    height: '116%',
-                    objectFit: 'cover'
-                  }}
-                />
-              </div>
-
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '14px', minWidth: 0, justifyContent: 'center' }}>
                 <h3
                   style={{
                     margin: 0,
-                    fontSize: '27px',
+                    fontSize: '26px',
                     lineHeight: 1.12,
                     letterSpacing: '-0.032em',
                     fontVariationSettings: "'wdth' 96, 'wght' 600",
@@ -126,7 +117,7 @@ export default function FAQ() {
                   style={{
                     margin: 0,
                     fontSize: '15.5px',
-                    lineHeight: 1.62,
+                    lineHeight: 1.6,
                     letterSpacing: '-0.01em',
                     color: '#6A7078',
                     maxWidth: '640px',
@@ -135,6 +126,39 @@ export default function FAQ() {
                 >
                   {FAQ_A}
                 </p>
+              </div>
+
+              {/* Overlapping Transparent 3D Graphic (Enlarged & shifted slightly right) */}
+              <div
+                ref={(el) => (cardRefs.current[k] = el)}
+                onMouseMove={(e) => handleMouseMove(e, k)}
+                onMouseLeave={() => handleMouseLeave(k)}
+                style={{
+                  position: 'absolute',
+                  left: '10px',
+                  top: '50%',
+                  width: '240px',
+                  height: '290px',
+                  marginTop: '-145px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transformStyle: 'preserve-3d',
+                  willChange: 'transform',
+                  zIndex: 10
+                }}
+              >
+                <img
+                  src="/SnaphomzFAQ.png"
+                  alt="3D Figure Render"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                    filter: 'drop-shadow(0 16px 28px rgba(12,14,16,0.18))'
+                  }}
+                />
               </div>
             </div>
           </div>

@@ -7,6 +7,46 @@ const TOOLS = [
   { name: 'Rent vs Buy', path: '/tools/rentvsbuy.png', cta: 'Compare Prices' }
 ];
 
+/**
+ * =========================================================================
+ * CLOUD & SHOWCASE POSITION CONTROLS (EDIT THESE VALUES TO ADJUST PLACEMENT)
+ * =========================================================================
+ */
+export const CLOUD_CONFIG = {
+  // --- CLOUD HEIGHT & ANIMATION ---
+  // Pinned cloud height in settled state (e.g. 45 = 45vh). Higher number = clouds extend further down.
+  pinnedCloudHeightVh: 45,
+
+  // Height of the soft gradient vignette at bottom edge of clouds (px)
+  cloudVignetteHeightPx: 35,
+
+  // Primary cloud opacity (0.0 to 1.0)
+  cloudOpacity: 0.95,
+
+  // --- BIG HEADLINE ("Behind the magic") POSITIONS ---
+  // Distance from top of viewport to big text on desktop vs mobile
+  headlineTopPaddingDesktop: '26vh',
+  headlineTopPaddingMobile: '18vh',
+
+  // --- SMALL SUBTITLE ("are a suite of powerful tools") POSITIONS ---
+  // Margin below subtitle (above cards) on desktop vs mobile
+  subtitleBottomMarginDesktop: '8vh',
+  subtitleBottomMarginMobile: '3.5vh',
+
+  // --- CARDS & GRID RESPONSIVENESS ---
+  // Grid columns on desktop vs mobile
+  gridColumnsMobile: 'repeat(2, 1fr)',
+  gridColumnsDesktop: 'repeat(4, 1fr)',
+
+  // Horizontal outer padding
+  paddingHorizontalDesktop: '54px',
+  paddingHorizontalMobile: '20px',
+
+  // Bottom padding of section
+  paddingBottomDesktop: '3.5vh',
+  paddingBottomMobile: '2vh'
+};
+
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
@@ -14,8 +54,13 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
   const containerRef = useRef(null);
   const [hoveredCard, setHoveredCard] = useState(null);
   const [scrollP, setScrollP] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
     const handleScroll = () => {
       const el = containerRef.current;
       if (!el) return;
@@ -28,21 +73,47 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
       setScrollP(p);
     };
 
+    handleResize();
+    window.addEventListener('resize', handleResize);
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
-  // Phase 1 (scrollP 0→0.4): Full cloud sky scrolls in, fills viewport
-  // Phase 2 (scrollP 0.4→0.7): Clouds contract from 100vh to 38vh (pin to top), content fades in
-  // Phase 3 (scrollP 0.7→1): Settled state, user scrolls past
-
+  // Calculate cloud height dynamically during scroll-in: 100vh -> pinnedCloudHeightVh
+  const targetVh = CLOUD_CONFIG.pinnedCloudHeightVh;
+  const shrinkAmount = 100 - targetVh;
   const cloudContractP = ease(clamp((scrollP - 0.35) / 0.35, 0, 1));
-  const cloudHeightVh = 100 - cloudContractP * 55; // 100vh → 45vh
+  const cloudHeightVh = 100 - cloudContractP * shrinkAmount;
 
   const contentP = ease(clamp((scrollP - 0.45) / 0.25, 0, 1));
   const contentOpacity = contentP;
   const contentTranslateY = (1 - contentP) * 60;
+
+  // Responsive values driven by CLOUD_CONFIG
+  const headlinePaddingTop = isMobile
+    ? CLOUD_CONFIG.headlineTopPaddingMobile
+    : CLOUD_CONFIG.headlineTopPaddingDesktop;
+
+  const subtitleMarginBottom = isMobile
+    ? CLOUD_CONFIG.subtitleBottomMarginMobile
+    : CLOUD_CONFIG.subtitleBottomMarginDesktop;
+
+  const gridColumns = isMobile
+    ? CLOUD_CONFIG.gridColumnsMobile
+    : CLOUD_CONFIG.gridColumnsDesktop;
+
+  const paddingHorizontal = isMobile
+    ? CLOUD_CONFIG.paddingHorizontalMobile
+    : CLOUD_CONFIG.paddingHorizontalDesktop;
+
+  const sectionPaddingBottom = isMobile
+    ? CLOUD_CONFIG.paddingBottomMobile
+    : CLOUD_CONFIG.paddingBottomDesktop;
 
   return (
     <section
@@ -78,7 +149,8 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
             zIndex: 5
           }}
         />
-        {/* CLOUD LAYER (zIndex: 20) — starts at 100vh, contracts to 45vh */}
+
+        {/* CLOUD LAYER (zIndex: 20) — starts at 100vh, contracts to targetVh */}
         <div
           style={{
             position: 'absolute',
@@ -103,7 +175,7 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
               objectFit: 'cover',
               objectPosition: 'center bottom',
               display: 'block',
-              opacity: 0.95
+              opacity: CLOUD_CONFIG.cloudOpacity
             }}
           />
           {/* Secondary Cloud for depth */}
@@ -130,13 +202,13 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
               bottom: 0,
               left: 0,
               right: 0,
-              height: '35px',
+              height: `${CLOUD_CONFIG.cloudVignetteHeightPx}px`,
               background: 'linear-gradient(to bottom, rgba(244,241,236,0) 0%, rgba(244,241,236,1) 100%)'
             }}
           />
         </div>
 
-        {/* HEADLINE LAYER (zIndex: 15 — pushed higher at 26vh, submerged behind clouds zIndex 20) */}
+        {/* HEADLINE LAYER (zIndex: 15 — submerged behind clouds zIndex 20) */}
         <div
           style={{
             position: 'absolute',
@@ -149,7 +221,9 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'flex-start',
-            paddingTop: '26vh',
+            paddingTop: headlinePaddingTop,
+            paddingLeft: isMobile ? '16px' : '24px',
+            paddingRight: isMobile ? '16px' : '24px',
             opacity: contentOpacity,
             transform: `translateY(${contentTranslateY.toFixed(1)}px)`,
             pointerEvents: 'none',
@@ -159,7 +233,7 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
           <h2
             style={{
               margin: 0,
-              fontSize: 'clamp(76px, 9.6vw, 138px)',
+              fontSize: isMobile ? 'clamp(42px, 8.5vw, 68px)' : 'clamp(76px, 9.6vw, 138px)',
               lineHeight: 0.9,
               letterSpacing: '-0.058em',
               fontVariationSettings: "'wdth' 106, 'wght' 800",
@@ -171,7 +245,7 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
           </h2>
         </div>
 
-        {/* SUBTITLE & CARDS LAYER (zIndex: 30 — IN FRONT OF clouds zIndex 20, positioned cleanly below big text) */}
+        {/* SUBTITLE & CARDS LAYER (zIndex: 30 — IN FRONT OF clouds zIndex 20 so small text is 100% solid & crisp) */}
         <div
           style={{
             position: 'absolute',
@@ -184,42 +258,42 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'flex-end',
-            paddingBottom: '3.5vh',
+            paddingBottom: sectionPaddingBottom,
             opacity: contentOpacity,
             transform: `translateY(${contentTranslateY.toFixed(1)}px)`,
             willChange: 'transform, opacity'
           }}
         >
-          {/* Subtitle (Moved slightly higher up, sitting just below big text) */}
+          {/* Subtitle */}
           <span
             style={{
               display: 'block',
-              fontSize: 'clamp(20px, 2.1vw, 30px)',
+              fontSize: isMobile ? 'clamp(15px, 4vw, 20px)' : 'clamp(20px, 2.1vw, 30px)',
               lineHeight: 1,
               letterSpacing: '-0.018em',
               fontVariationSettings: "'wdth' 96, 'wght' 600",
               color: '#0C0E10',
               whiteSpace: 'nowrap',
               textAlign: 'center',
-              marginBottom: '8vh'
+              marginBottom: subtitleMarginBottom
             }}
           >
             are a suite of powerful tools
           </span>
 
-          {/* CARDS */}
+          {/* CARDS GRID */}
           <div
             style={{
               width: '100%',
-              padding: '0 54px'
+              padding: `0 ${paddingHorizontal}`
             }}
           >
             <div
               style={{
                 width: '100%',
                 display: 'grid',
-                gridTemplateColumns: 'repeat(4, 1fr)',
-                gap: '20px',
+                gridTemplateColumns: gridColumns,
+                gap: isMobile ? '12px' : '20px',
                 alignItems: 'stretch'
               }}
             >
@@ -234,7 +308,7 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
-                      gap: '16px',
+                      gap: isMobile ? '8px' : '16px',
                       cursor: 'pointer',
                       transform: isHovered ? 'translateY(-8px)' : 'translateY(0)',
                       transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
@@ -244,7 +318,7 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
                       style={{
                         width: '100%',
                         aspectRatio: '1 / 1',
-                        borderRadius: '24px',
+                        borderRadius: isMobile ? '16px' : '24px',
                         overflow: 'hidden',
                         background: '#FFFFFF',
                         border: isHovered
@@ -274,7 +348,7 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
 
                     <span
                       style={{
-                        fontSize: '16.5px',
+                        fontSize: isMobile ? '13px' : '16.5px',
                         fontWeight: 600,
                         letterSpacing: '-0.02em',
                         color: isHovered ? '#0C0E10' : '#5C626A',
