@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, Component, Suspense } from 'react';
+import React, { useRef, useEffect, useState, Component, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
@@ -25,7 +25,7 @@ class Phone3DErrorBoundary extends Component {
   }
 }
 
-function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0 }) {
+function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0, scale = 0.30 }) {
   const { scene } = useGLTF('/iphone_16.glb');
   const texture = useTexture('/phone-screen.png');
   const groupRef = useRef();
@@ -87,7 +87,7 @@ function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0 }) {
   });
 
   return (
-    <group ref={groupRef} scale={0.30} position={[2.2, 0, 0]}>
+    <group ref={groupRef} scale={scale} position={[2.2, 0, 0]}>
       <primitive object={scene} />
     </group>
   );
@@ -109,12 +109,12 @@ function Phone2DFallback() {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 'min(360px, 25vw)',
+        width: 'min(280px, 60vw)',
         aspectRatio: '372 / 736',
-        borderRadius: '54px',
+        borderRadius: '44px',
         background: '#0C0E10',
-        padding: '10px',
-        boxShadow: '0 60px 120px -40px rgba(12,14,16,.45), 0 8px 26px -10px rgba(12,14,16,.25)',
+        padding: '8px',
+        boxShadow: '0 40px 90px -30px rgba(12,14,16,.45)',
         zIndex: 4
       }}
     >
@@ -123,7 +123,7 @@ function Phone2DFallback() {
           position: 'relative',
           width: '100%',
           height: '100%',
-          borderRadius: '45px',
+          borderRadius: '36px',
           overflow: 'hidden',
           background: '#F4F1EC'
         }}
@@ -139,6 +139,25 @@ function Phone2DFallback() {
 }
 
 export default function Phone3D({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0 }) {
+  const [responsiveScale, setResponsiveScale] = useState(0.30);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const w = window.innerWidth;
+      if (w < 640) {
+        setResponsiveScale(0.15);
+      } else if (w < 1024) {
+        setResponsiveScale(0.22);
+      } else {
+        setResponsiveScale(0.30);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <Phone3DErrorBoundary fallback={<Phone2DFallback />}>
       <div style={{ width: '100%', height: '100%', position: 'relative' }}>
@@ -153,7 +172,13 @@ export default function Phone3D({ scrollX = 0, scrollArc = 0, scrollRot = 0, scr
           <pointLight position={[0, 5, 5]} intensity={1.5} color="#00D4C8" />
 
           <Suspense fallback={null}>
-            <Model scrollX={scrollX} scrollArc={scrollArc} scrollRot={scrollRot} scrollSpin={scrollSpin} />
+            <Model
+              scrollX={scrollX}
+              scrollArc={scrollArc}
+              scrollRot={scrollRot}
+              scrollSpin={scrollSpin}
+              scale={responsiveScale}
+            />
           </Suspense>
         </Canvas>
       </div>

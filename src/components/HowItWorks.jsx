@@ -8,13 +8,13 @@ const STEPS = [
   {
     word: 'Discover',
     tag: 'Natural search',
-    headline: 'Describe in your own words.',
+    headline: 'Describe the home in your own words.',
     body: DISCOVER_BODY
   },
   {
     word: 'Personalize',
     tag: 'Tuned to you',
-    headline: 'Describe in your own words.',
+    headline: 'Describe the home in your own words.',
     body: DISCOVER_BODY
   },
   {
@@ -26,7 +26,7 @@ const STEPS = [
   {
     word: 'Close',
     tag: 'Offer to keys',
-    headline: 'Describe in your own words.',
+    headline: 'Describe the home in your own words.',
     body: DISCOVER_BODY
   }
 ];
@@ -42,11 +42,16 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
   const [stepIndex, setStepIndex] = useState(0);
   const [phone3D, setPhone3D] = useState({ x: 2.2, arc: 0, rot: 0, spin: 0 });
   const [isRightText, setIsRightText] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [wordStyle, setWordStyle] = useState({ opacity: 1, transform: 'translate(0px, 0px)', textAlign: 'left' });
   const [copyStyle, setCopyStyle] = useState({ opacity: 1, transform: 'translate(0px, 0px)', alignItems: 'flex-start', textAlign: 'left' });
 
   useEffect(() => {
     let animationFrameId;
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
 
     const updateScrollState = () => {
       const el = sectionRef.current;
@@ -66,8 +71,10 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
       setStepIndex(displayIdx);
 
       const w = window.innerWidth;
-      const rightX = w * 0.26;
-      const leftX = -w * 0.26;
+      const isMob = w < 768;
+
+      const rightX = w * (isMob ? 0.22 : 0.26);
+      const leftX = -w * (isMob ? 0.22 : 0.26);
       const fromRight = rawIdx % 2 === 0;
       const t = ease(local);
 
@@ -78,8 +85,10 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
       const passProgress = rawIdx + t;
       const spinAngle = passProgress * Math.PI * 2;
 
-      // Convert pixel scroll coordinates to 3D world units
-      const normX = (x / (w * 0.26)) * 2.2;
+      // Calculate max world X based on viewport aspect ratio so phone is NEVER clipped on mobile
+      const aspect = w / vh;
+      const maxWorldX = Math.min(2.2, Math.max(0.45, (6.31 * aspect * 0.5) - 0.70));
+      const normX = (x / (w * 0.26)) * maxWorldX;
 
       setPhone3D({ x: normX, arc: 0, rot: 0, spin: spinAngle });
 
@@ -102,11 +111,12 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
       const isRight = local >= 0.5 ? fromRight : !fromRight;
       setIsRightText(isRight);
 
-      const wordW = stepWordRef.current ? stepWordRef.current.offsetWidth : 350;
-      const copyW = stepCopyRef.current ? stepCopyRef.current.offsetWidth : 500;
+      const wordW = stepWordRef.current ? stepWordRef.current.offsetWidth : (isMob ? 200 : 350);
+      const copyW = stepCopyRef.current ? stepCopyRef.current.offsetWidth : (isMob ? 300 : 500);
 
-      const travelWord = Math.max(0, w - 108 - wordW);
-      const travelCopy = Math.max(0, w - 108 - copyW);
+      const edgePadding = isMob ? 32 : 108;
+      const travelWord = Math.max(0, w - edgePadding - wordW);
+      const travelCopy = Math.max(0, w - edgePadding - copyW);
 
       setWordStyle({
         opacity: fade,
@@ -126,13 +136,16 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
       animationFrameId = requestAnimationFrame(updateScrollState);
     };
 
+    handleResize();
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize, { passive: true });
     updateScrollState();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
+      window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
@@ -155,13 +168,13 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
         <h2
           style={{
             position: 'absolute',
-            left: '50px',
-            top: '88px',
+            left: isMobile ? '16px' : '50px',
+            top: isMobile ? '64px' : '88px',
             margin: 0,
             fontFamily: "'Instrument Serif', serif",
             fontStyle: 'italic',
             fontWeight: 400,
-            fontSize: 'clamp(78px, 9.4vw, 134px)',
+            fontSize: isMobile ? 'clamp(40px, 9.5vw, 76px)' : 'clamp(78px, 9.4vw, 134px)',
             lineHeight: 0.86,
             letterSpacing: '-0.025em',
             color: '#0C0E10',
@@ -176,8 +189,8 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
           ref={stepWordRef}
           style={{
             position: 'absolute',
-            left: '54px',
-            top: '268px',
+            left: isMobile ? '16px' : '54px',
+            top: isMobile ? '145px' : '268px',
             zIndex: 2,
             willChange: 'transform, opacity',
             ...wordStyle
@@ -186,7 +199,7 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
           <h3
             style={{
               margin: 0,
-              fontSize: 'clamp(58px, 6.6vw, 96px)',
+              fontSize: isMobile ? 'clamp(34px, 8vw, 60px)' : 'clamp(58px, 6.6vw, 96px)',
               lineHeight: 0.9,
               letterSpacing: '-0.052em',
               fontVariationSettings: "'wdth' 76, 'wght' 500",
@@ -202,12 +215,12 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
           ref={stepCopyRef}
           style={{
             position: 'absolute',
-            left: '54px',
-            bottom: '96px',
-            width: 'min(540px, 40vw)',
+            left: isMobile ? '16px' : '54px',
+            bottom: isMobile ? '36px' : '96px',
+            width: isMobile ? 'calc(100vw - 32px)' : 'min(540px, 40vw)',
             display: 'flex',
             flexDirection: 'column',
-            gap: '20px',
+            gap: isMobile ? '10px' : '20px',
             zIndex: 2,
             willChange: 'transform, opacity',
             ...copyStyle
@@ -216,7 +229,7 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
           <h4
             style={{
               margin: 0,
-              fontSize: 'clamp(30px, 2.9vw, 42px)',
+              fontSize: isMobile ? 'clamp(20px, 5vw, 28px)' : 'clamp(30px, 2.9vw, 42px)',
               lineHeight: 1.08,
               letterSpacing: '-0.038em',
               fontVariationSettings: "'wdth' 98, 'wght' 600",
@@ -228,8 +241,8 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
           <p
             style={{
               margin: 0,
-              fontSize: '17px',
-              lineHeight: 1.62,
+              fontSize: isMobile ? '13.5px' : '17px',
+              lineHeight: 1.55,
               letterSpacing: '-0.012em',
               color: '#5C626A',
               textWrap: 'pretty'
@@ -296,7 +309,7 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
         </div>
 
         {/* Step Dots Progress */}
-        <div style={{ position: 'absolute', right: '54px', bottom: '52px', display: 'flex', gap: '9px', alignItems: 'center', zIndex: 3 }}>
+        <div style={{ position: 'absolute', right: isMobile ? '16px' : '54px', bottom: isMobile ? '14px' : '52px', display: 'flex', gap: '9px', alignItems: 'center', zIndex: 3 }}>
           {STEPS.map((_, k) => (
             <span
               key={k}

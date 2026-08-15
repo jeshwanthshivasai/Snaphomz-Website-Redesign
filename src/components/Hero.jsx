@@ -9,13 +9,21 @@ const PRICES = ['$900K', '$650K', '$1.2M', '$475K'];
 export default function Hero({ accent = '#00D4C8' }) {
   const [index, setIndex] = useState(0);
   const [scrollY, setScrollY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize, { passive: true });
+    handleResize();
 
     const video = videoRef.current;
     if (video) {
@@ -32,6 +40,7 @@ export default function Hero({ accent = '#00D4C8' }) {
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
       clearInterval(timer);
     };
   }, []);
@@ -90,9 +99,9 @@ export default function Hero({ accent = '#00D4C8' }) {
       <div
         style={{
           position: 'absolute',
-          left: '54px',
-          right: '54px',
-          bottom: '76px',
+          left: isMobile ? '20px' : '54px',
+          right: isMobile ? '20px' : '54px',
+          bottom: isMobile ? '40px' : '76px',
           transform: `translateY(${heroTranslateY}px)`,
           opacity: heroOpacity,
           willChange: 'transform, opacity'
@@ -101,7 +110,7 @@ export default function Hero({ accent = '#00D4C8' }) {
         <p
           style={{
             margin: 0,
-            fontSize: 'clamp(42px, 4.4vw, 65px)',
+            fontSize: isMobile ? 'clamp(26px, 6.8vw, 42px)' : 'clamp(42px, 4.4vw, 65px)',
             lineHeight: 1.34,
             letterSpacing: '-0.035em',
             color: '#F4F1EC',

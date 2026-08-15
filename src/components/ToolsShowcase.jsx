@@ -7,42 +7,18 @@ const TOOLS = [
   { name: 'Rent vs Buy', path: '/tools/rentvsbuy.png', cta: 'Compare Prices' }
 ];
 
-/**
- * =========================================================================
- * CLOUD & SHOWCASE POSITION CONTROLS (EDIT THESE VALUES TO ADJUST PLACEMENT)
- * =========================================================================
- */
 export const CLOUD_CONFIG = {
-  // --- CLOUD HEIGHT & ANIMATION ---
-  // Pinned cloud height in settled state (e.g. 45 = 45vh). Higher number = clouds extend further down.
   pinnedCloudHeightVh: 45,
-
-  // Height of the soft gradient vignette at bottom edge of clouds (px)
   cloudVignetteHeightPx: 35,
-
-  // Primary cloud opacity (0.0 to 1.0)
   cloudOpacity: 0.95,
-
-  // --- BIG HEADLINE ("Behind the magic") POSITIONS ---
-  // Distance from top of viewport to big text on desktop vs mobile
-  headlineTopPaddingDesktop: '26vh',
-  headlineTopPaddingMobile: '18vh',
-
-  // --- SMALL SUBTITLE ("are a suite of powerful tools") POSITIONS ---
-  // Margin below subtitle (above cards) on desktop vs mobile
-  subtitleBottomMarginDesktop: '8vh',
-  subtitleBottomMarginMobile: '3.5vh',
-
-  // --- CARDS & GRID RESPONSIVENESS ---
-  // Grid columns on desktop vs mobile
+  headlineTopPaddingDesktop: '16vh',
+  headlineTopPaddingMobile: '12vh',
+  subtitleBottomMarginDesktop: '6vh',
+  subtitleBottomMarginMobile: '2.5vh',
   gridColumnsMobile: 'repeat(2, 1fr)',
   gridColumnsDesktop: 'repeat(4, 1fr)',
-
-  // Horizontal outer padding
   paddingHorizontalDesktop: '54px',
-  paddingHorizontalMobile: '20px',
-
-  // Bottom padding of section
+  paddingHorizontalMobile: '16px',
   paddingBottomDesktop: '3.5vh',
   paddingBottomMobile: '2vh'
 };
@@ -94,7 +70,6 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
   const contentOpacity = contentP;
   const contentTranslateY = (1 - contentP) * 60;
 
-  // Responsive values driven by CLOUD_CONFIG
   const headlinePaddingTop = isMobile
     ? CLOUD_CONFIG.headlineTopPaddingMobile
     : CLOUD_CONFIG.headlineTopPaddingDesktop;
@@ -163,7 +138,6 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
             overflow: 'hidden',
             willChange: 'height',
             transition: 'none',
-            /* 🌟 THIS FEATHERS/FADES THE TOP EDGE OF THE CLOUDS SEAMLESSLY */
             maskImage: 'linear-gradient(to bottom, transparent 0%, black 25%, black 100%)',
             WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 25%, black 100%)'
           }}
@@ -244,15 +218,14 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
           />
         </div>
 
-        {/* HEADLINE LAYER (zIndex: 15 — submerged behind clouds zIndex 20) */}
+        {/* HEADLINE LAYER (zIndex: 35 — IN FRONT OF clouds for 100% crisp solid text) */}
         <div
           style={{
             position: 'absolute',
             top: 0,
             left: 0,
             right: 0,
-            bottom: 0,
-            zIndex: 15,
+            zIndex: 35,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -269,19 +242,20 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
           <h2
             style={{
               margin: 0,
-              fontSize: isMobile ? 'clamp(42px, 8.5vw, 68px)' : 'clamp(76px, 9.6vw, 138px)',
+              fontSize: isMobile ? 'clamp(36px, 8.5vw, 60px)' : 'clamp(72px, 9.4vw, 134px)',
               lineHeight: 0.9,
-              letterSpacing: '-0.058em',
+              letterSpacing: '-0.05em',
               fontVariationSettings: "'wdth' 106, 'wght' 800",
               color: '#0C0E10',
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
+              textShadow: '0 2px 20px rgba(255,255,255,0.8)'
             }}
           >
             Behind the magic
           </h2>
         </div>
 
-        {/* SUBTITLE & CARDS LAYER (zIndex: 30 — IN FRONT OF clouds zIndex 20 so small text is 100% solid & crisp) */}
+        {/* SUBTITLE & CARDS LAYER (zIndex: 30) */}
         <div
           style={{
             position: 'absolute',
@@ -304,7 +278,7 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
           <span
             style={{
               display: 'block',
-              fontSize: isMobile ? 'clamp(15px, 4vw, 20px)' : 'clamp(20px, 2.1vw, 30px)',
+              fontSize: isMobile ? 'clamp(14px, 3.8vw, 18px)' : 'clamp(20px, 2.1vw, 30px)',
               lineHeight: 1,
               letterSpacing: '-0.018em',
               fontVariationSettings: "'wdth' 96, 'wght' 600",
@@ -384,7 +358,7 @@ export default function ToolsShowcase({ accent = '#00D4C8' }) {
 
                     <span
                       style={{
-                        fontSize: isMobile ? '13px' : '16.5px',
+                        fontSize: isMobile ? '12.5px' : '16.5px',
                         fontWeight: 600,
                         letterSpacing: '-0.02em',
                         color: isHovered ? '#0C0E10' : '#5C626A',

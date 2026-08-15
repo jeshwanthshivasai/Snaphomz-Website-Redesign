@@ -49,8 +49,13 @@ const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 export default function Listings({ accent = '#00D4C8' }) {
   const containerRef = useRef(null);
   const cardRefs = useRef([]);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
   useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
     const handleScroll = () => {
       const el = containerRef.current;
       if (!el) return;
@@ -69,11 +74,21 @@ export default function Listings({ accent = '#00D4C8' }) {
       }
     };
 
+    window.addEventListener('resize', handleResize, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
+
+  const isMobile = windowWidth < 640;
+  const isTablet = windowWidth >= 640 && windowWidth < 1024;
+
+  const gridColumns = isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)';
+  const paddingHorizontal = isMobile ? '20px' : isTablet ? '32px' : '54px';
 
   let cardIndexCounter = 0;
 
@@ -100,8 +115,8 @@ export default function Listings({ accent = '#00D4C8' }) {
               borderTop: '1px solid rgba(12,14,16,.12)',
               display: 'flex',
               flexDirection: 'column',
-              gap: '22px',
-              padding: '104px 0 46px'
+              gap: isMobile ? '16px' : '22px',
+              padding: isMobile ? '64px 0 32px' : '104px 0 46px'
             }}
           >
             <div
@@ -109,15 +124,15 @@ export default function Listings({ accent = '#00D4C8' }) {
                 display: 'flex',
                 alignItems: 'baseline',
                 justifyContent: 'space-between',
-                gap: '24px',
-                padding: '0 54px'
+                gap: '16px',
+                padding: `0 ${paddingHorizontal}`
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px' }}>
                 <h3
                   style={{
                     margin: 0,
-                    fontSize: '32px',
+                    fontSize: isMobile ? 'clamp(22px, 5.5vw, 28px)' : '32px',
                     lineHeight: 1,
                     letterSpacing: '-0.036em',
                     fontVariationSettings: "'wdth' 96, 'wght' 600",
@@ -142,18 +157,19 @@ export default function Listings({ accent = '#00D4C8' }) {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '9px',
-                  fontSize: '13.5px',
+                  gap: '7px',
+                  fontSize: '13px',
                   fontWeight: 600,
                   letterSpacing: '-0.012em',
-                  color: '#0C0E10'
+                  color: '#0C0E10',
+                  whiteSpace: 'nowrap'
                 }}
               >
-                See all <span style={{ width: '22px', height: '1px', background: 'currentColor', display: 'block' }} />
+                See all <span style={{ width: '18px', height: '1px', background: 'currentColor', display: 'block' }} />
               </a>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', padding: '0 54px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: gridColumns, gap: isMobile ? '14px' : '20px', padding: `0 ${paddingHorizontal}` }}>
               {r.homes.map((h, hi) => {
                 const currentIndex = cardIndexCounter++;
                 return (
@@ -174,7 +190,7 @@ export default function Listings({ accent = '#00D4C8' }) {
                     onMouseEnter={(e) => (e.currentTarget.style.boxShadow = '0 26px 50px -28px rgba(12,14,16,.34)')}
                     onMouseLeave={(e) => (e.currentTarget.style.boxShadow = 'none')}
                   >
-                    <span style={{ position: 'relative', display: 'block', height: '200px', background: '#E9E5DD', overflow: 'hidden' }}>
+                    <span style={{ position: 'relative', display: 'block', height: isMobile ? '170px' : '200px', background: '#E9E5DD', overflow: 'hidden' }}>
                       <img
                         src={h.image}
                         alt={h.addr}
@@ -192,11 +208,11 @@ export default function Listings({ accent = '#00D4C8' }) {
                           position: 'absolute',
                           top: '12px',
                           left: '12px',
-                          padding: '7px 12px',
+                          padding: '6px 10px',
                           borderRadius: '999px',
                           background: accent,
                           fontFamily: "'JetBrains Mono', monospace",
-                          fontSize: '9px',
+                          fontSize: '8.5px',
                           fontWeight: 500,
                           letterSpacing: '.14em',
                           textTransform: 'uppercase',
@@ -209,14 +225,14 @@ export default function Listings({ accent = '#00D4C8' }) {
                       </span>
                     </span>
 
-                    <span style={{ display: 'flex', flexDirection: 'column', gap: '7px', padding: '16px 17px 18px' }}>
-                      <span style={{ fontSize: '21px', fontWeight: 650, letterSpacing: '-0.03em', color: '#0C0E10' }}>
+                    <span style={{ display: 'flex', flexDirection: 'column', gap: '6px', padding: '14px 16px 16px' }}>
+                      <span style={{ fontSize: '20px', fontWeight: 650, letterSpacing: '-0.03em', color: '#0C0E10' }}>
                         {h.price}
                       </span>
-                      <span style={{ fontSize: '13px', fontWeight: 500, letterSpacing: '-0.006em', color: '#6A7078' }}>
+                      <span style={{ fontSize: '12.5px', fontWeight: 500, letterSpacing: '-0.006em', color: '#6A7078' }}>
                         {h.specs}
                       </span>
-                      <span style={{ fontSize: '13px', letterSpacing: '-0.006em', color: '#9AA0A8' }}>{h.addr}</span>
+                      <span style={{ fontSize: '12.5px', letterSpacing: '-0.006em', color: '#9AA0A8' }}>{h.addr}</span>
                     </span>
                   </a>
                 );

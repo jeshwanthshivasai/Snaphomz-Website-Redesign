@@ -18,8 +18,13 @@ export default function FAQ() {
   const cardRefs = useRef([]);
   const sectionRef = useRef(null);
   const [scrollP, setScrollP] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 900);
+    };
+
     const handleScroll = () => {
       const el = sectionRef.current;
       if (!el) return;
@@ -29,9 +34,14 @@ export default function FAQ() {
       setScrollP(p);
     };
 
+    handleResize();
+    window.addEventListener('resize', handleResize, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const handleMouseMove = (e, index) => {
@@ -46,7 +56,7 @@ export default function FAQ() {
 
     card.style.transition = 'transform .12s cubic-bezier(0.16, 1, 0.3, 1)';
     card.style.transform = `perspective(1000px) rotateY(${(dx * 22).toFixed(2)}deg) rotateX(${(-dy * 16).toFixed(2)}deg)`;
-    
+
     if (img) {
       img.style.transition = 'filter .2s ease';
       img.style.filter = `drop-shadow(${(-dx * 12).toFixed(1)}px ${(20 - dy * 8).toFixed(1)}px 28px rgba(12,14,16,0.24))`;
@@ -71,15 +81,20 @@ export default function FAQ() {
   const floatParallaxY = ((scrollP - 0.5) * 35).toFixed(1);
 
   return (
-    <section ref={sectionRef} id="about" data-screen-label="FAQ" style={{ position: 'relative', width: '100%', background: '#F4F1EC', padding: '0 0 128px' }}>
-      <div style={{ padding: '118px 54px 20px' }}>
+    <section
+      ref={sectionRef}
+      id="about"
+      data-screen-label="FAQ"
+      style={{ position: 'relative', width: '100%', background: '#F4F1EC', padding: isMobile ? '0 0 64px' : '0 0 128px' }}
+    >
+      <div style={{ padding: isMobile ? '60px 20px 16px' : '118px 54px 20px' }}>
         <h2
           style={{
             margin: 0,
             fontFamily: "'Instrument Serif', serif",
             fontStyle: 'italic',
             fontWeight: 400,
-            fontSize: 'clamp(120px, 13vw, 186px)',
+            fontSize: isMobile ? 'clamp(64px, 15vw, 110px)' : 'clamp(120px, 13vw, 186px)',
             lineHeight: 0.82,
             letterSpacing: '-0.02em',
             color: '#0C0E10'
@@ -89,21 +104,47 @@ export default function FAQ() {
         </h2>
       </div>
 
-      <div style={{ height: '1px', background: 'rgba(12,14,16,.12)', margin: '0 54px 54px' }} />
+      <div style={{ height: '1px', background: 'rgba(12,14,16,.12)', margin: isMobile ? '0 20px 32px' : '0 54px 54px' }} />
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '34px', padding: '0 54px', perspective: '1400px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '20px' : '34px', padding: isMobile ? '0 20px' : '0 54px', perspective: '1400px' }}>
         {FAQS.map((q, k) => (
-          <div key={k} style={{ display: 'flex', justifyContent: q.align }}>
+          <div key={k} style={{ display: 'flex', justifyContent: isMobile ? 'stretch' : q.align }}>
             <div
               style={{
                 position: 'relative',
-                width: q.width,
+                width: isMobile ? '100%' : q.width,
                 maxWidth: '100%',
                 display: 'flex',
-                alignItems: 'center',
+                flexDirection: isMobile ? 'column' : 'row',
+                alignItems: isMobile ? 'stretch' : 'center',
                 perspective: '1200px'
               }}
             >
+              {/* Mobile 3D Icon Graphic */}
+              {isMobile && (
+                <div
+                  style={{
+                    width: '100%',
+                    height: '140px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: '-20px',
+                    zIndex: 10
+                  }}
+                >
+                  <img
+                    src="/SnaphomzFAQ.png"
+                    alt="3D Figure Render"
+                    style={{
+                      height: '100%',
+                      objectFit: 'contain',
+                      filter: 'drop-shadow(0 12px 20px rgba(12,14,16,0.16))'
+                    }}
+                  />
+                </div>
+              )}
+
               {/* White FAQ Text Card */}
               <div
                 style={{
@@ -113,8 +154,8 @@ export default function FAQ() {
                   gap: '12px',
                   minWidth: 0,
                   justifyContent: 'center',
-                  padding: '38px 44px 38px 315px',
-                  borderRadius: '24px',
+                  padding: isMobile ? '28px 20px 24px' : '38px 44px 38px 315px',
+                  borderRadius: isMobile ? '18px' : '24px',
                   background: '#FFFFFF',
                   border: '1px solid rgba(12,14,16,.08)',
                   boxShadow: '0 24px 50px -28px rgba(12,14,16,.22)'
@@ -123,8 +164,8 @@ export default function FAQ() {
                 <h3
                   style={{
                     margin: 0,
-                    fontSize: '26px',
-                    lineHeight: 1.12,
+                    fontSize: isMobile ? '20px' : '26px',
+                    lineHeight: 1.18,
                     letterSpacing: '-0.032em',
                     fontVariationSettings: "'wdth' 96, 'wght' 600",
                     color: '#0C0E10'
@@ -135,8 +176,8 @@ export default function FAQ() {
                 <p
                   style={{
                     margin: 0,
-                    fontSize: '15.5px',
-                    lineHeight: 1.6,
+                    fontSize: isMobile ? '14px' : '15.5px',
+                    lineHeight: 1.55,
                     letterSpacing: '-0.01em',
                     color: '#6A7078',
                     maxWidth: '640px',
@@ -147,40 +188,42 @@ export default function FAQ() {
                 </p>
               </div>
 
-              {/* Overlapping Transparent 3D Graphic (Enlarged size) */}
-              <div
-                ref={(el) => (cardRefs.current[k] = el)}
-                onMouseMove={(e) => handleMouseMove(e, k)}
-                onMouseLeave={() => handleMouseLeave(k)}
-                style={{
-                  position: 'absolute',
-                  left: '10px',
-                  top: '50%',
-                  width: '270px',
-                  height: '325px',
-                  marginTop: '-162.5px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  transformStyle: 'preserve-3d',
-                  willChange: 'transform',
-                  zIndex: 10
-                }}
-              >
-                <img
-                  src="/SnaphomzFAQ.png"
-                  alt="3D Figure Render"
+              {/* Desktop Overlapping Transparent 3D Graphic */}
+              {!isMobile && (
+                <div
+                  ref={(el) => (cardRefs.current[k] = el)}
+                  onMouseMove={(e) => handleMouseMove(e, k)}
+                  onMouseLeave={() => handleMouseLeave(k)}
                   style={{
-                    width: '110%',
-                    height: '110%',
-                    objectFit: 'contain',
-                    filter: 'drop-shadow(0 16px 28px rgba(12,14,16,0.18))',
-                    transform: `translateY(${floatParallaxY}px)`,
-                    transition: 'transform 0.1s linear'
+                    position: 'absolute',
+                    left: '10px',
+                    top: '50%',
+                    width: '270px',
+                    height: '325px',
+                    marginTop: '-162.5px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    transformStyle: 'preserve-3d',
+                    willChange: 'transform',
+                    zIndex: 10
                   }}
-                />
-              </div>
+                >
+                  <img
+                    src="/SnaphomzFAQ.png"
+                    alt="3D Figure Render"
+                    style={{
+                      width: '110%',
+                      height: '110%',
+                      objectFit: 'contain',
+                      filter: 'drop-shadow(0 16px 28px rgba(12,14,16,0.18))',
+                      transform: `translateY(${floatParallaxY}px)`,
+                      transition: 'transform 0.1s linear'
+                    }}
+                  />
+                </div>
+              )}
             </div>
           </div>
         ))}

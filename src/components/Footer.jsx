@@ -3,8 +3,16 @@ import React, { useState, useEffect } from 'react';
 export default function Footer({ accent = '#00D4C8' }) {
   const [localTime, setLocalTime] = useState('');
   const [localCity, setLocalCity] = useState('');
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
 
   useEffect(() => {
+    const handleResize = () => {
+      const w = window.innerWidth;
+      setIsMobile(w < 640);
+      setIsTablet(w >= 640 && w < 1024);
+    };
+
     const tick = () => {
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
       const timeStr = new Date().toLocaleTimeString([], {
@@ -19,9 +27,17 @@ export default function Footer({ accent = '#00D4C8' }) {
     };
 
     tick();
+    handleResize();
     const interval = setInterval(tick, 1000);
-    return () => clearInterval(interval);
+    window.addEventListener('resize', handleResize, { passive: true });
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
+
+  const paddingHorizontal = isMobile ? '20px' : isTablet ? '32px' : '54px';
 
   return (
     <footer id="blog" data-screen-label="Footer" style={{ width: '100%', background: '#F4F1EC', overflow: 'hidden' }}>
@@ -29,10 +45,11 @@ export default function Footer({ accent = '#00D4C8' }) {
       <div
         style={{
           display: 'flex',
-          alignItems: 'center',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: isMobile ? 'flex-start' : 'center',
           justifyContent: 'space-between',
-          gap: '24px',
-          padding: '20px 54px',
+          gap: isMobile ? '8px' : '24px',
+          padding: `20px ${paddingHorizontal}`,
           borderTop: '1px solid rgba(12,14,16,.1)',
           borderBottom: '1px solid rgba(12,14,16,.1)'
         }}
@@ -82,11 +99,12 @@ export default function Footer({ accent = '#00D4C8' }) {
         style={{
           position: 'relative',
           display: 'flex',
-          alignItems: 'center',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: isMobile ? 'flex-start' : 'center',
           justifyContent: 'space-between',
-          gap: '40px',
-          margin: '38px 54px 0',
-          padding: '52px 54px',
+          gap: isMobile ? '16px' : '40px',
+          margin: isMobile ? '24px 20px 0' : '38px 54px 0',
+          padding: isMobile ? '32px 20px' : '52px 54px',
           borderRadius: '26px',
           overflow: 'hidden',
           background: '#0C0E10',
@@ -114,7 +132,7 @@ export default function Footer({ accent = '#00D4C8' }) {
           }}
         />
 
-        <span style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <span style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <span
             style={{
               fontFamily: "'JetBrains Mono', monospace",
@@ -128,7 +146,7 @@ export default function Footer({ accent = '#00D4C8' }) {
           </span>
           <span
             style={{
-              fontSize: 'clamp(58px, 6.6vw, 92px)',
+              fontSize: isMobile ? 'clamp(38px, 9vw, 64px)' : 'clamp(58px, 6.6vw, 92px)',
               lineHeight: 0.9,
               letterSpacing: '-0.05em',
               fontVariationSettings: "'wdth' 108, 'wght' 700",
@@ -142,65 +160,113 @@ export default function Footer({ accent = '#00D4C8' }) {
         <span
           style={{
             position: 'relative',
-            fontSize: '15px',
+            fontSize: '14px',
             lineHeight: 1.55,
             letterSpacing: '-0.012em',
             color: 'rgba(244,241,236,.8)',
-            maxWidth: '300px',
-            textAlign: 'right'
+            maxWidth: isMobile ? '100%' : '300px',
+            textAlign: isMobile ? 'left' : 'right'
           }}
         >
           Free to use. Your AI agent works the whole deal, from first search to close.
         </span>
       </a>
 
-      {/* Footer Navigation Columns */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr', gap: '40px', padding: '64px 54px 54px' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+      {/* Footer Navigation Links */}
+      {isMobile ? (
+        /* Mobile: All primary links in 1 clean horizontal row */
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+            padding: '32px 20px 24px'
+          }}
+        >
           <img
             src="/logo-black.png"
             alt="Snaphomz"
-            style={{ height: '60px', width: 'auto', display: 'block', alignSelf: 'flex-start', objectFit: 'contain' }}
+            style={{ height: '40px', width: 'auto', display: 'block', alignSelf: 'flex-start', objectFit: 'contain' }}
           />
-          <p style={{ margin: 0, fontSize: '14.5px', lineHeight: 1.6, letterSpacing: '-0.01em', color: '#6A7078', maxWidth: '290px' }}>
-            Buying, selling, and working with an agent in one guided experience.
-          </p>
-        </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '13px' }}>
-          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', letterSpacing: '.16em', textTransform: 'uppercase', color: accent }}>
-            Platform
-          </span>
-          <a href="#" style={{ fontSize: '14.5px', fontWeight: 500, color: '#0C0E10' }}>Buy</a>
-          <a href="#" style={{ fontSize: '14.5px', fontWeight: 500, color: '#0C0E10' }}>Sell</a>
-          <a href="#" style={{ fontSize: '14.5px', fontWeight: 500, color: '#0C0E10' }}>Agents</a>
-          <a href="#" style={{ fontSize: '14.5px', fontWeight: 500, color: '#0C0E10' }}>Snap tools</a>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '10px',
+              width: '100%',
+              overflowX: 'auto',
+              whiteSpace: 'nowrap',
+              paddingBottom: '4px'
+            }}
+          >
+            <a href="#about" style={{ fontSize: '13.5px', fontWeight: 600, color: '#0C0E10' }}>About us</a>
+            <a href="#services" style={{ fontSize: '13.5px', fontWeight: 600, color: '#0C0E10' }}>Services</a>
+            <a href="#tools" style={{ fontSize: '13.5px', fontWeight: 600, color: '#0C0E10' }}>Snap tools</a>
+            <a href="#blog" style={{ fontSize: '13.5px', fontWeight: 600, color: '#0C0E10' }}>Blog</a>
+            <a href="#" style={{ fontSize: '13.5px', fontWeight: 600, color: '#0C0E10' }}>Privacy</a>
+            <a href="#" style={{ fontSize: '13.5px', fontWeight: 600, color: '#0C0E10' }}>Terms</a>
+          </div>
         </div>
+      ) : (
+        /* Desktop/Tablet Column Layout */
+        <div style={{ display: 'grid', gridTemplateColumns: isTablet ? 'repeat(2, 1fr)' : '1.4fr 1fr 1fr 1fr', gap: isTablet ? '32px' : '40px', padding: '64px 54px 54px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <img
+              src="/logo-black.png"
+              alt="Snaphomz"
+              style={{ height: '48px', width: 'auto', display: 'block', alignSelf: 'flex-start', objectFit: 'contain' }}
+            />
+            <p style={{ margin: 0, fontSize: '14px', lineHeight: 1.55, letterSpacing: '-0.01em', color: '#6A7078', maxWidth: '290px' }}>
+              Buying, selling, and working with an agent in one guided experience.
+            </p>
+          </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '13px' }}>
-          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', letterSpacing: '.16em', textTransform: 'uppercase', color: accent }}>
-            Company
-          </span>
-          <a href="#" style={{ fontSize: '14.5px', fontWeight: 500, color: '#0C0E10' }}>About us</a>
-          <a href="#" style={{ fontSize: '14.5px', fontWeight: 500, color: '#0C0E10' }}>Blog</a>
-          <a href="#" style={{ fontSize: '14.5px', fontWeight: 500, color: '#0C0E10' }}>Careers</a>
-          <a href="#" style={{ fontSize: '14.5px', fontWeight: 500, color: '#0C0E10' }}>Contact</a>
-        </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', letterSpacing: '.16em', textTransform: 'uppercase', color: accent }}>
+              Platform
+            </span>
+            <a href="#" style={{ fontSize: '14px', fontWeight: 500, color: '#0C0E10' }}>Buy</a>
+            <a href="#" style={{ fontSize: '14px', fontWeight: 500, color: '#0C0E10' }}>Sell</a>
+            <a href="#" style={{ fontSize: '14px', fontWeight: 500, color: '#0C0E10' }}>Agents</a>
+            <a href="#" style={{ fontSize: '14px', fontWeight: 500, color: '#0C0E10' }}>Snap tools</a>
+          </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '13px' }}>
-          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', letterSpacing: '.16em', textTransform: 'uppercase', color: accent }}>
-            Legal
-          </span>
-          <a href="#" style={{ fontSize: '14.5px', fontWeight: 500, color: '#0C0E10' }}>Privacy</a>
-          <a href="#" style={{ fontSize: '14.5px', fontWeight: 500, color: '#0C0E10' }}>Terms</a>
-          <a href="#" style={{ fontSize: '14.5px', fontWeight: 500, color: '#0C0E10' }}>NMLS + licensing</a>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', letterSpacing: '.16em', textTransform: 'uppercase', color: accent }}>
+              Company
+            </span>
+            <a href="#" style={{ fontSize: '14px', fontWeight: 500, color: '#0C0E10' }}>About us</a>
+            <a href="#" style={{ fontSize: '14px', fontWeight: 500, color: '#0C0E10' }}>Blog</a>
+            <a href="#" style={{ fontSize: '14px', fontWeight: 500, color: '#0C0E10' }}>Careers</a>
+            <a href="#" style={{ fontSize: '14px', fontWeight: 500, color: '#0C0E10' }}>Contact</a>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', letterSpacing: '.16em', textTransform: 'uppercase', color: accent }}>
+              Legal
+            </span>
+            <a href="#" style={{ fontSize: '14px', fontWeight: 500, color: '#0C0E10' }}>Privacy</a>
+            <a href="#" style={{ fontSize: '14px', fontWeight: 500, color: '#0C0E10' }}>Terms</a>
+            <a href="#" style={{ fontSize: '14px', fontWeight: 500, color: '#0C0E10' }}>NMLS + licensing</a>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Copyright & Legal Row */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px', padding: '0 54px 26px' }}>
-        <span style={{ fontSize: '12.5px', letterSpacing: '-0.005em', color: '#9AA0A8' }}>© 2026 Snaphomz. All rights reserved.</span>
-        <span style={{ fontSize: '12.5px', letterSpacing: '-0.005em', color: '#9AA0A8' }}>Equal Housing Opportunity</span>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: isMobile ? 'flex-start' : 'center',
+          justifyContent: 'space-between',
+          gap: '12px',
+          padding: `0 ${paddingHorizontal} 24px`
+        }}
+      >
+        <span style={{ fontSize: '12px', letterSpacing: '-0.005em', color: '#9AA0A8' }}>© 2026 Snaphomz. All rights reserved.</span>
+        <span style={{ fontSize: '12px', letterSpacing: '-0.005em', color: '#9AA0A8' }}>Equal Housing Opportunity</span>
       </div>
 
       {/* Edge-to-Edge Typography Branding */}
