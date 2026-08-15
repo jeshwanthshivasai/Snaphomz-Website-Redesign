@@ -1,21 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Phone3D from './Phone3D';
 
-const DISCOVER_BODY =
-  "No filters. No forms. No endless checkboxes. Say it the way you'd say it out loud, and Snaphomz reads meaning - not just keywords - turning your words into real listings that match the home you're picturing.";
-
 const STEPS = [
   {
     word: 'Discover',
     tag: 'Natural search',
-    headline: 'Describe in your own words.',
-    body: DISCOVER_BODY
+    headline: 'Describe the home in your own words.',
+    body: "No filters. No forms. No endless checkboxes. Say it the way you'd say it out loud, and Snaphomz reads meaning - not just keywords - turning your words into real listings that match the home you're picturing."
   },
   {
     word: 'Personalize',
     tag: 'Tuned to you',
-    headline: 'Describe in your own words.',
-    body: DISCOVER_BODY
+    headline: 'Tuned to your preferences and lifestyle.',
+    body: "Your agent learns what matters to you - school districts, natural light, commute times, or renovation potential - refining recommendations automatically as you browse and react to properties."
   },
   {
     word: 'Engage',
@@ -26,8 +23,8 @@ const STEPS = [
   {
     word: 'Close',
     tag: 'Offer to keys',
-    headline: 'Describe in your own words.',
-    body: DISCOVER_BODY
+    headline: 'From first offer all the way to keys.',
+    body: "Structure competitive offers, review property disclosures, and track closing milestones effortlessly. Your AI agent guides every step of the transaction to a seamless close."
   }
 ];
 
@@ -60,12 +57,14 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
       const total = el.offsetHeight - vh;
       const p = clamp(-r.top / total, 0, 1);
 
-      const seg = 1 / STEPS.length;
-      const rawIdx = clamp(Math.floor(p / seg), 0, STEPS.length - 1);
+      // Exactly N-1 transitions for N steps (3 transitions for 4 steps: Discover -> Personalize -> Engage -> Close)
+      const numTransitions = STEPS.length - 1;
+      const seg = 1 / numTransitions;
+      const rawIdx = clamp(Math.floor(p / seg), 0, numTransitions - 1);
       const local = clamp((p - rawIdx * seg) / seg, 0, 1);
 
-      // Step content switches MIDWAY (at local = 0.5)
-      const displayIdx = local >= 0.5 ? Math.min(rawIdx + 1, STEPS.length - 1) : rawIdx;
+      // Step content switches MIDWAY during transition (at local = 0.5)
+      const displayIdx = local >= 0.5 ? rawIdx + 1 : rawIdx;
       setStepIndex(displayIdx);
 
       const w = window.innerWidth;
@@ -109,7 +108,7 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
       const isRight = local >= 0.5 ? fromRight : !fromRight;
       setIsRightText(isRight);
 
-      const copyW = stepCopyRef.current ? stepCopyRef.current.offsetWidth : (isMob ? 280 : 440);
+      const copyW = stepCopyRef.current ? stepCopyRef.current.offsetWidth : (isMob ? 280 : 500);
       const edgePadding = isMob ? 28 : 108;
       const travelCopy = Math.max(0, w - edgePadding - copyW);
 
@@ -143,9 +142,9 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
   const currentStep = STEPS[stepIndex];
   const charLength = currentStep.word.length;
 
-  // Calculate exact font size based on word length so longer words (like Personalize) fit 100% with ZERO overflow
-  const desktopVw = Math.min(5.6, 52 / charLength);
-  const mobileVw = Math.min(8.2, 42 / charLength);
+  // Exact character length scaling to fit Personalize (11 chars) with equal side and bottom spacing
+  const desktopVw = Math.min(5.2, 54 / charLength);
+  const mobileVw = Math.min(7.8, 42 / charLength);
 
   return (
     <section
@@ -155,7 +154,7 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
       style={{
         position: 'relative',
         width: '100%',
-        height: '520vh',
+        height: '420vh',
         background: '#F4F1EC'
       }}
     >
@@ -180,14 +179,14 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
           How it works
         </h2>
 
-        {/* Content Block: Sharp Pop Square Box (main title at full bottom width with ZERO padding) + Subtitle + Description */}
+        {/* Content Block: Scaled Pop Square Box + Subtitle + Description */}
         <div
           ref={stepCopyRef}
           style={{
             position: 'absolute',
             left: isMobile ? '16px' : '54px',
-            bottom: isMobile ? '28px' : '64px',
-            width: isMobile ? 'calc(100vw - 32px)' : 'min(440px, 36vw)',
+            bottom: isMobile ? '40px' : '92px',
+            width: isMobile ? 'calc(100vw - 32px)' : 'min(500px, 41vw)',
             display: 'flex',
             flexDirection: 'column',
             gap: '0px',
@@ -196,34 +195,34 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
             ...copyStyle
           }}
         >
-          {/* Sharp Pop-Accent Square Box (borderRadius: 0px, padding: 0px) */}
+          {/* Slightly Larger Sharp Pop-Accent Square Box (equal side & bottom padding) */}
           <div
             style={{
               width: '100%',
               aspectRatio: '1 / 1',
-              maxWidth: isMobile ? '220px' : '320px',
-              maxHeight: isMobile ? '220px' : '320px',
+              maxWidth: isMobile ? '270px' : '395px',
+              maxHeight: isMobile ? '270px' : '395px',
               borderRadius: '0px',
               background: accent,
-              padding: '0px', // Zero padding inside box as strictly requested!
+              padding: isMobile ? '12px' : '16px', // Equal spacing on side and bottom
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'flex-end',
               alignItems: isRightText ? 'flex-end' : 'flex-start',
-              boxShadow: '0 24px 60px -20px rgba(0, 212, 200, 0.35)',
+              boxShadow: '0 28px 70px -20px rgba(0, 212, 200, 0.4)',
               transition: 'background .4s ease',
               overflow: 'hidden'
             }}
           >
-            {/* Main Title sitting flush at the bottom edge with ZERO padding and dynamic character length fitting */}
+            {/* Main Title sitting flush with descenders ('g', 'p') fully inside the box */}
             <h3
               style={{
                 margin: 0,
                 padding: 0,
                 width: '100%',
-                fontSize: isMobile ? `clamp(24px, ${mobileVw}vw, 44px)` : `clamp(38px, ${desktopVw}vw, 76px)`,
-                lineHeight: 0.82,
-                letterSpacing: '-0.06em',
+                fontSize: isMobile ? `clamp(24px, ${mobileVw}vw, 46px)` : `clamp(38px, ${desktopVw}vw, 76px)`,
+                lineHeight: 1.0, // Ensures descenders like 'g' stay 100% inside box
+                letterSpacing: '-0.05em',
                 fontVariationSettings: "'wdth' 85, 'wght' 700",
                 color: '#0C0E10',
                 textAlign: isRightText ? 'right' : 'left',
@@ -234,15 +233,19 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
             </h3>
           </div>
 
-          {/* Sub Title (Headline) */}
+          {/* Sub Title (Headline - Single Line) */}
           <h4
             style={{
-              margin: isMobile ? '14px 0 6px' : '20px 0 8px',
-              fontSize: isMobile ? 'clamp(18px, 4.5vw, 24px)' : 'clamp(26px, 2.4vw, 34px)',
-              lineHeight: 1.12,
+              margin: isMobile ? '16px 0 6px' : '22px 0 8px',
+              fontSize: isMobile ? 'clamp(15px, 4vw, 20px)' : 'clamp(20px, 1.9vw, 28px)',
+              lineHeight: 1.1,
               letterSpacing: '-0.035em',
               fontVariationSettings: "'wdth' 98, 'wght' 600",
-              color: '#0C0E10'
+              color: '#0C0E10',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              width: '100%'
             }}
           >
             {currentStep.headline}
@@ -282,7 +285,7 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
         </div>
 
         {/* Step Dots Progress */}
-        <div style={{ position: 'absolute', right: isMobile ? '16px' : '54px', bottom: isMobile ? '12px' : '52px', display: 'flex', gap: '8px', alignItems: 'center', zIndex: 3 }}>
+        <div style={{ position: 'absolute', right: isMobile ? '16px' : '54px', bottom: isMobile ? '12px' : '44px', display: 'flex', gap: '8px', alignItems: 'center', zIndex: 3 }}>
           {STEPS.map((_, k) => (
             <span
               key={k}
