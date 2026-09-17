@@ -1,44 +1,51 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+const LISTING_IMAGES = {
+  1: 'https://epj1eaueppycowtt.public.blob.vercel-storage.com/listings/1.jpg',
+  2: 'https://epj1eaueppycowtt.public.blob.vercel-storage.com/listings/2.jpg',
+  3: 'https://epj1eaueppycowtt.public.blob.vercel-storage.com/listings/3.jpg',
+  4: 'https://epj1eaueppycowtt.public.blob.vercel-storage.com/listings/4.jpg'
+};
+
 const RAILS = [
   {
     title: 'New To Market Homes',
     count: '4 homes',
     homes: [
-      { price: '$492,000', specs: '3 bd · 3 ba · 1,850 sqft', addr: '1234 Silver Lake Blvd, San Jose', image: '/listings/1.jpg' },
-      { price: '$475,000', specs: '3 bd · 3 ba · 2,100 sqft', addr: '5678 Olympic Blvd, San Jose', image: '/listings/2.jpg' },
-      { price: '$499,000', specs: '3 bd · 3 ba · 1,920 sqft', addr: '890 Fairfax Ave, San Jose', image: '/listings/3.jpg' },
-      { price: '$510,000', specs: '3 bd · 3 ba · 1,975 sqft', addr: '2200 Sunset Dr, San Jose', image: '/listings/4.jpg' }
+      { price: '$492,000', specs: '3 bd · 3 ba · 1,850 sqft', addr: '1234 Silver Lake Blvd, San Jose', image: LISTING_IMAGES[1] },
+      { price: '$475,000', specs: '3 bd · 3 ba · 2,100 sqft', addr: '5678 Olympic Blvd, San Jose', image: LISTING_IMAGES[2] },
+      { price: '$499,000', specs: '3 bd · 3 ba · 1,920 sqft', addr: '890 Fairfax Ave, San Jose', image: LISTING_IMAGES[3] },
+      { price: '$510,000', specs: '3 bd · 3 ba · 1,975 sqft', addr: '2200 Sunset Dr, San Jose', image: LISTING_IMAGES[4] }
     ]
   },
   {
     title: 'Price Drop Homes',
     count: '4 homes',
     homes: [
-      { price: '$544,000', specs: '3 bd · 2 ba · 1,780 sqft', addr: '901 Redwood Ave, San Jose', image: '/listings/1.jpg' },
-      { price: '$612,500', specs: '4 bd · 3 ba · 2,210 sqft', addr: '77 Cypress Ct, San Jose', image: '/listings/2.jpg' },
-      { price: '$389,000', specs: '2 bd · 2 ba · 1,340 sqft', addr: '460 Maple Row, San Jose', image: '/listings/3.jpg' },
-      { price: '$725,000', specs: '4 bd · 3 ba · 2,450 sqft', addr: '18 Birchwood Ln, San Jose', image: '/listings/4.jpg' }
+      { price: '$544,000', specs: '3 bd · 2 ba · 1,780 sqft', addr: '901 Redwood Ave, San Jose', image: LISTING_IMAGES[1] },
+      { price: '$612,500', specs: '4 bd · 3 ba · 2,210 sqft', addr: '77 Cypress Ct, San Jose', image: LISTING_IMAGES[2] },
+      { price: '$389,000', specs: '2 bd · 2 ba · 1,340 sqft', addr: '460 Maple Row, San Jose', image: LISTING_IMAGES[3] },
+      { price: '$725,000', specs: '4 bd · 3 ba · 2,450 sqft', addr: '18 Birchwood Ln, San Jose', image: LISTING_IMAGES[4] }
     ]
   },
   {
     title: 'New Construction Homes',
     count: '4 homes',
     homes: [
-      { price: '$689,000', specs: '3 bd · 3 ba · 2,020 sqft', addr: '212 Harvest Way, San Jose', image: '/listings/1.jpg' },
-      { price: '$758,000', specs: '4 bd · 3 ba · 2,380 sqft', addr: '55 Meadowbrook Dr, San Jose', image: '/listings/2.jpg' },
-      { price: '$599,000', specs: '3 bd · 2 ba · 1,890 sqft', addr: '9 Aspen Terrace, San Jose', image: '/listings/3.jpg' },
-      { price: '$845,000', specs: '4 bd · 4 ba · 2,650 sqft', addr: '301 Willow Creek Rd, San Jose', image: '/listings/4.jpg' }
+      { price: '$689,000', specs: '3 bd · 3 ba · 2,020 sqft', addr: '212 Harvest Way, San Jose', image: LISTING_IMAGES[1] },
+      { price: '$758,000', specs: '4 bd · 3 ba · 2,380 sqft', addr: '55 Meadowbrook Dr, San Jose', image: LISTING_IMAGES[2] },
+      { price: '$599,000', specs: '3 bd · 2 ba · 1,890 sqft', addr: '9 Aspen Terrace, San Jose', image: LISTING_IMAGES[3] },
+      { price: '$845,000', specs: '4 bd · 4 ba · 2,650 sqft', addr: '301 Willow Creek Rd, San Jose', image: LISTING_IMAGES[4] }
     ]
   },
   {
     title: 'Luxury Homes',
     count: '4 homes',
     homes: [
-      { price: '$1,895,000', specs: '5 bd · 4 ba · 3,620 sqft', addr: '4 Vista Ridge Ct, San Jose', image: '/listings/1.jpg' },
-      { price: '$2,150,000', specs: '5 bd · 5 ba · 4,100 sqft', addr: '88 Skyline Dr, San Jose', image: '/listings/2.jpg' },
-      { price: '$1,650,000', specs: '4 bd · 4 ba · 3,300 sqft', addr: '210 Ocean View Ter, San Jose', image: '/listings/3.jpg' },
-      { price: '$2,490,000', specs: '6 bd · 5 ba · 4,800 sqft', addr: '12 Grandview Estates, San Jose', image: '/listings/4.jpg' }
+      { price: '$1,895,000', specs: '5 bd · 4 ba · 3,620 sqft', addr: '4 Vista Ridge Ct, San Jose', image: LISTING_IMAGES[1] },
+      { price: '$2,150,000', specs: '5 bd · 5 ba · 4,100 sqft', addr: '88 Skyline Dr, San Jose', image: LISTING_IMAGES[2] },
+      { price: '$1,650,000', specs: '4 bd · 4 ba · 3,300 sqft', addr: '210 Ocean View Ter, San Jose', image: LISTING_IMAGES[3] },
+      { price: '$2,490,000', specs: '6 bd · 5 ba · 4,800 sqft', addr: '12 Grandview Estates, San Jose', image: LISTING_IMAGES[4] }
     ]
   }
 ];

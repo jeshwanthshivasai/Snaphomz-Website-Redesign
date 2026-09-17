@@ -73,7 +73,7 @@ export default function Hero({ accent = '#00D4C8' }) {
     >
       <video
         ref={videoRef}
-        src="/hero.mp4"
+        src="https://epj1eaueppycowtt.public.blob.vercel-storage.com/hero.mp4"
         autoPlay
         playsInline
         muted

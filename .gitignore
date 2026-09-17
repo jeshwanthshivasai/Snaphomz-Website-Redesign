@@ -11,11 +11,15 @@ node_modules/
 jspm_packages/
 web_modules/
 
-# Build output
+# Build output & caches
 dist/
 dist-ssr/
 build/
 out/
+.next/
+.cache/
+.vite/
+.turbo/
 
 # Environment variables
 .env

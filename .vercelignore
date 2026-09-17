@@ -1,0 +1,44 @@
+# Vercel Deployment Ignore Rules
+# Exclude heavy non-production assets, raw exports, and design mockups
+
+# Heavy design mockups, HTML dumps, Figma exports, and local uploads (~84 MB)
+snaphomz-award-winning-redesign/
+
+# Version control & Git metadata
+.git/
+.gitignore
+.gitattributes
+
+# Development & Environment files
+.env*.local
+.env.development
+.env.test
+
+# Documentation & Markdown files
+*.md
+docs/
+
+# Testing & Coverage
+tests/
+__tests__/
+*.test.*
+*.spec.*
+cypress/
+playwright/
+coverage/
+
+# OS and Editor junk
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Build caches & temporary files
+.cache/
+.vite/
+.turbo/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

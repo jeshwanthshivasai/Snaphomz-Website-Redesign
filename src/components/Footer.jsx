@@ -112,7 +112,7 @@ export default function Footer({ accent = '#00D4C8' }) {
         }}
       >
         <img
-          src="/listings/2.jpg"
+          src="https://epj1eaueppycowtt.public.blob.vercel-storage.com/listings/2.jpg"
           alt="Sign-up background"
           style={{
             position: 'absolute',

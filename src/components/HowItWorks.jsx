@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Phone3D from './Phone3D';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
+const Phone3D = lazy(() => import('./Phone3D'));
 
 const STEPS = [
   {
@@ -281,7 +281,9 @@ export default function HowItWorks({ accent = '#00D4C8' }) {
             pointerEvents: 'none'
           }}
         >
-          <Phone3D scrollX={phone3D.x} scrollArc={phone3D.arc} scrollRot={phone3D.rot} scrollSpin={phone3D.spin} />
+          <Suspense fallback={null}>
+            <Phone3D scrollX={phone3D.x} scrollArc={phone3D.arc} scrollRot={phone3D.rot} scrollSpin={phone3D.spin} />
+          </Suspense>
         </div>
 
         {/* Step Dots Progress */}

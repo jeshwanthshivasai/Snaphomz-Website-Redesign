@@ -57,8 +57,10 @@ class Phone3DErrorBoundary extends Component {
   }
 }
 
+const IPHONE_MODEL_URL = 'https://epj1eaueppycowtt.public.blob.vercel-storage.com/iphone_16.glb';
+
 function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0, poseConfig = PHONE_POSE_CONFIG.desktop, isMobile = false }) {
-  const { scene } = useGLTF('/iphone_16.glb');
+  const { scene } = useGLTF(IPHONE_MODEL_URL);
   const texture = useTexture('/phone-screen.png');
   const groupRef = useRef();
 
@@ -128,7 +130,7 @@ function Model({ scrollX = 0, scrollArc = 0, scrollRot = 0, scrollSpin = 0, pose
 
 // Preload assets gracefully
 try {
-  useGLTF.preload('/iphone_16.glb');
+  useGLTF.preload(IPHONE_MODEL_URL);
   useTexture.preload('/phone-screen.png');
 } catch (e) {
   console.warn('Preload warning:', e);

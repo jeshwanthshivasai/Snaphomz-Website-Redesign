@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const TOOLS = [
-  { name: 'SnapGrad', path: '/tools/snapgrad.png', cta: 'Explore Schools' },
-  { name: 'Snaphomz Mortgages', path: '/tools/snapinterest.png', cta: 'Track Rates' },
-  { name: 'Snaphomz Closure', path: '/tools/disclosure.jpeg', cta: 'Upload Disclosure' },
-  { name: 'Rent vs Buy', path: '/tools/rentvsbuy.png', cta: 'Compare Prices' }
+  { name: 'SnapGrad', path: 'https://epj1eaueppycowtt.public.blob.vercel-storage.com/tools/snapgrad.png', cta: 'Explore Schools' },
+  { name: 'Snaphomz Mortgages', path: 'https://epj1eaueppycowtt.public.blob.vercel-storage.com/tools/snapinterest.png', cta: 'Track Rates' },
+  { name: 'Snaphomz Closure', path: 'https://epj1eaueppycowtt.public.blob.vercel-storage.com/tools/disclosure.jpeg', cta: 'Upload Disclosure' },
+  { name: 'Rent vs Buy', path: 'https://epj1eaueppycowtt.public.blob.vercel-storage.com/tools/rentvsbuy.png', cta: 'Compare Prices' }
 ];
 
 export const CLOUD_CONFIG = {
